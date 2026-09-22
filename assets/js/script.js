@@ -37,6 +37,28 @@ if (!reduceMotion) {
     });
 }
 
+/* ---------- Fade in ---------- */
+
+// Logo and text fade in (with a small rise) as they come into view, and fade
+// back out if you scroll back up past them, so they replay next time.
+// The tweens go on the svg and the p, not on .section-logo / .section-text:
+// those carry data-speed, and ScrollSmoother owns their transform.
+if (!reduceMotion) {
+    gsap.utils.toArray(".section-logo svg, .section-text p").forEach((el) => {
+        gsap.from(el, {
+            autoAlpha: 0,
+            y: 40,
+            duration: 1.2,
+            ease: "power2.out",
+            scrollTrigger: {
+                trigger: el,
+                start: "top 85%", // when the element's top is 85% of the way down the screen
+                toggleActions: "play none none reverse"
+            }
+        });
+    });
+}
+
 /* ---------- Header emblem: continuous morph ---------- */
 
 // Each emblem group (#emblem-one ... #emblem-four) is several paths, and the
