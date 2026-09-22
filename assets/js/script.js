@@ -61,79 +61,55 @@ if (!reduceMotion) {
 
 /* ---------- Header emblem: continuous morph ---------- */
 
-// Each emblem group (#emblem-one ... #emblem-four) is several paths, and the
-// groups don't have the same number of them. MorphSVG morphs one path into one
-// path, so each group is flattened into three layers, keeping its stacking
-// order: white paths drawn under the black ones, the black ones, and white
-// paths drawn over them. (Every group follows that white / black / white
-// order.) Three paths then morph through the four groups in sync.
-// #border is never touched.
+// The emblem has eight variants, #emblem-one ... #emblem-eight. Each is a
+// group of two paths: the border first, then the figure. The border changes
+// slightly between variants too, so both morph: one border path and one
+// figure path cycle through all eight variants in sync.
 const emblem = document.querySelector(".header svg");
-const emblemBorder = document.querySelector("#border");
+const EMBLEM_IDS = ["one", "two", "three", "four", "five", "six", "seven", "eight"];
 
-if (emblem && emblemBorder) {
-    const EMBLEM_MORPH = 2; // seconds per morph
-    const EMBLEM_HOLD = .5;    // pause on each shape; 0 = continuous
+if (emblem) {
+    const EMBLEM_MORPH = 2;   // seconds per morph
+    const EMBLEM_HOLD = 0.5;  // pause on each variant; 0 = continuous
 
-    const groups = ["#emblem-one", "#emblem-two", "#emblem-three", "#emblem-four"]
-        .map((id) => emblem.querySelector(id));
+    const groups = EMBLEM_IDS.map((id) => emblem.querySelector(`#emblem-${id}`));
 
-    // Split a group into its three layers, as path data strings.
-    const splitLayers = (group) => {
-        const paths = [...group.querySelectorAll("path")];
-        const isWhite = (path) => path.classList.contains("cls-1");
-        const firstBlack = paths.findIndex((path) => !isWhite(path));
-        const lastBlack = paths.length - 1 - [...paths].reverse().findIndex((path) => !isWhite(path));
-        const join = (list) => list.map((path) => path.getAttribute("d")).join(" ");
+    if (groups.every(Boolean)) {
+        // Path data for each variant: [border, figure].
+        const shapes = groups.map((group) =>
+            [...group.querySelectorAll("path")].map((path) => path.getAttribute("d"))
+        );
 
-        // A layer the group doesn't have becomes a tiny square at the centre
-        // of its black shape, so there's still something to morph from/to.
-        // (It needs a real size: a zero-length path hangs MorphSVG.)
-        const box = paths[firstBlack].getBBox();
-        const point = `M${box.x + box.width / 2},${box.y + box.height / 2}h0.5v0.5h-0.5z`;
+        gsap.set(groups, { display: "none" });
 
-        return {
-            under: join(paths.slice(0, firstBlack)) || point,
-            black: join(paths.slice(firstBlack, lastBlack + 1)),
-            over: join(paths.slice(lastBlack + 1).filter(isWhite)) || point
+        // The two paths that actually animate, starting on variant one.
+        const makeLayer = (d) => {
+            const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+            path.setAttribute("d", d);
+            emblem.appendChild(path);
+            return path;
         };
-    };
 
-    // Measure (getBBox) before hiding the groups.
-    const shapes = groups.map(splitLayers);
-    gsap.set(groups, { display: "none" });
+        const border = makeLayer(shapes[0][0]);
+        const figure = makeLayer(shapes[0][1]);
 
-    // The morphing layers go where the groups were: under the border.
-    const makeLayer = (d, white) => {
-        const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-        path.setAttribute("d", d);
-        if (white) path.setAttribute("class", "cls-1");
-        emblem.insertBefore(path, emblemBorder);
-        return path;
-    };
+        const emblemOptions = (shape) => ({
+            shape,
+            shapeIndex: "auto",
+            map: "complexity"
+        });
 
-    const layers = {
-        under: makeLayer(shapes[0].under, true),
-        black: makeLayer(shapes[0].black, false),
-        over: makeLayer(shapes[0].over, true)
-    };
+        const emblemTimeline = gsap.timeline({
+            repeat: -1,
+            defaults: { duration: EMBLEM_MORPH, ease: "power2.inOut" }
+        });
 
-    const emblemOptions = (shape) => ({
-        shape,
-        shapeIndex: "auto",
-        map: "complexity"
-    });
-
-    const emblemTimeline = gsap.timeline({
-        repeat: -1,
-        defaults: { duration: EMBLEM_MORPH, ease: "power2.inOut" }
-    });
-
-    // one -> two -> three -> four -> back to one, then repeat.
-    [1, 2, 3, 0].forEach((next) => {
-        emblemTimeline
-            .to(layers.under, { morphSVG: emblemOptions(shapes[next].under) }, `+=${EMBLEM_HOLD}`)
-            .to(layers.black, { morphSVG: emblemOptions(shapes[next].black) }, "<")
-            .to(layers.over, { morphSVG: emblemOptions(shapes[next].over) }, "<");
-    });
+        // one -> two -> ... -> eight -> back to one, then repeat.
+        shapes.forEach((_, i) => {
+            const next = shapes[(i + 1) % shapes.length];
+            emblemTimeline
+                .to(border, { morphSVG: emblemOptions(next[0]) }, `+=${EMBLEM_HOLD}`)
+                .to(figure, { morphSVG: emblemOptions(next[1]) }, "<");
+        });
+    }
 }
