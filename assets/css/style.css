@@ -95,7 +95,6 @@ a:hover {
 .section-text {
     position: relative;
     z-index: 1;
-    max-width: 30em;
 }
 
 .section-number {
@@ -114,12 +113,12 @@ a:hover {
 }
 
 .section--logo-left .section-text {
-    grid-column: 8 / 13;
+    grid-column: 8 / 11;
 }
 
 .section--logo-left .section-number {
     /* right: 64px; */
-    grid-column: 8 / 13;
+    grid-column: 8 / 11;
 }
 
 .section--logo-right .section-logo {
@@ -129,12 +128,12 @@ a:hover {
 }
 
 .section--logo-right .section-text {
-    grid-column: 1 / 6;
+    grid-column: 3 / 6;
 }
 
 .section--logo-right .section-number {
     /* left: 64px; */
-    grid-column: 1 / 6;
+    grid-column: 3 / 6;
 }
 
 .footer {
