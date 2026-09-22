@@ -17,6 +17,7 @@ body {
     width: 100%;
     display: flex;
     justify-content: center;
+    pointer-events: none;
     z-index: 0;
 }
 
@@ -24,7 +25,28 @@ body {
     width: 128px;
 }
 
-/* ---------- Parallax layout ---------- */
+.menu {
+    position: fixed;
+    top: 32px;
+    right: 64px;
+    display: flex;
+    flex-direction: column;
+    font-size: 14px;
+    letter-spacing: 0.08em;
+    z-index: 100;
+}
+
+a {
+    color: var(--color-black);
+    text-decoration: none;
+    pointer-events: auto;
+    transition: opacity .5s ease-in-out;
+    cursor: pointer;
+}
+
+a:hover {
+    opacity: .3;
+}
 
 .visually-hidden {
     position: absolute;
@@ -43,8 +65,6 @@ body {
     overflow: hidden;
 }
 
-/* Each section is a 12-column grid. The logo and the text share row 1 and
-   overlap a little, so the layers visibly slide past each other. */
 .section {
     position: relative;
     min-height: 130vh;
@@ -61,11 +81,6 @@ body {
     grid-row: 1;
 }
 
-/* Back layer: huge, and bleeding off the edge of the screen.
-   All four logos are drawn at the same scale, so their letters match in size.
-   --w is each logo's width in the original artwork (set in the HTML), and
-   --logo-unit is how big one unit of the artwork is on screen. The vh limit
-   keeps the tallest logo within ~80% of the screen height. */
 .section {
     --logo-unit: min(0.06vw, 0.1vh);
 }
@@ -82,28 +97,24 @@ body {
     overflow: visible;
     stroke: var(--color-black);
     stroke-width: 2px;
-    /* stays 2px at any size (vector-effect in the HTML) */
     fill: var(--color-white);
 }
 
-/* Middle layer */
 .section-text {
     position: relative;
     z-index: 1;
     max-width: 30em;
 }
 
-/* Front layer */
 .section-number {
     position: relative;
     top: -20%;
-    z-index: 2;
+    grid-row: 1;
     font-size: 14px;
     letter-spacing: 0.08em;
-    grid-row: 1;
+    z-index: 2;
 }
 
-/* Logo on the left, text on the right */
 .section--logo-left .section-logo {
     grid-column: 2 / 7;
     justify-self: start;
@@ -119,7 +130,6 @@ body {
     grid-column: 8 / 13;
 }
 
-/* Logo on the right, text on the left */
 .section--logo-right .section-logo {
     grid-column: 7 / 12;
     justify-self: end;
@@ -148,12 +158,9 @@ body {
     text-align: center;
 }
 
-/* ---------- Narrow screens: logo above the text, still overlapping ---------- */
-
 @media (max-width: 800px) {
     .section {
         --logo-unit: 0.13vw;
-        /* same idea, scaled up for a narrow screen */
         min-height: 110vh;
         grid-template-columns: 1fr;
         align-content: center;
@@ -181,6 +188,5 @@ body {
     .section-text {
         grid-row: 2;
         margin-top: -15vh;
-        /* pull the text up over the bottom of the logo */
     }
 }
