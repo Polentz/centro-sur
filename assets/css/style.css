@@ -17,11 +17,122 @@ body {
     width: 100%;
     display: flex;
     justify-content: center;
-    z-index: 100;
+    z-index: 0;
 }
 
 .header svg {
-    height: 12vh;
+    width: 128px;
+}
+
+/* ---------- Parallax layout ---------- */
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+/* Holds the logo shapes for <use>; takes no space. */
+.sprite {
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+}
+
+/* Each section is a 12-column grid. The logo and the text share row 1 and
+   overlap a little, so the layers visibly slide past each other. */
+.section {
+    position: relative;
+    min-height: 130vh;
+    /* extra height gives the slower/faster layers room to drift */
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    align-items: center;
+    column-gap: 24px;
+    padding: 0 64px;
+}
+
+.section-logo,
+.section-text {
+    grid-row: 1;
+}
+
+/* Back layer: huge, and bleeding off the edge of the screen.
+   All four logos are drawn at the same scale, so their letters match in size.
+   --w is each logo's width in the original artwork (set in the HTML), and
+   --logo-unit is how big one unit of the artwork is on screen. The vh limit
+   keeps the tallest logo within ~80% of the screen height. */
+.section {
+    --logo-unit: min(0.06vw, 0.1vh);
+}
+
+.section-logo {
+    z-index: 1;
+    width: calc(var(--w) * var(--logo-unit));
+}
+
+.section-logo svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+    stroke: var(--color-black);
+    stroke-width: 2px;
+    /* stays 2px at any size (vector-effect in the HTML) */
+    fill: var(--color-white);
+}
+
+/* Middle layer */
+.section-text {
+    position: relative;
+    z-index: 1;
+    max-width: 30em;
+}
+
+/* Front layer */
+.section-number {
+    position: relative;
+    top: -20%;
+    z-index: 2;
+    font-size: 14px;
+    letter-spacing: 0.08em;
+    grid-row: 1;
+}
+
+/* Logo on the left, text on the right */
+.section--logo-left .section-logo {
+    grid-column: 2 / 7;
+    justify-self: start;
+    margin-left: -8vw;
+}
+
+.section--logo-left .section-text {
+    grid-column: 8 / 13;
+}
+
+.section--logo-left .section-number {
+    /* right: 64px; */
+    grid-column: 8 / 13;
+}
+
+/* Logo on the right, text on the left */
+.section--logo-right .section-logo {
+    grid-column: 7 / 12;
+    justify-self: end;
+    margin-right: -8vw;
+}
+
+.section--logo-right .section-text {
+    grid-column: 1 / 6;
+}
+
+.section--logo-right .section-number {
+    /* left: 64px; */
+    grid-column: 1 / 6;
 }
 
 .footer {
@@ -29,29 +140,47 @@ body {
     bottom: 32px;
     left: 0;
     width: 100%;
-    display: flex;
-    justify-content: center;
-    z-index: 100;
 }
 
-.footer svg {
-    height: 50vh;
-    stroke: #000;
-    fill: white;
-    stroke-width: 4px;
+.footer p {
+    font-size: 14px;
+    letter-spacing: 0.08em;
+    text-align: center;
 }
 
-main {
-    width: 100%;
-}
+/* ---------- Narrow screens: logo above the text, still overlapping ---------- */
 
-.section {
-    width: 1000px;
-    margin: 0 auto;
-    height: var(--doc-height);
-    display: flex;
-    justify-content: center;
-    /* align-items: center; */
-    position: sticky;
-    top: 0;
+@media (max-width: 800px) {
+    .section {
+        --logo-unit: 0.13vw;
+        /* same idea, scaled up for a narrow screen */
+        min-height: 110vh;
+        grid-template-columns: 1fr;
+        align-content: center;
+        padding: 0 24px;
+    }
+
+    .section-logo,
+    .section-text,
+    .section--logo-left .section-logo,
+    .section--logo-left .section-text,
+    .section--logo-right .section-logo,
+    .section--logo-right .section-text {
+        grid-column: 1;
+        margin: 0;
+    }
+
+    .section-logo {
+        grid-row: 1;
+    }
+
+    .section--logo-right .section-logo {
+        justify-self: end;
+    }
+
+    .section-text {
+        grid-row: 2;
+        margin-top: -15vh;
+        /* pull the text up over the bottom of the logo */
+    }
 }

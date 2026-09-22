@@ -1,4 +1,4 @@
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 gsap.registerPlugin(MorphSVGPlugin);
 
 const documentHeight = () => {
@@ -19,83 +19,99 @@ window.addEventListener("resize", () => {
     documentHeight();
 });
 
-const logoMorpher = document.querySelector("#one");
-const sections = gsap.utils.toArray(".section");
+/* ---------- Parallax ---------- */
 
-if (logoMorpher && sections.length) {
-    // Read every shape's path data up front. #one is the path we animate, so
-    // its own "d" gets overwritten as soon as the first morph runs.
-    const shapes = ["#one", "#two", "#three", "#four"].map((id) =>
-        document.querySelector(id).getAttribute("d")
-    );
+// ScrollSmoother reads data-speed on the section layers: 0.7 moves slower than
+// the scroll (back), 1.3 faster than the scroll (front). Each layer lines up
+// with its CSS position when it's in the middle of the screen. People who ask
+// their system for less motion get a normal, static page.
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    gsap.set(["#two", "#three", "#four"], { display: "none" });
-
-    const morphTo = (index) => {
-        gsap.to(logoMorpher, {
-            morphSVG: {
-                shape: shapes[index],
-                shapeIndex: "auto", // let MorphSVG pick the point mapping
-                map: "complexity"   // match subpaths by detail, not bounding-box size
-            },
-            duration: 1.2,
-            ease: "power2.inOut",
-            overwrite: true // on fast scrolls, drop the old morph and head for the new shape
-        });
-    };
-
-    // Section 1 -> #one, section 2 -> #two, ... A section counts as "in view"
-    // while it crosses the middle of the viewport, in either scroll direction.
-    sections.forEach((section, index) => {
-        ScrollTrigger.create({
-            trigger: section,
-            start: "top center",
-            end: "bottom center",
-            onToggle: (self) => {
-                if (self.isActive) morphTo(index % shapes.length);
-            }
-        });
+if (!reduceMotion) {
+    ScrollSmoother.create({
+        wrapper: "#smooth-wrapper",
+        content: "#smooth-content",
+        smooth: 1,        // seconds for the page to catch up with the scroll
+        effects: true,    // enables data-speed
+        smoothTouch: 0.1  // light smoothing on touch screens
     });
 }
 
-/* ---------- Section crossfade ---------- */
+/* ---------- Header emblem: continuous morph ---------- */
 
-// Sections are sticky, so each one slides up over the previous. One scrubbed
-// timeline covers the whole of <main>: while section N slides in, N-1 fades
-// out and N fades in. A single timeline (rather than one ScrollTrigger per
-// section) keeps rendering order fixed, so fast scrolls in either direction
-// never leave a section at the wrong opacity.
-if (sections.length > 1) {
-    gsap.set(sections.slice(1), { autoAlpha: 0 });
+// Each emblem group (#emblem-one ... #emblem-four) is several paths, and the
+// groups don't have the same number of them. MorphSVG morphs one path into one
+// path, so each group is flattened into three layers, keeping its stacking
+// order: white paths drawn under the black ones, the black ones, and white
+// paths drawn over them. (Every group follows that white / black / white
+// order.) Three paths then morph through the four groups in sync.
+// #border is never touched.
+const emblem = document.querySelector(".header svg");
+const emblemBorder = document.querySelector("#border");
 
-    const crossfade = gsap.timeline({
-        defaults: { duration: 1, ease: "none" },
-        scrollTrigger: {
-            trigger: ".main",
-            start: "top top",
-            end: "bottom bottom", // = one viewport of scroll per section change
-            scrub: true,
-            // Snap to whole sections. Directional: any nudge down goes to the
-            // next section, any nudge up to the previous one.
-            snap: {
-                snapTo: 1 / (sections.length - 1),
-                directional: true,
-                // delay: 0.05,                    // wait this long after scrolling stops
-                duration: { min: 0.1, max: 0.3 },
-                ease: "power2.inOut"
-            }
-        }
+if (emblem && emblemBorder) {
+    const EMBLEM_MORPH = 2; // seconds per morph
+    const EMBLEM_HOLD = .5;    // pause on each shape; 0 = continuous
+
+    const groups = ["#emblem-one", "#emblem-two", "#emblem-three", "#emblem-four"]
+        .map((id) => emblem.querySelector(id));
+
+    // Split a group into its three layers, as path data strings.
+    const splitLayers = (group) => {
+        const paths = [...group.querySelectorAll("path")];
+        const isWhite = (path) => path.classList.contains("cls-1");
+        const firstBlack = paths.findIndex((path) => !isWhite(path));
+        const lastBlack = paths.length - 1 - [...paths].reverse().findIndex((path) => !isWhite(path));
+        const join = (list) => list.map((path) => path.getAttribute("d")).join(" ");
+
+        // A layer the group doesn't have becomes a tiny square at the centre
+        // of its black shape, so there's still something to morph from/to.
+        // (It needs a real size: a zero-length path hangs MorphSVG.)
+        const box = paths[firstBlack].getBBox();
+        const point = `M${box.x + box.width / 2},${box.y + box.height / 2}h0.5v0.5h-0.5z`;
+
+        return {
+            under: join(paths.slice(0, firstBlack)) || point,
+            black: join(paths.slice(firstBlack, lastBlack + 1)),
+            over: join(paths.slice(lastBlack + 1).filter(isWhite)) || point
+        };
+    };
+
+    // Measure (getBBox) before hiding the groups.
+    const shapes = groups.map(splitLayers);
+    gsap.set(groups, { display: "none" });
+
+    // The morphing layers go where the groups were: under the border.
+    const makeLayer = (d, white) => {
+        const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        path.setAttribute("d", d);
+        if (white) path.setAttribute("class", "cls-1");
+        emblem.insertBefore(path, emblemBorder);
+        return path;
+    };
+
+    const layers = {
+        under: makeLayer(shapes[0].under, true),
+        black: makeLayer(shapes[0].black, false),
+        over: makeLayer(shapes[0].over, true)
+    };
+
+    const emblemOptions = (shape) => ({
+        shape,
+        shapeIndex: "auto",
+        map: "complexity"
     });
 
-    // Section text is vertically centred, so the incoming text is still below
-    // the screen for the first half of the slide. Fading over that half would
-    // be invisible, so both fades run in the last FADE of each slide instead.
-    const FADE = 0.1; // share of the slide spent fading (0-1)
+    const emblemTimeline = gsap.timeline({
+        repeat: -1,
+        defaults: { duration: EMBLEM_MORPH, ease: "power2.inOut" }
+    });
 
-    sections.slice(1).forEach((section, i) => {
-        const at = i + 1 - FADE;
-        crossfade
-            .to(sections[i], { autoAlpha: 0, duration: FADE }, at) // previous out...
-            .to(section, { autoAlpha: 1, duration: FADE }, at);    // ...new in, at the same time
+    // one -> two -> three -> four -> back to one, then repeat.
+    [1, 2, 3, 0].forEach((next) => {
+        emblemTimeline
+            .to(layers.under, { morphSVG: emblemOptions(shapes[next].under) }, `+=${EMBLEM_HOLD}`)
+            .to(layers.black, { morphSVG: emblemOptions(shapes[next].black) }, "<")
+            .to(layers.over, { morphSVG: emblemOptions(shapes[next].over) }, "<");
     });
 }
