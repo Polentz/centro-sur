@@ -1,5 +1,4 @@
-gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
-gsap.registerPlugin(MorphSVGPlugin);
+gsap.registerPlugin(ScrollTrigger, ScrollSmoother, MorphSVGPlugin, DrawSVGPlugin);
 
 const documentHeight = () => {
     const doc = document.documentElement;
@@ -39,23 +38,39 @@ if (!reduceMotion) {
 
 /* ---------- Fade in ---------- */
 
-// Logo and text fade in (with a small rise) as they come into view, and fade
-// back out if you scroll back up past them, so they replay next time.
+// Text and logos fade in (with a small rise) as they come into view, and fade
+// back out if you scroll back up past them, so they replay next time. Logos
+// also draw their outline while they fade in.
 // The tweens go on the svg and the p, not on .section-logo / .section-text:
 // those carry data-speed, and ScrollSmoother owns their transform.
 if (!reduceMotion) {
-    gsap.utils.toArray(".section-logo svg, .section-text p").forEach((el) => {
+    const DRAW_DURATION = 3; // seconds to draw a whole logo
+
+    const revealOnScroll = (el) => ({
+        trigger: el,
+        start: "top 85%", // when the element's top is 85% of the way down the screen
+        toggleActions: "play none none reverse"
+    });
+
+    gsap.utils.toArray(".section-text p").forEach((el) => {
         gsap.from(el, {
             autoAlpha: 0,
             y: 40,
             duration: 1.2,
             ease: "power2.out",
-            scrollTrigger: {
-                trigger: el,
-                start: "top 85%", // when the element's top is 85% of the way down the screen
-                toggleActions: "play none none reverse"
-            }
+            scrollTrigger: revealOnScroll(el)
         });
+    });
+
+    gsap.utils.toArray(".section-logo svg").forEach((svg) => {
+        gsap.timeline({ scrollTrigger: revealOnScroll(svg) })
+            .from(svg, { autoAlpha: 0, y: 40, duration: 1.2, ease: "power2.out" })
+            // drawSVG "0%" = no outline drawn yet; it draws along the path to 100%.
+            .from(svg.querySelector(".logo-path"), {
+                drawSVG: "35%",
+                duration: DRAW_DURATION,
+                ease: "power1.inOut"
+            }, 0);
     });
 }
 
