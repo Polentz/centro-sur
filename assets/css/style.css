@@ -15,7 +15,11 @@ body {
     top: 32px;
     left: 0;
     width: 100%;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
     justify-content: center;
     pointer-events: none;
     z-index: 0;
@@ -29,7 +33,12 @@ body {
     position: fixed;
     top: 32px;
     right: 64px;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
     flex-direction: column;
     font-size: 14px;
     letter-spacing: 0.08em;
@@ -40,6 +49,7 @@ a {
     color: var(--color-black);
     text-decoration: none;
     pointer-events: auto;
+    -webkit-transition: opacity .5s ease-in-out;
     transition: opacity .5s ease-in-out;
     cursor: pointer;
 }
@@ -61,15 +71,22 @@ a:hover {
     position: relative;
     min-height: 130vh;
     /* extra height gives the slower/faster layers room to drift */
+    display: -ms-grid;
     display: grid;
+    -ms-grid-columns: 1fr 24px 1fr 24px 1fr 24px 1fr 24px 1fr 24px 1fr 24px 1fr 24px 1fr 24px 1fr 24px 1fr 24px 1fr 24px 1fr;
     grid-template-columns: repeat(12, 1fr);
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
+    -webkit-column-gap: 24px;
+    -moz-column-gap: 24px;
     column-gap: 24px;
     padding: 0 64px;
 }
 
 .section-logo,
 .section-text {
+    -ms-grid-row: 1;
     grid-row: 1;
 }
 
@@ -100,6 +117,7 @@ a:hover {
 .section-number {
     position: relative;
     top: -20%;
+    -ms-grid-row: 1;
     grid-row: 1;
     font-size: 14px;
     letter-spacing: 0.08em;
@@ -107,32 +125,43 @@ a:hover {
 }
 
 .section--logo-left .section-logo {
+    -ms-grid-column: 2;
+    -ms-grid-column-span: 5;
     grid-column: 2 / 7;
+    -ms-grid-column-align: start;
     justify-self: start;
     margin-left: -8vw;
 }
 
 .section--logo-left .section-text,
 .section--logo-left .section-number {
+    -ms-grid-column: 8;
+    -ms-grid-column-span: 3;
     grid-column: 8 / 11;
 }
 
 .section--logo-right .section-logo {
+    -ms-grid-column: 7;
+    -ms-grid-column-span: 5;
     grid-column: 7 / 12;
+    -ms-grid-column-align: end;
     justify-self: end;
     margin-right: -8vw;
 }
 
 .section--logo-right .section-text,
 .section--logo-right .section-number {
+    -ms-grid-column: 3;
+    -ms-grid-column-span: 3;
     grid-column: 3 / 6;
 }
 
 .footer {
-    position: fixed;
-    bottom: 32px;
-    left: 0;
     width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    padding: 32px;
 }
 
 .footer p {
@@ -163,14 +192,18 @@ a:hover {
     }
 
     .footer {
-        bottom: clamp(16px, 3svh, 32px);
+        padding: clamp(16px, 3svh, 32px);
+        background: var(--color-white);
     }
 
     .section {
-        --logo-unit: min(0.085vw, 0.032svh);
+        --logo-unit: min(0.1vw, 0.05svh);
         min-height: 100svh;
+        -ms-grid-columns: 1fr;
         grid-template-columns: 1fr;
+        -ms-grid-rows: auto clamp(16px, 3svh, 28px) auto clamp(16px, 3svh, 28px) auto;
         grid-template-rows: auto auto auto;
+        -ms-flex-line-pack: center;
         align-content: center;
         row-gap: clamp(16px, 3svh, 28px);
         padding: clamp(88px, 16svh, 150px) 24px clamp(52px, 9svh, 88px);
@@ -179,17 +212,24 @@ a:hover {
     .section--logo-left .section-number,
     .section--logo-right .section-number,
     .section-number {
+        display: none;
         position: static;
+        -ms-grid-row: 1;
         grid-row: 1;
+        -ms-grid-column: 1;
         grid-column: 1;
+        -ms-grid-column-align: start;
         justify-self: start;
     }
 
     .section--logo-left .section-logo,
     .section--logo-right .section-logo,
     .section-logo {
+        -ms-grid-row: 2;
         grid-row: 2;
+        -ms-grid-column: 1;
         grid-column: 1;
+        -ms-grid-column-align: center;
         justify-self: center;
         margin: 0;
     }
@@ -197,11 +237,12 @@ a:hover {
     .section--logo-left .section-text,
     .section--logo-right .section-text,
     .section-text {
+        -ms-grid-row: 3;
         grid-row: 3;
+        -ms-grid-column: 1;
         grid-column: 1;
+        -ms-grid-column-align: start;
         justify-self: start;
-        max-width: 34em;
-        /* keeps line length readable on tablets */
         margin: 0;
     }
 
