@@ -75,9 +75,12 @@ a:hover {
     display: grid;
     -ms-grid-columns: 1fr 24px 1fr 24px 1fr 24px 1fr 24px 1fr 24px 1fr 24px 1fr 24px 1fr 24px 1fr 24px 1fr 24px 1fr 24px 1fr;
     grid-template-columns: repeat(12, 1fr);
+    --label-gap: 64px;
+    /* distance from a section's label to its text */
     -webkit-box-align: center;
     -ms-flex-align: center;
     align-items: center;
+    align-content: center;
     -webkit-column-gap: 24px;
     -moz-column-gap: 24px;
     column-gap: 24px;
@@ -115,10 +118,8 @@ a:hover {
 }
 
 .section-number {
-    position: relative;
-    top: -12%;
-    -ms-grid-row: 1;
-    grid-row: 1;
+    display: block;
+    margin-bottom: var(--label-gap);
     font-size: 14px;
     letter-spacing: 0.08em;
     z-index: 2;
@@ -172,7 +173,12 @@ a:hover {
 
 @media (max-width: 1200px) {
 
+    .header svg {
+        width: 104px;
+    }
+
     .section {
+        --label-gap: 32px;
         padding: 0 32px;
     }
 
