@@ -5,8 +5,6 @@ const documentHeight = () => {
     doc.style.setProperty("--doc-height", `${window.innerHeight}px`);
 };
 
-// Set the section height before any ScrollTrigger measures the page.
-// Waiting for "load" is too late: triggers would be built on zero-height sections.
 documentHeight();
 
 window.addEventListener("load", () => {
@@ -20,10 +18,6 @@ window.addEventListener("resize", () => {
 
 /* ---------- Parallax ---------- */
 
-// ScrollSmoother reads data-speed on the section layers: 0.7 moves slower than
-// the scroll (back), 1.3 faster than the scroll (front). Each layer lines up
-// with its CSS position when it's in the middle of the screen. People who ask
-// their system for less motion get a normal, static page.
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 if (!reduceMotion) {
@@ -34,21 +28,40 @@ if (!reduceMotion) {
         effects: true,    // enables data-speed
         smoothTouch: 0.1  // light smoothing on touch screens
     });
-}
+};
+
+/* ---------- Snap to sections ---------- */
+
+if (!reduceMotion) {
+    const sections = gsap.utils.toArray(".section");
+
+    // Scroll position that centres a section, as 0-1 across the whole page.
+    const sectionProgress = (self) => sections.map((section) => {
+        const centred = section.offsetTop + section.offsetHeight / 2 - window.innerHeight / 2;
+        return gsap.utils.normalize(self.start, self.end, gsap.utils.clamp(self.start, self.end, centred));
+    });
+
+    ScrollTrigger.create({
+        trigger: ".main",
+        start: "top top",
+        end: "bottom bottom",
+        snap: {
+            snapTo: (value, self) => gsap.utils.snap(sectionProgress(self), value),
+            // delay: 0.08,
+            duration: { min: 0.4, max: 0.9 },
+            ease: "power2.inOut"
+        }
+    });
+};
 
 /* ---------- Fade in ---------- */
 
-// Text and logos fade in (with a small rise) as they come into view, and fade
-// back out if you scroll back up past them, so they replay next time. Logos
-// also draw their outline while they fade in.
-// The tweens go on the svg and the p, not on .section-logo / .section-text:
-// those carry data-speed, and ScrollSmoother owns their transform.
 if (!reduceMotion) {
-    const DRAW_DURATION = 3; // seconds to draw a whole logo
+    const DRAW_DURATION = 3;
 
     const revealOnScroll = (el) => ({
         trigger: el,
-        start: "top 85%", // when the element's top is 85% of the way down the screen
+        start: "top 85%",
         toggleActions: "play none none reverse"
     });
 
@@ -65,39 +78,32 @@ if (!reduceMotion) {
     gsap.utils.toArray(".section-logo svg").forEach((svg) => {
         gsap.timeline({ scrollTrigger: revealOnScroll(svg) })
             .from(svg, { autoAlpha: 0, y: 40, duration: 1.2, ease: "power2.out" })
-            // drawSVG "0%" = no outline drawn yet; it draws along the path to 100%.
             .from(svg.querySelector(".logo-path"), {
                 drawSVG: "35%",
                 duration: DRAW_DURATION,
                 ease: "power1.inOut"
             }, 0);
     });
-}
+};
 
 /* ---------- Header emblem: continuous morph ---------- */
 
-// The emblem has eight variants, #emblem-one ... #emblem-eight. Each is a
-// group of two paths: the border first, then the figure. The border changes
-// slightly between variants too, so both morph: one border path and one
-// figure path cycle through all eight variants in sync.
 const emblem = document.querySelector(".header svg");
 const EMBLEM_IDS = ["one", "two", "three", "four", "five", "six", "seven", "eight"];
 
 if (emblem) {
-    const EMBLEM_MORPH = 2;   // seconds per morph
-    const EMBLEM_HOLD = 0.5;  // pause on each variant; 0 = continuous
+    const EMBLEM_MORPH = 2;
+    const EMBLEM_HOLD = 0.5;
 
     const groups = EMBLEM_IDS.map((id) => emblem.querySelector(`#emblem-${id}`));
 
     if (groups.every(Boolean)) {
-        // Path data for each variant: [border, figure].
         const shapes = groups.map((group) =>
             [...group.querySelectorAll("path")].map((path) => path.getAttribute("d"))
         );
 
         gsap.set(groups, { display: "none" });
 
-        // The two paths that actually animate, starting on variant one.
         const makeLayer = (d) => {
             const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
             path.setAttribute("d", d);
@@ -119,12 +125,11 @@ if (emblem) {
             defaults: { duration: EMBLEM_MORPH, ease: "power2.inOut" }
         });
 
-        // one -> two -> ... -> eight -> back to one, then repeat.
         shapes.forEach((_, i) => {
             const next = shapes[(i + 1) % shapes.length];
             emblemTimeline
                 .to(border, { morphSVG: emblemOptions(next[0]) }, `+=${EMBLEM_HOLD}`)
                 .to(figure, { morphSVG: emblemOptions(next[1]) }, "<");
         });
-    }
-}
+    };
+};
