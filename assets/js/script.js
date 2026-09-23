@@ -21,14 +21,21 @@ window.addEventListener("resize", () => {
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 if (!reduceMotion) {
-    ScrollSmoother.create({
-        wrapper: "#smooth-wrapper",
-        content: "#smooth-content",
-        smooth: 1,        // seconds for the page to catch up with the scroll
-        effects: true,    // enables data-speed
-        smoothTouch: 0.1  // light smoothing on touch screens
-    });
-};
+    gsap.matchMedia().add(
+        { wide: "(min-width: 801px)", narrow: "(max-width: 800px)" },
+        (context) => {
+            const smoother = ScrollSmoother.create({
+                wrapper: "#smooth-wrapper",
+                content: "#smooth-content",
+                smooth: 1,        // seconds for the page to catch up with the scroll
+                effects: context.conditions.wide, // data-speed layers
+                smoothTouch: 0.1  // light smoothing on touch screens
+            });
+
+            return () => smoother.kill();
+        }
+    );
+}
 
 /* ---------- Snap to sections ---------- */
 
