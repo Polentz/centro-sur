@@ -69,7 +69,7 @@ a:hover {
 
 .section {
     position: relative;
-    min-height: 130vh;
+    min-height: 150vh;
     /* extra height gives the slower/faster layers room to drift */
     display: -ms-grid;
     display: grid;
@@ -91,7 +91,7 @@ a:hover {
 }
 
 .section {
-    --logo-unit: min(0.06vw, 0.1vh);
+    --logo-unit: min(0.045vw, 0.1vh);
 }
 
 .section-logo {
@@ -116,7 +116,7 @@ a:hover {
 
 .section-number {
     position: relative;
-    top: -20%;
+    top: -12%;
     -ms-grid-row: 1;
     grid-row: 1;
     font-size: 14px;
@@ -135,9 +135,9 @@ a:hover {
 
 .section--logo-left .section-text,
 .section--logo-left .section-number {
-    -ms-grid-column: 8;
-    -ms-grid-column-span: 3;
-    grid-column: 8 / 11;
+    -ms-grid-column: 7;
+    -ms-grid-column-span: 5;
+    grid-column: 7 / 12;
 }
 
 .section--logo-right .section-logo {
@@ -151,9 +151,9 @@ a:hover {
 
 .section--logo-right .section-text,
 .section--logo-right .section-number {
-    -ms-grid-column: 3;
-    -ms-grid-column-span: 3;
-    grid-column: 3 / 6;
+    -ms-grid-column: 2;
+    -ms-grid-column-span: 5;
+    grid-column: 2 / 7;
 }
 
 .footer {
@@ -168,6 +168,27 @@ a:hover {
     font-size: 14px;
     letter-spacing: 0.08em;
     text-align: center;
+}
+
+@media (max-width: 1200px) {
+
+    .section {
+        padding: 0 32px;
+    }
+
+    .section--logo-left .section-text,
+    .section--logo-left .section-number {
+        -ms-grid-column: 7;
+        -ms-grid-column-span: 6;
+        grid-column: 7 / 13;
+    }
+
+    .section--logo-right .section-text,
+    .section--logo-right .section-number {
+        -ms-grid-column: 1;
+        -ms-grid-column-span: 6;
+        grid-column: 1 / 7;
+    }
 }
 
 @media (max-width: 800px) {
