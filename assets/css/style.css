@@ -10,48 +10,243 @@ body {
     font-size: 24px;
 }
 
+a {
+    --link-color: var(--color-black);
+    --link-hover-text: var(--color-grey);
+    color: var(--link-color);
+    background-image:
+        linear-gradient(var(--link-color), var(--link-color)),
+        linear-gradient(var(--link-color), var(--link-color));
+    background-size: 100% 1px, 100% 0;
+    background-position: 0 100%, 0 100%;
+    background-repeat: no-repeat;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+    cursor: pointer;
+    -webkit-transition:
+        background-size 0.2s cubic-bezier(0.65, 0, 0.35, 1),
+        color 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+    transition:
+        background-size 0.2s cubic-bezier(0.65, 0, 0.35, 1),
+        color 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+a:link,
+a:visited {
+    color: var(--link-color);
+}
+
+a:hover,
+a:focus-visible {
+    color: var(--link-hover-text);
+    background-size: 0 0, 0 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    a {
+        -webkit-transition: none;
+        transition: none;
+    }
+}
+
 .header {
     position: fixed;
     top: 32px;
     left: 0;
     width: 100%;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
     justify-content: center;
-    z-index: 100;
+    pointer-events: none;
+    z-index: 0;
 }
 
 .header svg {
-    height: 12vh;
+    width: 128px;
 }
 
-.footer {
+.menu {
     position: fixed;
-    bottom: 32px;
-    left: 0;
-    width: 100%;
+    top: 32px;
+    right: 64px;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    justify-content: center;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    font-size: 14px;
+    letter-spacing: 0.08em;
     z-index: 100;
 }
 
-.footer svg {
-    height: 50vh;
-    stroke: #000;
-    fill: white;
-    stroke-width: 4px;
-}
-
-main {
-    width: 100%;
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
 }
 
 .section {
-    width: 1000px;
-    margin: 0 auto;
-    height: var(--doc-height);
-    display: flex;
-    justify-content: center;
-    /* align-items: center; */
-    position: sticky;
-    top: 0;
+    position: relative;
+    min-height: 120vh;
+    display: -ms-grid;
+    display: grid;
+    -ms-grid-columns: 1fr 144px;
+    grid-template-columns: repeat(2, 1fr);
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -ms-flex-line-pack: center;
+    align-content: center;
+    -webkit-column-gap: 144px;
+    -moz-column-gap: 144px;
+    column-gap: 144px;
+    padding: 0 64px;
+}
+
+.section-logo,
+.section-text {
+    -ms-grid-row: 1;
+    grid-row: 1;
+}
+
+/* .section {
+    --logo-unit: min(0.045vw, 0.1vh);
+} */
+
+.section-logo {
+    z-index: 1;
+    /* width: calc(var(--w) * var(--logo-unit)); */
+    -ms-grid-column-align: center;
+    justify-self: center;
+}
+
+.section-logo svg {
+    display: block;
+    width: calc(50vw - 144px);
+    height: auto;
+    overflow: visible;
+    stroke: var(--color-black);
+    stroke-width: 2px;
+    fill: var(--color-white);
+}
+
+.section-text {
+    position: relative;
+    z-index: 1;
+    padding: 0 64px;
+}
+
+/* .section-number {
+    display: block;
+    margin-bottom: 64px;
+    font-size: 14px;
+    letter-spacing: 0.08em;
+    z-index: 2;
+} */
+
+.footer {
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    padding: 32px;
+}
+
+.footer p {
+    font-size: 14px;
+    letter-spacing: 0.08em;
+    text-align: center;
+}
+
+@media (max-width: 1200px) {
+
+    .header svg {
+        width: 96px;
+    }
+
+    .section {
+        -webkit-column-gap: 112px;
+        -moz-column-gap: 112px;
+        column-gap: 112px;
+        padding: 0 32px;
+    }
+
+    .section-logo svg {
+        width: calc(50vw - 112px);
+    }
+
+    .section-text {
+        padding: 0 32px;
+    }
+}
+
+@media (max-width: 800px) {
+
+    html,
+    body {
+        font-size: 16px;
+    }
+
+    .header svg {
+        width: 72px;
+    }
+
+    .header {
+        top: 16px;
+    }
+
+    .menu {
+        top: 16px;
+        right: 16px;
+    }
+
+    .footer {
+        padding: 16px;
+        background: var(--color-white);
+    }
+
+    .section {
+        --logo-unit: min(0.1vw, 0.05svh);
+        min-height: 100svh;
+        -ms-grid-columns: 1fr;
+        grid-template-columns: 1fr;
+        -ms-grid-rows: auto clamp(16px, 3svh, 28px) auto clamp(16px, 3svh, 28px) auto;
+        grid-template-rows: auto auto auto;
+        -ms-flex-line-pack: center;
+        align-content: center;
+        row-gap: 40px;
+        padding: 120px 24px;
+    }
+
+    .section-logo {
+        -ms-grid-row: 2;
+        grid-row: 2;
+        -ms-grid-column: 1;
+        grid-column: 1;
+        -ms-grid-column-align: center;
+        justify-self: center;
+    }
+
+    .section-text {
+        -ms-grid-row: 3;
+        grid-row: 3;
+        -ms-grid-column: 1;
+        grid-column: 1;
+        -ms-grid-column-align: start;
+        justify-self: start;
+        padding: 0;
+    }
+
+    .section-logo svg {
+        width: 80vw;
+        stroke-width: 3px;
+    }
 }

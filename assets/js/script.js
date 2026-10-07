@@ -1,13 +1,10 @@
-gsap.registerPlugin(ScrollTrigger);
-gsap.registerPlugin(MorphSVGPlugin);
+gsap.registerPlugin(ScrollTrigger, ScrollSmoother, MorphSVGPlugin, DrawSVGPlugin);
 
 const documentHeight = () => {
     const doc = document.documentElement;
     doc.style.setProperty("--doc-height", `${window.innerHeight}px`);
 };
 
-// Set the section height before any ScrollTrigger measures the page.
-// Waiting for "load" is too late: triggers would be built on zero-height sections.
 documentHeight();
 
 window.addEventListener("load", () => {
@@ -19,83 +16,132 @@ window.addEventListener("resize", () => {
     documentHeight();
 });
 
-const logoMorpher = document.querySelector("#one");
+/* ---------- Scroll behaviour: parallax, snapping, reveals ---------- */
+
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+// Where the page has to be scrolled for a section to sit mid-screen.
 const sections = gsap.utils.toArray(".section");
 
-if (logoMorpher && sections.length) {
-    // Read every shape's path data up front. #one is the path we animate, so
-    // its own "d" gets overwritten as soon as the first morph runs.
-    const shapes = ["#one", "#two", "#three", "#four"].map((id) =>
-        document.querySelector(id).getAttribute("d")
+const sectionScroll = (index) => gsap.utils.clamp(
+    0,
+    ScrollTrigger.maxScroll(window),
+    sections[index].offsetTop + sections[index].offsetHeight / 2 - window.innerHeight / 2
+);
+
+if (!reduceMotion) {
+    const DRAW_DURATION = 3; // seconds to draw a whole logo
+
+    // Built once and never rebuilt. Recreating the smoother at a breakpoint
+    // resets the scroll to the top and leaves any ScrollTrigger pointing at a
+    // dead smoother, which is what made snapping jump around while resizing.
+    const smoother = ScrollSmoother.create({
+        wrapper: "#smooth-wrapper",
+        content: "#smooth-content",
+        smooth: 1,       // seconds for the page to catch up with the scroll
+        effects: false,  // added per breakpoint below
+        smoothTouch: 0.1 // light smoothing on touch screens
+    });
+
+    // Parallax only on wide screens: in a narrow single column the layers
+    // would drift into each other. Only the effects are added and removed
+    // here, so the smoother itself stays alive across the breakpoint.
+    gsap.matchMedia().add("(min-width: 801px)", () => {
+        const effects = smoother.effects("[data-speed]", {});
+
+        return () => {
+            effects.forEach((effect) => effect.kill());
+            gsap.set("[data-speed]", { clearProps: "transform" });
+        };
+    });
+
+    // Snap to the nearest section once scrolling stops.
+    const sectionProgress = (self) => sections.map((section, index) =>
+        gsap.utils.normalize(self.start, self.end, gsap.utils.clamp(self.start, self.end, sectionScroll(index)))
     );
 
-    gsap.set(["#two", "#three", "#four"], { display: "none" });
-
-    const morphTo = (index) => {
-        gsap.to(logoMorpher, {
-            morphSVG: {
-                shape: shapes[index],
-                shapeIndex: "auto", // let MorphSVG pick the point mapping
-                map: "complexity"   // match subpaths by detail, not bounding-box size
-            },
-            duration: 1.2,
-            ease: "power2.inOut",
-            overwrite: true // on fast scrolls, drop the old morph and head for the new shape
-        });
-    };
-
-    // Section 1 -> #one, section 2 -> #two, ... A section counts as "in view"
-    // while it crosses the middle of the viewport, in either scroll direction.
-    sections.forEach((section, index) => {
-        ScrollTrigger.create({
-            trigger: section,
-            start: "top center",
-            end: "bottom center",
-            onToggle: (self) => {
-                if (self.isActive) morphTo(index % shapes.length);
-            }
-        });
-    });
-}
-
-/* ---------- Section crossfade ---------- */
-
-// Sections are sticky, so each one slides up over the previous. One scrubbed
-// timeline covers the whole of <main>: while section N slides in, N-1 fades
-// out and N fades in. A single timeline (rather than one ScrollTrigger per
-// section) keeps rendering order fixed, so fast scrolls in either direction
-// never leave a section at the wrong opacity.
-if (sections.length > 1) {
-    gsap.set(sections.slice(1), { autoAlpha: 0 });
-
-    const crossfade = gsap.timeline({
-        defaults: { duration: 1, ease: "none" },
-        scrollTrigger: {
-            trigger: ".main",
-            start: "top top",
-            end: "bottom bottom", // = one viewport of scroll per section change
-            scrub: true,
-            // Snap to whole sections. Directional: any nudge down goes to the
-            // next section, any nudge up to the previous one.
-            snap: {
-                snapTo: 1 / (sections.length - 1),
-                directional: true,
-                // delay: 0.05,                    // wait this long after scrolling stops
-                duration: { min: 0.1, max: 0.3 },
-                ease: "power2.inOut"
-            }
+    ScrollTrigger.create({
+        trigger: ".main",
+        start: "top top",
+        end: "bottom bottom",
+        snap: {
+            snapTo: (value, self) => gsap.utils.snap(sectionProgress(self), value),
+            duration: { min: 0.4, max: 0.9 },
+            ease: "power2.inOut"
         }
     });
 
-    // Section text is vertically centred, so the incoming text is still below
-    // the screen for the first half of the slide. Fading over that half would
-    // be invisible, so both fades run in the last FADE of each slide instead.
-    const FADE = 0.1; // share of the slide spent fading (0-1)
-
-    sections.slice(1).forEach((section, i) => {
-        const at = i + 1 - FADE;
-        crossfade
-            .to(sections[i], { autoAlpha: 0, duration: FADE }, at) // previous out...
-            .to(section, { autoAlpha: 1, duration: FADE }, at);    // ...new in, at the same time
+    // Text and logos fade in as they arrive; logos also draw themselves.
+    const revealOnScroll = (el) => ({
+        trigger: el,
+        toggleActions: "play none none reverse"
     });
-}
+
+    gsap.utils.toArray(".section-text p").forEach((el) => {
+        gsap.from(el, {
+            autoAlpha: 0,
+            y: 40,
+            duration: 1.2,
+            ease: "power2.out",
+            scrollTrigger: revealOnScroll(el)
+        });
+    });
+
+    gsap.utils.toArray(".section-logo svg").forEach((svg) => {
+        gsap.timeline({ scrollTrigger: revealOnScroll(svg) })
+            .from(svg, { autoAlpha: 0, y: 40, duration: 1.2, ease: "power2.out" })
+            .from(svg.querySelector(".logo-path"), {
+                drawSVG: "35%",
+                duration: DRAW_DURATION,
+                ease: "power1.inOut"
+            }, 0);
+    });
+};
+
+/* ---------- Header emblem: continuous morph ---------- */
+
+const emblem = document.querySelector(".header svg");
+const EMBLEM_IDS = ["one", "two", "three", "four", "five", "six", "seven", "eight"];
+
+if (emblem) {
+    const EMBLEM_MORPH = 2;
+    const EMBLEM_HOLD = 0.5;
+
+    const groups = EMBLEM_IDS.map((id) => emblem.querySelector(`#emblem-${id}`));
+
+    if (groups.every(Boolean)) {
+        const shapes = groups.map((group) =>
+            [...group.querySelectorAll("path")].map((path) => path.getAttribute("d"))
+        );
+
+        gsap.set(groups, { display: "none" });
+
+        const makeLayer = (d) => {
+            const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+            path.setAttribute("d", d);
+            emblem.appendChild(path);
+            return path;
+        };
+
+        const border = makeLayer(shapes[0][0]);
+        const figure = makeLayer(shapes[0][1]);
+
+        const emblemOptions = (shape) => ({
+            shape,
+            shapeIndex: "auto",
+            map: "complexity"
+        });
+
+        const emblemTimeline = gsap.timeline({
+            repeat: -1,
+            defaults: { duration: EMBLEM_MORPH, ease: "power2.inOut" }
+        });
+
+        shapes.forEach((_, i) => {
+            const next = shapes[(i + 1) % shapes.length];
+            emblemTimeline
+                .to(border, { morphSVG: emblemOptions(next[0]) }, `+=${EMBLEM_HOLD}`)
+                .to(figure, { morphSVG: emblemOptions(next[1]) }, "<");
+        });
+    };
+};
