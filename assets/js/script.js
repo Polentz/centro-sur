@@ -16,37 +16,49 @@ window.addEventListener("resize", () => {
     documentHeight();
 });
 
-/* ---------- Parallax ---------- */
+/* ---------- Scroll behaviour: parallax, snapping, reveals ---------- */
 
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-if (!reduceMotion) {
-    gsap.matchMedia().add(
-        { wide: "(min-width: 801px)", narrow: "(max-width: 800px)" },
-        (context) => {
-            const smoother = ScrollSmoother.create({
-                wrapper: "#smooth-wrapper",
-                content: "#smooth-content",
-                smooth: 1,        // seconds for the page to catch up with the scroll
-                effects: context.conditions.wide, // data-speed layers
-                smoothTouch: 0.1  // light smoothing on touch screens
-            });
+// Where the page has to be scrolled for a section to sit mid-screen.
+const sections = gsap.utils.toArray(".section");
 
-            return () => smoother.kill();
-        }
-    );
-}
-
-/* ---------- Snap to sections ---------- */
+const sectionScroll = (index) => gsap.utils.clamp(
+    0,
+    ScrollTrigger.maxScroll(window),
+    sections[index].offsetTop + sections[index].offsetHeight / 2 - window.innerHeight / 2
+);
 
 if (!reduceMotion) {
-    const sections = gsap.utils.toArray(".section");
+    const DRAW_DURATION = 3; // seconds to draw a whole logo
 
-    // Scroll position that centres a section, as 0-1 across the whole page.
-    const sectionProgress = (self) => sections.map((section) => {
-        const centred = section.offsetTop + section.offsetHeight / 2 - window.innerHeight / 2;
-        return gsap.utils.normalize(self.start, self.end, gsap.utils.clamp(self.start, self.end, centred));
+    // Built once and never rebuilt. Recreating the smoother at a breakpoint
+    // resets the scroll to the top and leaves any ScrollTrigger pointing at a
+    // dead smoother, which is what made snapping jump around while resizing.
+    const smoother = ScrollSmoother.create({
+        wrapper: "#smooth-wrapper",
+        content: "#smooth-content",
+        smooth: 1,       // seconds for the page to catch up with the scroll
+        effects: false,  // added per breakpoint below
+        smoothTouch: 0.1 // light smoothing on touch screens
     });
+
+    // Parallax only on wide screens: in a narrow single column the layers
+    // would drift into each other. Only the effects are added and removed
+    // here, so the smoother itself stays alive across the breakpoint.
+    gsap.matchMedia().add("(min-width: 801px)", () => {
+        const effects = smoother.effects("[data-speed]", {});
+
+        return () => {
+            effects.forEach((effect) => effect.kill());
+            gsap.set("[data-speed]", { clearProps: "transform" });
+        };
+    });
+
+    // Snap to the nearest section once scrolling stops.
+    const sectionProgress = (self) => sections.map((section, index) =>
+        gsap.utils.normalize(self.start, self.end, gsap.utils.clamp(self.start, self.end, sectionScroll(index)))
+    );
 
     ScrollTrigger.create({
         trigger: ".main",
@@ -54,18 +66,12 @@ if (!reduceMotion) {
         end: "bottom bottom",
         snap: {
             snapTo: (value, self) => gsap.utils.snap(sectionProgress(self), value),
-            // delay: 0.08,
             duration: { min: 0.4, max: 0.9 },
             ease: "power2.inOut"
         }
     });
-};
 
-/* ---------- Fade in ---------- */
-
-if (!reduceMotion) {
-    const DRAW_DURATION = 3;
-
+    // Text and logos fade in as they arrive; logos also draw themselves.
     const revealOnScroll = (el) => ({
         trigger: el,
         toggleActions: "play none none reverse"

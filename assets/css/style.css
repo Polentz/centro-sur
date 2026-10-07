@@ -179,6 +179,10 @@ a:focus-visible {
         padding: 0 32px;
     }
 
+    .section-logo svg {
+        width: calc(50vw - 112px);
+    }
+
     .section-text {
         padding: 0 32px;
     }
@@ -192,8 +196,7 @@ a:focus-visible {
     }
 
     .header svg {
-        /* shrinks on short screens so the emblem doesn't eat the column */
-        width: clamp(60px, 9svh, 84px);
+        width: 72px;
     }
 
     .header {
