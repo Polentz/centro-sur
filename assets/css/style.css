@@ -10,6 +10,45 @@ body {
     font-size: 24px;
 }
 
+a {
+    --link-color: var(--color-black);
+    --link-hover-text: var(--color-grey);
+    color: var(--link-color);
+    background-image:
+        linear-gradient(var(--link-color), var(--link-color)),
+        linear-gradient(var(--link-color), var(--link-color));
+    background-size: 100% 1px, 100% 0;
+    background-position: 0 100%, 0 100%;
+    background-repeat: no-repeat;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+    cursor: pointer;
+    -webkit-transition:
+        background-size 0.2s cubic-bezier(0.65, 0, 0.35, 1),
+        color 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+    transition:
+        background-size 0.2s cubic-bezier(0.65, 0, 0.35, 1),
+        color 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+a:link,
+a:visited {
+    color: var(--link-color);
+}
+
+a:hover,
+a:focus-visible {
+    color: var(--link-hover-text);
+    background-size: 0 0, 0 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    a {
+        -webkit-transition: none;
+        transition: none;
+    }
+}
+
 .header {
     position: fixed;
     top: 32px;
@@ -45,19 +84,6 @@ body {
     z-index: 100;
 }
 
-a {
-    color: var(--color-black);
-    text-decoration: none;
-    pointer-events: auto;
-    -webkit-transition: opacity .5s ease-in-out;
-    transition: opacity .5s ease-in-out;
-    cursor: pointer;
-}
-
-a:hover {
-    opacity: .3;
-}
-
 .visually-hidden {
     position: absolute;
     width: 1px;
@@ -69,21 +95,18 @@ a:hover {
 
 .section {
     position: relative;
-    min-height: 150vh;
-    /* extra height gives the slower/faster layers room to drift */
+    min-height: 120vh;
     display: -ms-grid;
     display: grid;
-    -ms-grid-columns: 1fr 24px 1fr 24px 1fr 24px 1fr 24px 1fr 24px 1fr 24px 1fr 24px 1fr 24px 1fr 24px 1fr 24px 1fr 24px 1fr;
-    grid-template-columns: repeat(12, 1fr);
-    --label-gap: 64px;
-    /* distance from a section's label to its text */
+    -ms-grid-columns: 1fr 144px;
+    grid-template-columns: repeat(2, 1fr);
     -webkit-box-align: center;
     -ms-flex-align: center;
     align-items: center;
     align-content: center;
-    -webkit-column-gap: 24px;
-    -moz-column-gap: 24px;
-    column-gap: 24px;
+    -webkit-column-gap: 144px;
+    -moz-column-gap: 144px;
+    column-gap: 144px;
     padding: 0 64px;
 }
 
@@ -100,11 +123,13 @@ a:hover {
 .section-logo {
     z-index: 1;
     width: calc(var(--w) * var(--logo-unit));
+    -ms-grid-column-align: center;
+    justify-self: center;
 }
 
 .section-logo svg {
     display: block;
-    width: 100%;
+    width: calc(50vw - 144px);
     height: auto;
     overflow: visible;
     stroke: var(--color-black);
@@ -117,45 +142,13 @@ a:hover {
     z-index: 1;
 }
 
-.section-number {
+/* .section-number {
     display: block;
-    margin-bottom: var(--label-gap);
+    margin-bottom: 64px;
     font-size: 14px;
     letter-spacing: 0.08em;
     z-index: 2;
-}
-
-.section--logo-left .section-logo {
-    -ms-grid-column: 2;
-    -ms-grid-column-span: 5;
-    grid-column: 2 / 7;
-    -ms-grid-column-align: start;
-    justify-self: start;
-    margin-left: -8vw;
-}
-
-.section--logo-left .section-text,
-.section--logo-left .section-number {
-    -ms-grid-column: 7;
-    -ms-grid-column-span: 5;
-    grid-column: 7 / 12;
-}
-
-.section--logo-right .section-logo {
-    -ms-grid-column: 7;
-    -ms-grid-column-span: 5;
-    grid-column: 7 / 12;
-    -ms-grid-column-align: end;
-    justify-self: end;
-    margin-right: -8vw;
-}
-
-.section--logo-right .section-text,
-.section--logo-right .section-number {
-    -ms-grid-column: 2;
-    -ms-grid-column-span: 5;
-    grid-column: 2 / 7;
-}
+} */
 
 .footer {
     width: 100%;
@@ -174,26 +167,12 @@ a:hover {
 @media (max-width: 1200px) {
 
     .header svg {
-        width: 104px;
+        width: 96px;
     }
 
     .section {
-        --label-gap: 32px;
+        column-gap: 112px;
         padding: 0 32px;
-    }
-
-    .section--logo-left .section-text,
-    .section--logo-left .section-number {
-        -ms-grid-column: 7;
-        -ms-grid-column-span: 6;
-        grid-column: 7 / 13;
-    }
-
-    .section--logo-right .section-text,
-    .section--logo-right .section-number {
-        -ms-grid-column: 1;
-        -ms-grid-column-span: 6;
-        grid-column: 1 / 7;
     }
 }
 
@@ -201,7 +180,7 @@ a:hover {
 
     html,
     body {
-        font-size: clamp(16px, 2.2svh, 18px);
+        font-size: 16px;
     }
 
     .header svg {
@@ -210,16 +189,16 @@ a:hover {
     }
 
     .header {
-        top: clamp(16px, 3svh, 32px);
+        top: 16px;
     }
 
     .menu {
-        top: clamp(16px, 3svh, 32px);
-        right: 24px;
+        top: 16px;
+        right: 16px;
     }
 
     .footer {
-        padding: clamp(16px, 3svh, 32px);
+        padding: 16px;
         background: var(--color-white);
     }
 
@@ -232,25 +211,10 @@ a:hover {
         grid-template-rows: auto auto auto;
         -ms-flex-line-pack: center;
         align-content: center;
-        row-gap: clamp(16px, 3svh, 28px);
-        padding: clamp(88px, 16svh, 150px) 24px clamp(52px, 9svh, 88px);
+        row-gap: 40px;
+        padding: 120px 24px;
     }
 
-    .section--logo-left .section-number,
-    .section--logo-right .section-number,
-    .section-number {
-        display: none;
-        position: static;
-        -ms-grid-row: 1;
-        grid-row: 1;
-        -ms-grid-column: 1;
-        grid-column: 1;
-        -ms-grid-column-align: start;
-        justify-self: start;
-    }
-
-    .section--logo-left .section-logo,
-    .section--logo-right .section-logo,
     .section-logo {
         -ms-grid-row: 2;
         grid-row: 2;
@@ -258,11 +222,8 @@ a:hover {
         grid-column: 1;
         -ms-grid-column-align: center;
         justify-self: center;
-        margin: 0;
     }
 
-    .section--logo-left .section-text,
-    .section--logo-right .section-text,
     .section-text {
         -ms-grid-row: 3;
         grid-row: 3;
@@ -270,10 +231,10 @@ a:hover {
         grid-column: 1;
         -ms-grid-column-align: start;
         justify-self: start;
-        margin: 0;
     }
 
     .section-logo svg {
-        stroke-width: 1px;
+        width: 80vw;
+        stroke-width: 3px;
     }
 }
