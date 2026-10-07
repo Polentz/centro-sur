@@ -68,11 +68,6 @@ if (!reduceMotion) {
 
     const revealOnScroll = (el) => ({
         trigger: el,
-        // clamp() keeps the start within the page's real scroll range. Without
-        // it, anything sitting in the last screenful (the final contact lines
-        // on a phone) has a start point the page can never scroll to, so it
-        // would stay hidden for good.
-        // start: "clamp(top 85%)",
         toggleActions: "play none none reverse"
     });
 
