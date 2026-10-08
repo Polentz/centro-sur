@@ -215,7 +215,7 @@ a:focus-visible {
 
     .section {
         --logo-unit: min(0.1vw, 0.05svh);
-        min-height: var(--doc-height);
+        min-height: 100vh;
         -ms-grid-columns: 1fr;
         grid-template-columns: 1fr;
         -ms-grid-rows: auto clamp(16px, 3svh, 28px) auto clamp(16px, 3svh, 28px) auto;
