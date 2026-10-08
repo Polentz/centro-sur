@@ -20,7 +20,6 @@ window.addEventListener("resize", () => {
 
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-// Where the page has to be scrolled for a section to sit mid-screen.
 const sections = gsap.utils.toArray(".section");
 
 const sectionScroll = (index) => gsap.utils.clamp(
@@ -30,20 +29,35 @@ const sectionScroll = (index) => gsap.utils.clamp(
 );
 
 if (!reduceMotion) {
-    const DRAW_DURATION = 3; // seconds to draw a whole logo
+    const DRAW_DURATION = 3;
+    const MOBILE_LOGO_SPEED = 1.25;
 
-    // Built once and never rebuilt. Recreating the smoother at a breakpoint
-    // resets the scroll to the top and leaves any ScrollTrigger pointing at a
-    // dead smoother, which is what made snapping jump around while resizing.
     const smoother = ScrollSmoother.create({
         wrapper: "#smooth-wrapper",
         content: "#smooth-content",
-        smooth: 1,       // seconds for the page to catch up with the scroll
-        effects: false,  // added per breakpoint below
-        smoothTouch: 0.1 // light smoothing on touch screens
+        smooth: 1,
+        effects: false,
+        smoothTouch: 0.1
     });
 
     gsap.matchMedia().add("(min-width: 801px)", () => {
+        // Snap to the nearest section once scrolling stops
+        const sectionProgress = (self) => sections.map((section, index) =>
+            gsap.utils.normalize(self.start, self.end, gsap.utils.clamp(self.start, self.end, sectionScroll(index)))
+        );
+
+        ScrollTrigger.create({
+            trigger: ".main",
+            start: "top top",
+            end: "bottom bottom",
+            snap: {
+                snapTo: (value, self) => gsap.utils.snap(sectionProgress(self), value),
+                duration: { min: 0.4, max: 0.9 },
+                ease: "power2.inOut"
+            }
+        });
+
+        // Parallax effect for elements with data-speed attribute
         const effects = smoother.effects("[data-speed]", {});
 
         return () => {
@@ -52,25 +66,19 @@ if (!reduceMotion) {
         };
     });
 
-    // Snap to the nearest section once scrolling stops.
-    const sectionProgress = (self) => sections.map((section, index) =>
-        gsap.utils.normalize(self.start, self.end, gsap.utils.clamp(self.start, self.end, sectionScroll(index)))
-    );
+    // Parallax effect for elements with data-speed attribute
+    gsap.matchMedia().add("(max-width: 800px)", () => {
+        const effects = smoother.effects("[data-speed]", { speed: MOBILE_LOGO_SPEED });
 
-    ScrollTrigger.create({
-        trigger: ".main",
-        start: "top top",
-        end: "bottom bottom",
-        snap: {
-            snapTo: (value, self) => gsap.utils.snap(sectionProgress(self), value),
-            duration: { min: 0.4, max: 0.9 },
-            ease: "power2.inOut"
-        }
+        return () => {
+            effects.forEach((effect) => effect.kill());
+            gsap.set("[data-speed]", { clearProps: "transform" });
+        };
     });
 
+    // Reveal text and logos on scroll
     const revealOnScroll = (el) => ({
         trigger: el,
-        // toggleActions: "play none none reverse"
         once: true
     });
 
