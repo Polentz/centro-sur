@@ -46,32 +46,32 @@ if (!reduceMotion) {
     gsap.matchMedia().add("(min-width: 801px)", () => {
         const effects = smoother.effects("[data-speed]", {});
 
-        // Snap to the nearest section once scrolling stops.
-        const sectionProgress = (self) => sections.map((section, index) =>
-            gsap.utils.normalize(self.start, self.end, gsap.utils.clamp(self.start, self.end, sectionScroll(index)))
-        );
-
-        ScrollTrigger.create({
-            trigger: ".main",
-            start: "top top",
-            end: "bottom bottom",
-            snap: {
-                snapTo: (value, self) => gsap.utils.snap(sectionProgress(self), value),
-                duration: { min: 0.4, max: 0.9 },
-                ease: "power2.inOut"
-            }
-        });
-
         return () => {
             effects.forEach((effect) => effect.kill());
             gsap.set("[data-speed]", { clearProps: "transform" });
         };
     });
 
-    // Text and logos fade in as they arrive; logos also draw themselves.
+    // Snap to the nearest section once scrolling stops.
+    const sectionProgress = (self) => sections.map((section, index) =>
+        gsap.utils.normalize(self.start, self.end, gsap.utils.clamp(self.start, self.end, sectionScroll(index)))
+    );
+
+    ScrollTrigger.create({
+        trigger: ".main",
+        start: "top top",
+        end: "bottom bottom",
+        snap: {
+            snapTo: (value, self) => gsap.utils.snap(sectionProgress(self), value),
+            duration: { min: 0.4, max: 0.9 },
+            ease: "power2.inOut"
+        }
+    });
+
     const revealOnScroll = (el) => ({
         trigger: el,
-        toggleActions: "play none none reverse"
+        // toggleActions: "play none none reverse"
+        once: true
     });
 
     gsap.utils.toArray(".section-text p").forEach((el) => {

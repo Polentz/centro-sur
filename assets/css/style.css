@@ -223,7 +223,7 @@ a:focus-visible {
         -ms-flex-line-pack: center;
         align-content: center;
         row-gap: 40px;
-        padding: 120px 24px;
+        padding: 120px 24px 80px 24px;
     }
 
     .section-logo {
