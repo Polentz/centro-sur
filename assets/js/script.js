@@ -93,13 +93,18 @@ if (!reduceMotion) {
     });
 
     gsap.utils.toArray(".section-logo svg").forEach((svg) => {
-        gsap.timeline({ scrollTrigger: revealOnScroll(svg) })
-            .from(svg, { autoAlpha: 0, y: 40, duration: 1.2, ease: "power2.out" })
-            .from(svg.querySelector(".logo-path"), {
+        const path = svg.querySelector("path");
+
+        const reveal = gsap.timeline({ scrollTrigger: revealOnScroll(svg) })
+            .from(svg, { autoAlpha: 0, y: 40, duration: 1.2, ease: "power2.out" });
+
+        if (path) {
+            reveal.from(path, {
                 drawSVG: "35%",
                 duration: DRAW_DURATION,
                 ease: "power1.inOut"
             }, 0);
+        };
     });
 };
 
