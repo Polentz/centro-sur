@@ -247,6 +247,6 @@ a:focus-visible {
 
     .section-logo svg {
         width: 80vw;
-        stroke-width: 3px;
+        stroke-width: 1px;
     }
 }
