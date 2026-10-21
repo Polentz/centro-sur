@@ -76,10 +76,18 @@ if (!reduceMotion) {
         };
     });
 
-    // Reveal text and logos on scroll
+    // Reveal text and logos on scroll.
+    // Text plays once: reversing it made the last contact lines fade out and
+    // slide back down whenever the scroll dipped near the end of the page.
     const revealOnScroll = (el) => ({
         trigger: el,
         once: true
+    });
+
+    // Logos fade and draw on the way down, and rewind on the way back up.
+    const revealLogoOnScroll = (el) => ({
+        trigger: el,
+        toggleActions: "play none none reverse"
     });
 
     gsap.utils.toArray(".section-text p").forEach((el) => {
@@ -95,7 +103,7 @@ if (!reduceMotion) {
     gsap.utils.toArray(".section-logo svg").forEach((svg) => {
         const path = svg.querySelector("path");
 
-        const reveal = gsap.timeline({ scrollTrigger: revealOnScroll(svg) })
+        const reveal = gsap.timeline({ scrollTrigger: revealLogoOnScroll(svg) })
             .from(svg, { autoAlpha: 0, y: 40, duration: 1.2, ease: "power2.out" });
 
         if (path) {
