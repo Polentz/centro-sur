@@ -1,0 +1,13 @@
+Section1: <p>Centro Sur es un centro de arte y residencia interdisciplinaria con sede en Buenos Aires, dedicado a promover el intercambio internacional e intercultural a través de un diálogo activo con el panorama artístico local. Su objetivo es recibir a artistas, curadores, arquitectos y diseñadores de diversas procedencias, ofreciendo un entorno proactivo y participativo que fomente un intercambio continuo entre los contextos local e internacional.</p>
+
+----
+
+Section2: <p>El propósito de Centro Sur nace del deseo de acercar la presencia y la investigación del arte contemporáneo internacional a una de las principales capitales de América Latina, explorando territorios de sincretismo e interculturalidad. En diálogo continuo con la ciudad de Buenos Aires y sus habitantes, el proyecto investiga la posibilidad de crear una entidad que promueva una interacción sostenida entre la producción artística local e internacional, transformando la experiencia artística en un proceso colaborativo.</p>
+
+----
+
+Section3: <p>Centro Sur trabaja en sinergia con las principales instituciones culturales de la ciudad, articulando las actividades de cada organización para que converjan hacia un objetivo común: posicionar a Buenos Aires como un centro de experimentación, investigación y producción en el ámbito del arte contemporáneo.</p>
+
+----
+
+Section4: <p><a href="mailto:info@centrosur.org">info@centrosur.org</a><br>Paraguay 914<br>Buenos Aires, Argentina</p><p>Centro Sur es un proyecto de:</p><p>Milena Ayllón<br><a href="mailto:milena@centrosur.org">milena@centrosur.org</a></p><p>Emanuele De Donno<br><a href="mailto:emanuele@centrosur.org">emanuele@centrosur.org</a></p>

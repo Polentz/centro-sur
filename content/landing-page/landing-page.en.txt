@@ -1,0 +1,17 @@
+Section1: <p>Centro Sur is an art center and interdisciplinary residency based in Buenos Aires, dedicated to promoting international and intercultural exchange through an active dialogue with the local artistic landscape. Its aim is to host artists, curators, architects, and designers from diverse backgrounds, offering a proactive and participatory environment that fosters an ongoing exchange between local and international contexts.</p>
+
+----
+
+Section2: <p>The purpose of Centro Sur lies in the desire to bring the presence and research of international contemporary art to one of the major capitals of Latin America, exploring territories of syncretism and interculturality. In continuous dialogue with the city of Buenos Aires and its inhabitants, the project investigates the possibility of creating an entity that encourages sustained interaction between local and international artistic production, transforming the artistic experience into a collaborative process.</p>
+
+----
+
+Section3: <p>Centro Sur works in synergy with the city's main cultural institutions, connecting the activities of each organization so that they converge toward a shared objective: positioning Buenos Aires as a hub for experimentation, research, and production in contemporary art.</p>
+
+----
+
+Section4: <p><a href="mailto:info@centrosur.org">info@centrosur.org</a><br>Paraguay 914<br>Buenos Aires, Argentina</p><p>Centro Sur is a project conceived by:</p><p>Milena Ayllón<br><a href="mailto:milena@centrosur.org">milena@centrosur.org</a></p><p>Emanuele De Donno<br><a href="mailto:emanuele@centrosur.org">emanuele@centrosur.org</a></p>
+
+----
+
+Uuid: rftmrh2qaalsull7

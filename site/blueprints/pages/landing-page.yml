@@ -1,0 +1,62 @@
+title: Landing Page
+
+columns:
+  main:
+    width: 2/3
+    sections:
+      fields:
+        type: fields
+        fields:
+          section1:
+            type: writer
+            marks:
+              - bold
+              - italic
+              - underline
+              - strike
+              - link
+              - email
+              - clear
+            nodes: false
+          section2:
+            type: writer
+            marks:
+              - bold
+              - italic
+              - underline
+              - strike
+              - link
+              - email
+              - clear
+            nodes: false
+          section3:
+            type: writer
+            marks:
+              - bold
+              - italic
+              - underline
+              - strike
+              - link
+              - email
+              - clear
+            nodes: false
+          section4:
+            type: writer
+            marks:
+              - bold
+              - italic
+              - underline
+              - strike
+              - link
+              - email
+              - clear
+            nodes: false
+  sidebar:
+    width: 1/3
+    sections:
+      pages:
+        type: pages
+        template: default
+      files:
+        type: files
+
