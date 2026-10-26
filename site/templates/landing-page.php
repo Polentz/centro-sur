@@ -7,7 +7,7 @@
 
 <div id="smooth-wrapper">
     <div id="smooth-content">
-        <main class="main">
+        <main class="main" data-snap>
             <section class="section">
                 <div class="section-logo" data-speed="0.7" aria-hidden="true">
                     <svg viewBox="0 0 1000 809" fill="none" xmlns="http://www.w3.org/2000/svg">

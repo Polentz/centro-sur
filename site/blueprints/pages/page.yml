@@ -1,0 +1,32 @@
+title: Content page
+icon: page
+
+columns:
+  main:
+    width: 2/3
+    sections:
+      content:
+        type: fields
+        fields:
+          sections:
+            label: Sections
+            type: blocks
+            empty: No sections yet. Add one to start building the page.
+            fieldsets:
+              - split
+  sidebar:
+    width: 1/3
+    sections:
+      illustrations:
+        label: Illustrations
+        type: files
+        template: illustration
+        layout: cards
+        image:
+          back: white
+      attachments:
+        label: false
+        type: fields
+        fields:
+          attachments: fields/attachments
+

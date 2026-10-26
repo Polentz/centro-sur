@@ -28,7 +28,14 @@ const sectionScroll = (index) => gsap.utils.clamp(
     sections[index].offsetTop + sections[index].offsetHeight / 2 - window.innerHeight / 2
 );
 
-if (!reduceMotion) {
+// Section snapping suits short pages only: opt in with data-snap on .main
+const snapToSections = sections.length > 0 && document.querySelector(".main[data-snap]") !== null;
+
+// Pages without the smooth-scroll wrapper (e.g. the Library, which needs
+// position: sticky) skip smoothing, parallax and reveals
+const hasSmoothWrapper = document.querySelector("#smooth-wrapper") !== null;
+
+if (!reduceMotion && hasSmoothWrapper) {
     const DRAW_DURATION = 3;
     const MOBILE_LOGO_SPEED = 1.25;
 
@@ -42,20 +49,22 @@ if (!reduceMotion) {
 
     gsap.matchMedia().add("(min-width: 801px)", () => {
         // Snap to the nearest section once scrolling stops
-        const sectionProgress = (self) => sections.map((section, index) =>
-            gsap.utils.normalize(self.start, self.end, gsap.utils.clamp(self.start, self.end, sectionScroll(index)))
-        );
+        if (snapToSections) {
+            const sectionProgress = (self) => sections.map((section, index) =>
+                gsap.utils.normalize(self.start, self.end, gsap.utils.clamp(self.start, self.end, sectionScroll(index)))
+            );
 
-        ScrollTrigger.create({
-            trigger: ".main",
-            start: "top top",
-            end: "bottom bottom",
-            snap: {
-                snapTo: (value, self) => gsap.utils.snap(sectionProgress(self), value),
-                duration: { min: 0.4, max: 0.9 },
-                ease: "power2.inOut"
-            }
-        });
+            ScrollTrigger.create({
+                trigger: ".main",
+                start: "top top",
+                end: "bottom bottom",
+                snap: {
+                    snapTo: (value, self) => gsap.utils.snap(sectionProgress(self), value),
+                    duration: { min: 0.4, max: 0.9 },
+                    ease: "power2.inOut"
+                }
+            });
+        }
 
         // Parallax effect for elements with data-speed attribute
         const effects = smoother.effects("[data-speed]", {});
@@ -113,6 +122,17 @@ if (!reduceMotion) {
                 ease: "power1.inOut"
             }, 0);
         };
+    });
+
+    // JPEG/PNG/WebP illustrations can't be drawn, so they only fade and rise
+    gsap.utils.toArray(".section-logo img").forEach((img) => {
+        gsap.from(img, {
+            autoAlpha: 0,
+            y: 40,
+            duration: 1.2,
+            ease: "power2.out",
+            scrollTrigger: revealLogoOnScroll(img)
+        });
     });
 };
 

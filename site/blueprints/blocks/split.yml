@@ -1,0 +1,43 @@
+name: Section
+icon: split
+preview: fields
+wysiwyg: true
+fields:
+  heading:
+    label: Heading
+    type: text
+    help: Optional. Shown above the text in small capitals.
+  text:
+    label: Text
+    type: writer
+    marks:
+      - bold
+      - italic
+      - underline
+      - strike
+      - link
+      - email
+      - clear
+    nodes: false
+  illustration:
+    label: Illustration
+    type: files
+    width: 1/2
+    max: 1
+    multiple: false
+    translate: false
+    template: illustration
+    uploads: illustration
+    query: page.images
+    help: SVG line drawing, or a JPEG, PNG or WebP image. Leave empty for a text-only section.
+  side:
+    label: Illustration side
+    type: toggles
+    width: 1/2
+    translate: false
+    default: auto
+    options:
+      auto: Alternate
+      left: Left
+      right: Right
+    help: “Alternate” switches sides from one section to the next.

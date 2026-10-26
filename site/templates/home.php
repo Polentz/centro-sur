@@ -4,7 +4,7 @@
 
 <div id="smooth-wrapper">
     <div id="smooth-content">
-        <main class="main">
+        <main class="main" data-snap>
             <section class="intro-section section">
                 <div class="section-logo" data-speed="0.7" aria-hidden="true">
                     <?= svg($page->logo()->toFile()) ?>

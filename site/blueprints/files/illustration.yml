@@ -1,0 +1,9 @@
+title: Illustration
+accept:
+  extension: svg, jpg, jpeg, png, webp
+focus: false
+fields:
+  alt:
+    label: Alternative text
+    type: text
+    help: Describe the image for people who can't see it. Leave empty if it is purely decorative.

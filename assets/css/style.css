@@ -89,6 +89,8 @@ a:focus-visible {
 
 .nav-wrapper {
     display: flex;
+    flex-direction: column;
+    align-items: end;
     justify-content: end;
     flex-wrap: balance;
     column-gap: 48px;
@@ -101,7 +103,8 @@ a:focus-visible {
     padding: 64px;
 }
 
-.intro-section {
+.intro-section,
+.split-section {
     display: -ms-grid;
     display: grid;
     -ms-grid-columns: 1fr 144px;
@@ -128,7 +131,8 @@ a:focus-visible {
     justify-self: center;
 }
 
-.section-logo svg {
+.section-logo svg,
+.section-logo img {
     display: block;
     width: calc(50vw - 144px);
     height: auto;
@@ -136,6 +140,12 @@ a:focus-visible {
     stroke: var(--color-black);
     stroke-width: 2px;
     fill: var(--color-white);
+}
+
+/* Raster illustrations (JPEG, PNG, WebP): same width, height capped */
+.section-logo img {
+    max-height: 80vh;
+    object-fit: contain;
 }
 
 .section-text {
@@ -148,7 +158,49 @@ a:focus-visible {
     padding-bottom: 24px;
 }
 
-.layout-section {
+/* Split sections (content pages): illustration and text swap sides */
+
+.split-section .section-logo {
+    grid-column: 1;
+}
+
+.split-section .section-text {
+    grid-column: 2;
+}
+
+.split-section--flip .section-logo {
+    grid-column: 2;
+}
+
+.split-section--flip .section-text {
+    grid-column: 1;
+}
+
+.section-heading {
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    padding-bottom: 32px;
+}
+
+.section-text ul,
+.section-text ol {
+    padding: 0 0 24px 1.2em;
+}
+
+.section-text ul {
+    list-style: disc;
+}
+
+.section-text ol {
+    list-style: decimal;
+}
+
+.nav a[aria-current] {
+    background-size: 0 0, 0 0;
+}
+
+/* .layout-section {
     display: -ms-grid;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -204,7 +256,7 @@ a:focus-visible {
 
 .section-column p:not(:last-of-type) {
     padding-bottom: 24px;
-}
+} */
 
 .footer {
     width: 100%;
@@ -233,7 +285,8 @@ a:focus-visible {
         padding: 0 32px;
     }
 
-    .section-logo svg {
+    .section-logo svg,
+    .section-logo img {
         width: calc(50vw - 112px);
     }
 
@@ -299,8 +352,14 @@ a:focus-visible {
         padding: 0;
     }
 
-    .section-logo svg {
+    .section-logo svg,
+    .section-logo img {
         width: 80vw;
         stroke-width: 1px;
+    }
+
+    .split-section .section-logo,
+    .split-section .section-text {
+        grid-column: 1;
     }
 }
