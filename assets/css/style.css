@@ -127,7 +127,8 @@ a:focus-visible {
     display: flex;
     justify-content: center;
     padding: 32px;
-    z-index: 9998;
+    z-index: 9999;
+    background-color: var(--color-white);
 }
 
 .menu a {

@@ -1,3 +1,7 @@
+Title: Landing Page
+
+----
+
 Section1: <p>Centro Sur is an art center and interdisciplinary residency based in Buenos Aires, dedicated to promoting international and intercultural exchange through an active dialogue with the local artistic landscape. Its aim is to host artists, curators, architects, and designers from diverse backgrounds, offering a proactive and participatory environment that fosters an ongoing exchange between local and international contexts.</p>
 
 ----

@@ -194,20 +194,26 @@ if (emblem) {
 const languageMenu = document.querySelector(".menu");
 const pageFooter = document.querySelector("footer.footer");
 
+// Keep the menu above the footer. It reads the footer's live position every
+// frame, so it follows smoothly when the page height changes (e.g. the
+// Library accordion opening) instead of jumping after a recalculation.
 if (languageMenu && pageFooter && getComputedStyle(pageFooter).position !== "fixed") {
     gsap.matchMedia().add("(min-width: 801px)", () => {
-        gsap.fromTo(languageMenu, { y: 0 }, {
-            y: () => -pageFooter.offsetHeight,
-            ease: "none",
-            scrollTrigger: {
-                trigger: pageFooter,
-                start: "top bottom",
-                end: "bottom bottom",
-                scrub: true,
-                invalidateOnRefresh: true
-            }
-        });
+        const setY = gsap.quickSetter(languageMenu, "y", "px");
+        let lastY = null;
 
-        return () => gsap.set(languageMenu, { clearProps: "transform" });
+        const followFooter = () => {
+            const overlap = window.innerHeight - pageFooter.getBoundingClientRect().top;
+            const y = -gsap.utils.clamp(0, pageFooter.offsetHeight, overlap);
+            if (y !== lastY) setY(lastY = y);
+        };
+
+        followFooter();
+        gsap.ticker.add(followFooter);
+
+        return () => {
+            gsap.ticker.remove(followFooter);
+            gsap.set(languageMenu, { clearProps: "transform" });
+        };
     });
 };

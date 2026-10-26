@@ -40,13 +40,4 @@
             if (opening) reveal(panelOf(row));
         });
     });
-
-    const list = document.querySelector(".library-list");
-    if (list && window.ScrollTrigger && window.ResizeObserver) {
-        let timer;
-        new ResizeObserver(() => {
-            clearTimeout(timer);
-            timer = setTimeout(() => ScrollTrigger.refresh(), 100);
-        }).observe(list);
-    }
 })();

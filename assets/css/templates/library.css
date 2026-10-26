@@ -17,6 +17,7 @@
     position: relative;
     background-color: var(--color-white);
     border-bottom: 1px solid var(--color-black);
+    z-index: 9999;
 }
 
 .library-item {
@@ -51,10 +52,12 @@
 }
 
 .library-row:hover .library-title {
-    padding-left: 24px;
+    padding-left: 16px;
+    padding-right: 0;
 }
 
 .library-title {
+    padding-right: 24px;
     transition: all 0.3s ease;
 }
 

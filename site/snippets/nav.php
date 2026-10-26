@@ -1,5 +1,5 @@
 <nav class="nav" aria-label="Main">
-    <h1 class="nav-item">
+    <h1 class="site-title nav-item">
         <a href="<?= $site->url() ?>">
             <?= $site->title() ?>
         </a>
