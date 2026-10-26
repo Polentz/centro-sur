@@ -124,14 +124,21 @@ if (!reduceMotion && hasSmoothWrapper) {
         };
     });
 
-    // JPEG/PNG/WebP illustrations can't be drawn, so they only fade and rise
+    // JPEG/PNG/WebP illustrations can't be drawn, so they only fade and rise.
+    // They wait until their top reaches IMAGE_REVEAL_START of the viewport
+    // (instead of the bottom edge), so the reveal starts a bit later.
+    const IMAGE_REVEAL_START = "top 70%";
+
     gsap.utils.toArray(".section-logo img").forEach((img) => {
         gsap.from(img, {
             autoAlpha: 0,
             y: 40,
             duration: 1.2,
             ease: "power2.out",
-            scrollTrigger: revealLogoOnScroll(img)
+            scrollTrigger: {
+                ...revealLogoOnScroll(img),
+                start: IMAGE_REVEAL_START
+            }
         });
     });
 };
