@@ -1,3 +1,3 @@
 <footer class="footer">
-    <p><?= $page->title() ?></p>
+    <h1><?= $page->title() ?></h1>
 </footer>

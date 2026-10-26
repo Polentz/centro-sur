@@ -198,6 +198,7 @@ a:focus-visible {
 
 .nav a[aria-current] {
     background-size: 0 0, 0 0;
+    color: var(--color-grey);
 }
 
 /* .layout-section {
@@ -266,7 +267,7 @@ a:focus-visible {
     padding: 32px;
 }
 
-.footer p {
+.footer h1 {
     font-size: 14px;
     letter-spacing: 0.08em;
     text-align: center;
