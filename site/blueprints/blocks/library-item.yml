@@ -1,0 +1,54 @@
+name: Title
+icon: book
+label: "{{ title }}"
+preview: fields
+wysiwyg: true
+fields:
+  title:
+    label: Title
+    type: text
+    required: true
+  author:
+    label: Author
+    type: text
+    width: 1/2
+    translate: false
+  year:
+    label: Year
+    type: text
+    width: 1/4
+    translate: false
+  format:
+    label: Format
+    type: text
+    width: 1/4
+    placeholder: Book, Catalogue, Zine…
+  info:
+    label: Bibliographic information
+    type: text
+  description:
+    label: Description
+    type: writer
+    marks:
+      - bold
+      - italic
+      - underline
+      - link
+      - email
+      - clear
+    nodes: false
+  link:
+    label: External link
+    type: url
+    translate: false
+  illustration:
+    label: Illustration
+    type: files
+    max: 1
+    multiple: false
+    translate: false
+    template: illustration
+    uploads: illustration
+    query: page.images
+    help: Leave empty to use the library’s default illustration.
+  attachments: fields/attachments

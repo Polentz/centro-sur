@@ -1,5 +1,5 @@
 <?php
-$items = $page->children()->listed();
+$items = $page->entries()->toBlocks();
 $fallback = $page->illustration()->toFile();
 ?>
 <?= snippet('head') ?>
@@ -7,33 +7,59 @@ $fallback = $page->illustration()->toFile();
 <?= snippet('nav') ?>
 
 <main class="main library">
-    <div class="library-preview" aria-hidden="true">
-        <?php foreach ($items->values() as $index => $item): ?>
-            <?php $illustration = $item->illustration()->toFile() ?? $fallback ?>
-            <figure class="library-preview-item<?= $index === 0 ? ' is-active' : '' ?>" data-item="<?= $item->slug() ?>">
-                <?php if ($illustration): ?>
-                    <?= snippet('illustration', ['file' => $illustration, 'sizes' => '560px']) ?>
-                <?php endif ?>
-                <figcaption class="library-caption">
-                    <span><?= $item->format()->esc() ?></span>
-                    <span><?= $item->year()->esc() ?></span>
-                </figcaption>
-            </figure>
-        <?php endforeach ?>
-    </div>
-
     <div class="library-index">
-        <h2 class="library-heading"><?= $page->title()->esc() ?> · <?= $items->count() ?></h2>
+        <div class="library-heading">
+            <p><?= $page->title()->esc() ?> · <?= $items->count() ?></p>
+            <!-- <p>Search</p> -->
+        </div>
         <?php if ($items->isNotEmpty()): ?>
             <ul class="library-list">
-                <?php foreach ($items->values() as $index => $item): ?>
-                    <li>
-                        <a class="library-row<?= $index === 0 ? ' is-active' : '' ?>" href="<?= $item->url() ?>"
-                            data-item="<?= $item->slug() ?>">
+                <?php foreach ($items as $item): ?>
+                    <?php
+                    $panelId = 'library-panel-' . $item->id();
+                    $illustration = $item->illustration()->toFile() ?? $fallback;
+                    $attachments = $item->attachments()->toFiles();
+                    ?>
+                    <li class="library-item">
+                        <button class="library-row" type="button" aria-expanded="false" aria-controls="<?= $panelId ?>">
                             <span class="library-title"><?= $item->title()->esc() ?></span>
                             <span class="library-author"><?= $item->author()->esc() ?></span>
+                            <span class="library-format"><?= $item->format()->esc() ?></span>
                             <span class="library-year"><?= $item->year()->esc() ?></span>
-                        </a>
+                        </button>
+                        <div class="library-panel" id="<?= $panelId ?>">
+                            <div class="library-panel-inner">
+                                <div class="library-panel-text">
+                                    <div class="library-info">
+                                        <?php if ($item->info()->isNotEmpty()): ?>
+                                            <p><?= $item->info()->esc() ?></p>
+                                        <?php endif ?>
+                                    </div>
+                                    <?php if ($item->description()->isNotEmpty()): ?>
+                                        <div class="library-description">
+                                            <?= $item->description() ?>
+                                        </div>
+                                    <?php endif ?>
+                                    <?php if ($item->link()->isNotEmpty() || $attachments->isNotEmpty()): ?>
+                                        <ul class="library-links">
+                                            <?php if ($item->link()->isNotEmpty()): ?>
+                                                <li><a href="<?= $item->link()->esc('attr') ?>" target="_blank"
+                                                        rel="noopener"><?= esc(parse_url($item->link()->value(), PHP_URL_HOST) ?: $item->link()->value()) ?></a>
+                                                </li>
+                                            <?php endif ?>
+                                            <?php foreach ($attachments as $file): ?>
+                                                <li><a href="<?= $file->url() ?>" download><?= $file->filename() ?></a></li>
+                                            <?php endforeach ?>
+                                        </ul>
+                                    <?php endif ?>
+                                </div>
+                                <?php if ($illustration): ?>
+                                    <figure class="library-illustration">
+                                        <?= snippet('illustration', ['file' => $illustration, 'sizes' => '(max-width: 800px) 80vw, 400px']) ?>
+                                    </figure>
+                                <?php endif ?>
+                            </div>
+                        </div>
                     </li>
                 <?php endforeach ?>
             </ul>

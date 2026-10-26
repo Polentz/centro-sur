@@ -1,55 +1,12 @@
-/* Library: sticky preview on the left, index list on the right */
+/* Library: full-width index, each title opens like an accordion */
 
-.library {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    column-gap: 144px;
-    align-items: start;
+.main {
     padding: 280px 64px 160px;
 }
 
-.library-preview {
-    position: sticky;
-    top: 280px;
-    justify-self: center;
-    width: 100%;
-    max-width: 560px;
-}
-
-.library-preview-item {
-    display: none;
-}
-
-.library-preview-item.is-active {
-    display: block;
-}
-
-.library-preview-item svg,
-.library-preview-item img {
-    display: block;
-    width: 100%;
-    height: auto;
-    max-height: 60vh;
-    overflow: visible;
-    stroke: var(--color-black);
-    stroke-width: 2px;
-    fill: var(--color-white);
-}
-
-.library-preview-item img {
-    object-fit: contain;
-}
-
-.library-caption {
+.library-heading {
     display: flex;
     justify-content: space-between;
-    gap: 16px;
-    padding-top: 32px;
-    font-size: 14px;
-    letter-spacing: 0.08em;
-}
-
-.library-heading {
     font-size: 14px;
     font-weight: 400;
     letter-spacing: 0.08em;
@@ -57,68 +14,139 @@
 }
 
 .library-list {
-    list-style: none;
+    position: relative;
+    background-color: var(--color-white);
     border-bottom: 1px solid var(--color-black);
 }
 
-.library-list li {
+.library-item {
     border-top: 1px solid var(--color-black);
 }
 
+/* Shared columns: arrow, title, author, format, year */
 .library-row {
-    --link-hover-text: var(--color-black);
     display: grid;
-    grid-template-columns: 24px minmax(0, 3fr) minmax(0, 2fr) auto;
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr) minmax(0, 1fr) minmax(64px, auto);
     column-gap: 16px;
+}
+
+.library-row {
+    width: 100%;
     align-items: baseline;
     padding: 16px 0;
-    background-image: none;
+    font: inherit;
+    color: inherit;
+    text-align: left;
+    transition: color 0.3s ease;
 }
 
-/* Arrow marks the title shown in the preview */
-.library-row::before {
-    content: "→";
-    opacity: 0;
-    transition: opacity 0.2s ease;
+.library-row:focus-visible {
+    outline: 1px solid var(--color-black);
+    outline-offset: 4px;
 }
 
-.library-row.is-active::before {
-    opacity: 1;
+.library-row:hover,
+.library-row:focus-visible {
+    color: var(--color-grey);
 }
 
-.library-author {
-    color: #595959;
-}
-
+.library-format,
 .library-year {
     font-size: 14px;
     letter-spacing: 0.08em;
 }
 
+/* Panel: animates from 0 to its content height */
+.library-panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    visibility: hidden;
+    transition: grid-template-rows 0.5s ease, visibility 0s linear 0.5s;
+}
+
+.library-panel.is-open {
+    grid-template-rows: 1fr;
+    visibility: visible;
+    transition: grid-template-rows 0.5s ease, visibility 0s;
+}
+
+.library-panel-inner {
+    min-height: 0;
+    display: -ms-grid;
+    display: grid;
+    -ms-grid-columns: 1fr 144px;
+    grid-template-columns: repeat(2, 1fr);
+    -webkit-box-align: start;
+    -ms-flex-align: start;
+    align-items: start;
+    -webkit-column-gap: 144px;
+    -moz-column-gap: 144px;
+    column-gap: 144px;
+    overflow: hidden;
+}
+
+.library-panel-text {
+    grid-column: 1;
+    padding: 8px 0 48px;
+}
+
+.library-panel-text>*+* {
+    margin-top: 1em;
+}
+
+.library-info {
+    font-size: 14px;
+    letter-spacing: 0.08em;
+}
+
+.library-description p:not(:last-of-type) {
+    padding-bottom: 24px;
+}
+
+.library-links {
+    list-style: none;
+    padding-top: 8px;
+}
+
+.library-illustration {
+    grid-column: 2;
+    padding: 8px 0 48px;
+}
+
+.library-illustration svg,
+.library-illustration img {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 50vh;
+    overflow: visible;
+    stroke: var(--color-black);
+    stroke-width: 2px;
+    fill: var(--color-white);
+}
+
+.library-illustration img {
+    object-fit: contain;
+}
+
 @media (max-width: 1200px) {
-    .library {
-        column-gap: 112px;
+    .main {
         padding-left: 32px;
         padding-right: 32px;
     }
 }
 
-/* Phones: no hover, so the preview column is hidden and the list goes full width */
+/* Phones: title and author stacked, panel in a single column */
 @media (max-width: 800px) {
-    .library {
-        grid-template-columns: minmax(0, 1fr);
+    .main {
         padding: 160px 24px 120px;
-    }
-
-    .library-preview {
-        display: none;
     }
 
     .library-row {
         grid-template-columns: minmax(0, 1fr) auto;
         grid-template-areas:
             "title year"
-            "author year";
+            "author format";
         row-gap: 4px;
     }
 
@@ -135,13 +163,38 @@
         font-size: 14px;
     }
 
+    .library-format {
+        grid-area: format;
+        text-align: right;
+    }
+
     .library-year {
         grid-area: year;
+    }
+
+    .library-panel-inner {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .library-panel-text,
+    .library-illustration {
+        grid-column: 1;
+    }
+
+    .library-panel-text {
+        padding-bottom: 24px;
+    }
+
+    .library-illustration {
+        padding-top: 0;
     }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .library-row::before {
+
+    .library-row::before,
+    .library-panel,
+    .library-panel.is-open {
         transition: none;
     }
 }

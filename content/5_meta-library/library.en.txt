@@ -2,7 +2,15 @@ Title: Meta-Library
 
 ----
 
+Entries: [{"content":{"title":"The Metabolic Museum","author":"Clémentine Deliss","year":"2020","format":"Book","info":"Hatje Cantz Verlag Gmbh & Co, Berlin, 2020","description":"<p>Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.</p><p>Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.</p>","link":"https://mm-u.online/metabolic-museum-university-mm-u/","illustration":[],"attachments":[]},"id":"ac134804-9020-46d6-b9d5-6d0a675eb61a","isHidden":false,"type":"library-item"},{"content":{"title":"Cool museums and hot museums","author":"Jorge Glusberg","year":"1980","format":"Book","info":"Center of Art and Communication, Buenos Aires, 1980","description":"","link":"","illustration":[],"attachments":[]},"id":"36e043a3-8410-4d48-945c-c79227e0c5ee","isHidden":false,"type":"library-item"},{"content":{"title":"L'ultimo museo: musei freddi e caldi, vecchi e nuovi, immaginari, integrati","author":"Jorge Glusberg","year":"1983","format":"Essay","info":"Sellerio, Palermo, 1983","description":"","link":"","illustration":[],"attachments":[]},"id":"d435e3ed-c4ae-48d7-a787-ce7c73477ae1","isHidden":false,"type":"library-item"}]
+
+----
+
 Illustration: - file://pv6a1fzjewxrnxtp
+
+----
+
+Attachments: 
 
 ----
 

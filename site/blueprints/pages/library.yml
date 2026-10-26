@@ -5,19 +5,15 @@ columns:
   main:
     width: 2/3
     sections:
-      items:
-        label: Titles
-        type: pages
-        template: library-item
-        layout: table
-        empty: No titles yet
-        columns:
-          author:
-            label: Author
-            width: 1/3
-          year:
-            label: Year
-            width: 1/6
+      content:
+        type: fields
+        fields:
+          entries:
+            label: Titles
+            type: blocks
+            fieldsets:
+              - library-item
+            empty: No titles yet
   sidebar:
     width: 1/3
     sections:
@@ -33,4 +29,4 @@ columns:
             template: illustration
             uploads: illustration
             query: page.images
-            help: Shown in the preview for titles without their own illustration.
+            help: Shown in an open title when it has no image of its own.
