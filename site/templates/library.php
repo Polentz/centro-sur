@@ -55,7 +55,7 @@ $fallback = $page->illustration()->toFile();
                                 </div>
                                 <?php if ($illustration): ?>
                                     <figure class="library-illustration">
-                                        <?= snippet('illustration', ['file' => $illustration, 'sizes' => '(max-width: 800px) 80vw, 400px']) ?>
+                                        <?= snippet('illustration', ['file' => $illustration, 'sizes' => '(max-width: 800px) 100vw, 50vw']) ?>
                                     </figure>
                                 <?php endif ?>
                             </div>
