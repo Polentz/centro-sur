@@ -48,7 +48,7 @@ $fallback = $page->illustration()->toFile();
                                                 </li>
                                             <?php endif ?>
                                             <?php foreach ($attachments as $file): ?>
-                                                <li><a href="<?= $file->url() ?>" download><?= $file->filename() ?></a></li>
+                                                <li><a href="<?= $file->url() ?>" download>Download</a></li>
                                             <?php endforeach ?>
                                         </ul>
                                     <?php endif ?>
