@@ -30,6 +30,32 @@
         }
     };
 
+    // Fade and rise the heading and titles in as they scroll into view,
+    // matching the text reveals on the other pages. Titles entering together
+    // are staggered; transforms are cleared afterwards so they don't affect
+    // the open panels.
+    if (!calmMotion && window.gsap && window.ScrollTrigger) {
+        const targets = document.querySelectorAll(".library-heading, .library-item");
+        gsap.set(targets, { autoAlpha: 0, y: 40 });
+
+        const revealIn = (els) => gsap.to(els, {
+            autoAlpha: 1,
+            y: 0,
+            duration: 1.2,
+            ease: "power2.out",
+            stagger: 0.08,
+            clearProps: "transform"
+        });
+
+        const heading = document.querySelector(".library-heading");
+        if (heading) revealIn(heading);
+
+        ScrollTrigger.batch(".library-item", {
+            once: true,
+            onEnter: revealIn
+        });
+    }
+
     rows.forEach((row) => {
         row.addEventListener("click", () => {
             const opening = row.getAttribute("aria-expanded") !== "true";
