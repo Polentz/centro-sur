@@ -1,5 +1,4 @@
 <header class="header">
-    <h1 class="visually-hidden">Centro Sur</h1>
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340.82 488.3">
         <g id="emblem-eight">
             <path

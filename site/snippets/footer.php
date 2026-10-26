@@ -1,3 +1,5 @@
 <footer class="footer">
-    <h1><?= $page->title() ?></h1>
+    <p class="nav-item">
+        <a href="<?= $page->url($href) ?>" hreflang="<?= $href ?>">En/Es</a>
+    </p>
 </footer>

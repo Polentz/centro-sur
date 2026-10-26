@@ -42,6 +42,20 @@ a:focus-visible {
     background-size: 0 0, 0 0;
 }
 
+.nav-item a {
+    background-size: 0 0, 0 0;
+}
+
+.nav-item a:hover,
+.nav-item a:focus-visible {
+    color: var(--link-color);
+    background-size: 100% 1px, 100% 0;
+}
+
+.nav-item a[aria-current] {
+    background-size: 100% 1px, 100% 0;
+}
+
 @media (prefers-reduced-motion: reduce) {
     a {
         -webkit-transition: none;
@@ -78,9 +92,12 @@ a:focus-visible {
 }
 
 .nav {
+    width: 100%;
     position: fixed;
     top: 0;
     right: 0;
+    display: flex;
+    justify-content: space-between;
     font-size: 14px;
     letter-spacing: 0.08em;
     padding: 32px 64px;
@@ -89,12 +106,12 @@ a:focus-visible {
 
 .nav-wrapper {
     display: flex;
-    flex-direction: column;
+    /* flex-direction: column; */
     align-items: end;
     justify-content: end;
     flex-wrap: balance;
-    column-gap: 48px;
-    row-gap: 12px;
+    column-gap: 24px;
+    row-gap: 4px;
 }
 
 .section {
@@ -196,69 +213,6 @@ a:focus-visible {
     list-style: decimal;
 }
 
-.nav a[aria-current] {
-    background-size: 0 0, 0 0;
-    color: var(--color-grey);
-}
-
-/* .layout-section {
-    display: -ms-grid;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    align-items: center;
-    -ms-flex-line-pack: center;
-    align-content: center;
-    -webkit-column-gap: 144px;
-    -moz-column-gap: 144px;
-    column-gap: 144px;
-}
-
-.section-column {
-    height: -webkit-fit-content;
-    height: -moz-fit-content;
-    height: fit-content;
-    position: sticky;
-    top: 0;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    -ms-flex-direction: column;
-    flex-direction: column;
-    gap: var(--grid-gap);
-}
-
-.span-3 {
-    -ms-grid-column-span: 1;
-    grid-column: span 1;
-}
-
-.span-6 {
-    -ms-grid-column-span: 2;
-    grid-column: span 2;
-}
-
-.span-9 {
-    -ms-grid-column-span: 3;
-    grid-column: span 3;
-}
-
-.span-12 {
-    -ms-grid-column-span: 4;
-    grid-column: span 4;
-}
-
-.section-column img {
-    width: 100%;
-}
-
-.section-column p:not(:last-of-type) {
-    padding-bottom: 24px;
-} */
-
 .footer {
     width: 100%;
     position: fixed;
@@ -267,7 +221,7 @@ a:focus-visible {
     padding: 32px;
 }
 
-.footer h1 {
+.footer p {
     font-size: 14px;
     letter-spacing: 0.08em;
     text-align: center;

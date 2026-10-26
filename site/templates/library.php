@@ -1,5 +1,5 @@
 <?php
-$items    = $page->children()->listed();
+$items = $page->children()->listed();
 $fallback = $page->illustration()->toFile();
 ?>
 <?= snippet('head') ?>
@@ -7,8 +7,6 @@ $fallback = $page->illustration()->toFile();
 <?= snippet('nav') ?>
 
 <main class="main library">
-    <h1 class="visually-hidden"><?= $page->title()->esc() ?></h1>
-
     <div class="library-preview" aria-hidden="true">
         <?php foreach ($items->values() as $index => $item): ?>
             <?php $illustration = $item->illustration()->toFile() ?? $fallback ?>
@@ -30,7 +28,8 @@ $fallback = $page->illustration()->toFile();
             <ul class="library-list">
                 <?php foreach ($items->values() as $index => $item): ?>
                     <li>
-                        <a class="library-row<?= $index === 0 ? ' is-active' : '' ?>" href="<?= $item->url() ?>" data-item="<?= $item->slug() ?>">
+                        <a class="library-row<?= $index === 0 ? ' is-active' : '' ?>" href="<?= $item->url() ?>"
+                            data-item="<?= $item->slug() ?>">
                             <span class="library-title"><?= $item->title()->esc() ?></span>
                             <span class="library-author"><?= $item->author()->esc() ?></span>
                             <span class="library-year"><?= $item->year()->esc() ?></span>
