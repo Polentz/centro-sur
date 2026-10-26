@@ -183,3 +183,24 @@ if (emblem) {
         });
     };
 };
+
+const languageMenu = document.querySelector(".menu");
+const pageFooter = document.querySelector("footer.footer");
+
+if (languageMenu && pageFooter && getComputedStyle(pageFooter).position !== "fixed") {
+    gsap.matchMedia().add("(min-width: 801px)", () => {
+        gsap.fromTo(languageMenu, { y: 0 }, {
+            y: () => -pageFooter.offsetHeight,
+            ease: "none",
+            scrollTrigger: {
+                trigger: pageFooter,
+                start: "top bottom",
+                end: "bottom bottom",
+                scrub: true,
+                invalidateOnRefresh: true
+            }
+        });
+
+        return () => gsap.set(languageMenu, { clearProps: "transform" });
+    });
+};

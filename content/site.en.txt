@@ -19,3 +19,11 @@ Socials:
   platform: instagram
   label: ""
   url: https://www.iampolenta.com/
+- 
+  platform: x
+  label: ""
+  url: https://www.iampolenta.com/
+- 
+  platform: substack
+  label: ""
+  url: https://www.iampolenta.com/
