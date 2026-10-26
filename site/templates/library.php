@@ -42,4 +42,5 @@ $fallback = $page->illustration()->toFile();
 </main>
 
 <?= snippet('footer') ?>
+<?= snippet('language-menu') ?>
 <?= snippet('foot') ?>

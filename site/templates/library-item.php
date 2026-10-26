@@ -40,8 +40,9 @@ $illustration = $page->illustration()->toFile() ?? $page->parent()?->illustratio
                 </div>
             </article>
         </main>
+        <?= snippet('footer') ?>
     </div>
 </div>
 
-<?= snippet('footer') ?>
+<?= snippet('language-menu') ?>
 <?= snippet('foot') ?>

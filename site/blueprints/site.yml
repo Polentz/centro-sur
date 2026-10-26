@@ -1,8 +1,59 @@
 title: Site
 
-sections:
-  pages:
-    type: pages
-    create:
-      - page
-      - library
+columns:
+  main:
+    width: 2/3
+    sections:
+      pages:
+        type: pages
+        create:
+          - page
+          - library
+  sidebar:
+    width: 1/3
+    sections:
+      footer:
+        type: fields
+        fields:
+          footerHeadline:
+            label: Footer
+            type: headline
+            help: Shown at the bottom of every page. The copyright year updates automatically.
+          address:
+            label: Address
+            type: textarea
+            buttons: false
+            size: small
+          email:
+            label: Email
+            type: email
+            translate: false
+          socials:
+            label: Social media
+            type: structure
+            translate: false
+            columns:
+              platform: true
+              url: true
+            fields:
+              platform:
+                label: Platform
+                type: select
+                required: true
+                options:
+                  instagram: Instagram
+                  facebook: Facebook
+                  youtube: YouTube
+                  linkedin: LinkedIn
+                  x: X
+                  other: Other
+              label:
+                label: Name
+                type: text
+                when:
+                  platform: other
+                help: Shown as text, since there’s no icon for it.
+              url:
+                label: Link
+                type: url
+                required: true

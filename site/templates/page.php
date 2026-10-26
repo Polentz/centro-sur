@@ -4,5 +4,5 @@
 
 <?php snippet('split-page', ['snap' => true]) ?>
 
-<?= snippet('footer') ?>
+<?= snippet('language-menu') ?>
 <?= snippet('foot') ?>

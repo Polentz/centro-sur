@@ -1,1 +1,21 @@
 Title: Centro Sur
+
+----
+
+Address:
+
+Paraguay 914
+Buenos Aires, Argentina
+
+----
+
+Email: info@centrosur.org
+
+----
+
+Socials:
+
+- 
+  platform: instagram
+  label: ""
+  url: https://www.iampolenta.com/

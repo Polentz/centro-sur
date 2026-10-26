@@ -12,5 +12,6 @@ $snap ??= false;
                 <?= snippet('blocks/split', ['block' => $block, 'index' => $index]) ?>
             <?php endforeach ?>
         </main>
+        <?= snippet('footer') ?>
     </div>
 </div>
