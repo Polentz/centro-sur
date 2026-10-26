@@ -68,22 +68,6 @@ a:focus-visible {
     width: 128px;
 }
 
-.menu {
-    position: fixed;
-    top: 32px;
-    right: 64px;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    -ms-flex-direction: column;
-    flex-direction: column;
-    font-size: 14px;
-    letter-spacing: 0.08em;
-    z-index: 100;
-}
-
 .visually-hidden {
     position: absolute;
     width: 1px;
@@ -93,9 +77,31 @@ a:focus-visible {
     white-space: nowrap;
 }
 
+.nav {
+    position: fixed;
+    top: 0;
+    right: 0;
+    font-size: 14px;
+    letter-spacing: 0.08em;
+    padding: 32px 64px;
+    z-index: 9999;
+}
+
+.nav-wrapper {
+    display: flex;
+    justify-content: end;
+    flex-wrap: balance;
+    column-gap: 48px;
+    row-gap: 12px;
+}
+
 .section {
     position: relative;
     min-height: 120vh;
+    padding: 64px;
+}
+
+.intro-section {
     display: -ms-grid;
     display: grid;
     -ms-grid-columns: 1fr 144px;
@@ -108,7 +114,6 @@ a:focus-visible {
     -webkit-column-gap: 144px;
     -moz-column-gap: 144px;
     column-gap: 144px;
-    padding: 0 64px;
 }
 
 .section-logo,
@@ -117,13 +122,8 @@ a:focus-visible {
     grid-row: 1;
 }
 
-/* .section {
-    --logo-unit: min(0.045vw, 0.1vh);
-} */
-
 .section-logo {
     z-index: 1;
-    /* width: calc(var(--w) * var(--logo-unit)); */
     -ms-grid-column-align: center;
     justify-self: center;
 }
@@ -141,16 +141,70 @@ a:focus-visible {
 .section-text {
     position: relative;
     z-index: 1;
-    padding: 0 64px;
+    padding: 64px;
 }
 
-/* .section-number {
-    display: block;
-    margin-bottom: 64px;
-    font-size: 14px;
-    letter-spacing: 0.08em;
-    z-index: 2;
-} */
+.section-text p:not(:last-of-type) {
+    padding-bottom: 24px;
+}
+
+.layout-section {
+    display: -ms-grid;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -ms-flex-line-pack: center;
+    align-content: center;
+    -webkit-column-gap: 144px;
+    -moz-column-gap: 144px;
+    column-gap: 144px;
+}
+
+.section-column {
+    height: -webkit-fit-content;
+    height: -moz-fit-content;
+    height: fit-content;
+    position: sticky;
+    top: 0;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    gap: var(--grid-gap);
+}
+
+.span-3 {
+    -ms-grid-column-span: 1;
+    grid-column: span 1;
+}
+
+.span-6 {
+    -ms-grid-column-span: 2;
+    grid-column: span 2;
+}
+
+.span-9 {
+    -ms-grid-column-span: 3;
+    grid-column: span 3;
+}
+
+.span-12 {
+    -ms-grid-column-span: 4;
+    grid-column: span 4;
+}
+
+.section-column img {
+    width: 100%;
+}
+
+.section-column p:not(:last-of-type) {
+    padding-bottom: 24px;
+}
 
 .footer {
     width: 100%;
