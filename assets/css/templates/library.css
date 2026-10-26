@@ -50,6 +50,14 @@
     color: var(--color-grey);
 }
 
+.library-row:hover .library-title {
+    padding-left: 24px;
+}
+
+.library-title {
+    transition: all 0.3s ease;
+}
+
 .library-format,
 .library-year {
     font-size: 14px;

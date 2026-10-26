@@ -1,8 +1,7 @@
-name: Title
+name: "Title:"
 icon: book
 label: "{{ title }}"
-preview: fields
-wysiwyg: true
+
 fields:
   title:
     label: Title

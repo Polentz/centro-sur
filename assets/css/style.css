@@ -101,6 +101,7 @@ a:focus-visible {
     font-size: 14px;
     letter-spacing: 0.08em;
     padding: 32px 64px;
+    pointer-events: none;
     z-index: 9999;
 }
 
@@ -112,6 +113,10 @@ a:focus-visible {
     flex-wrap: balance;
     column-gap: 24px;
     row-gap: 4px;
+}
+
+.nav-item {
+    pointer-events: all;
 }
 
 .menu {
