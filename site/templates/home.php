@@ -2,7 +2,7 @@
 <?= snippet('header') ?>
 <?= snippet('nav') ?>
 
-<?php snippet('split-page', ['snap' => true]) ?>
+<?php snippet('split-page', ['snap' => false]) ?>
 
 <?= snippet('language-menu') ?>
 <?= snippet('foot') ?>

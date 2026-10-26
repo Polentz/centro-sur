@@ -2,4 +2,12 @@ Title: Publishing
 
 ----
 
+Sections: [{"content":{"heading":"","text":"<p>As a report on the projects carried out each year, Centro Sur publishes a bulletin conceived as an active documentation of the process that involves the artists, curators, and actors who were part of the initiatives, in a conscious and collaborative editorial process.</p><p>Publishing becomes a constitutive element at Centro Sur, organizing editorial projects in three phases: information and cultural assessment (annual bulletin), archiving and database (creation of an archive-library that will lead to a series of editorial projects connecting the institution with other Argentine artistic and literary archives), specific objects (dedicated productions with artists involved in a residency/editorial workshop).</p>","illustration":["file://uefmfajbrlsb2vdl"],"side":"auto"},"id":"5c39170c-a46d-4f3c-9e18-7bae4f087043","isHidden":false,"type":"split"},{"content":{"heading":"","text":"","illustration":["file://gzsrzs7yz3tveynh"],"side":"auto"},"id":"2b919d99-0927-4359-8ff6-6a9a31916c40","isHidden":false,"type":"split"}]
+
+----
+
+Attachments: 
+
+----
+
 Uuid: h7ullwv30fqh7wjd

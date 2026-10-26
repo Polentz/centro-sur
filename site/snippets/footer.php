@@ -44,8 +44,12 @@ $names = [
             </ul>
         <?php endif ?>
     </div>
-    <p class="footer-copyright">©
-        <?= date('Y') ?>
-        <?= $site->title()->esc() ?>
-    </p>
+    <div class="footer-wrapper">
+        <a href="">Credits</a>
+        <a href="">Privacy Policy</a>
+        <p class="footer-copyright">©
+            <?= date('Y') ?>
+            <?= $site->title()->esc() ?>
+        </p>
+    </div>
 </footer>

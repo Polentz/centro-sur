@@ -131,13 +131,20 @@ a:focus-visible {
     text-align: center;
 }
 
-.section {
-    position: relative;
-    min-height: 120vh;
-    padding: 64px;
+.main {
+    min-height: var(--doc-height);
 }
 
-.intro-section,
+.section {
+    position: relative;
+    min-height: var(--doc-height);
+    padding: 144px 64px 64px;
+}
+
+main[data-snap] .section {
+    min-height: var(--doc-height);
+}
+
 .split-section {
     display: -ms-grid;
     display: grid;
@@ -176,7 +183,6 @@ a:focus-visible {
     fill: var(--color-white);
 }
 
-/* Raster illustrations (JPEG, PNG, WebP): same width, height capped */
 .section-logo img {
     max-height: 80vh;
     object-fit: contain;
@@ -192,7 +198,6 @@ a:focus-visible {
     padding-bottom: 24px;
 }
 
-/* Split sections (content pages): illustration and text swap sides */
 
 .split-section .section-logo {
     grid-column: 1;
@@ -210,11 +215,21 @@ a:focus-visible {
     grid-column: 1;
 }
 
+.split-section div.section-logo:only-child,
+.split-section div.section-text:only-child {
+    grid-column: 1 / 3;
+    margin: 0 auto;
+}
+
+.split-section div.section-text:only-child {
+    width: calc(50vw - 144px);
+}
+
 .section-heading {
     font-size: 14px;
     font-weight: 400;
     letter-spacing: 0.08em;
-    padding-bottom: 32px;
+    padding-bottom: 48px;
 }
 
 .section-text ul,
@@ -235,10 +250,18 @@ a:focus-visible {
     display: flex;
     align-items: end;
     justify-content: space-between;
+    font-size: 14px;
+    letter-spacing: 0.08em;
     padding: 32px 64px;
     border-top: 1px solid var(--color-black);
     background: var(--color-white);
     z-index: 1;
+}
+
+.footer-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
 }
 
 .footer-contacts {

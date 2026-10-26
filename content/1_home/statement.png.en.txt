@@ -1,5 +1,0 @@
-Uuid: prrtc0ymsiiv1vi6
-
-----
-
-Template: blocks/image
