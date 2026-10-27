@@ -1,7 +1,9 @@
 name: Section
 icon: split
+label: "{{ text }}"
 preview: fields
 wysiwyg: true
+
 fields:
   heading:
     label: Heading

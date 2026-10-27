@@ -8,6 +8,12 @@ columns:
       content:
         type: fields
         fields:
+          sections:
+            label: Sections
+            type: blocks
+            empty: No sections yet. They are shown above the titles.
+            fieldsets:
+              - split
           entries:
             label: Titles
             type: blocks

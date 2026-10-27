@@ -1,6 +1,4 @@
-/* Library: full-width index, each title opens like an accordion */
-
-.main {
+.library-index {
     padding: 280px 64px 160px;
 }
 
@@ -26,7 +24,6 @@
 
 .library-row {
     display: grid;
-    /* grid-template-columns: minmax(0, 3fr) minmax(0, 2fr) minmax(0, 1fr) minmax(64px, auto); */
     grid-template-columns: 3fr 2fr 1fr 96px;
     column-gap: 16px;
 }
@@ -144,15 +141,14 @@
 }
 
 @media (max-width: 1200px) {
-    .main {
+    .library-index {
         padding-left: 32px;
         padding-right: 32px;
     }
 }
 
-/* Phones: title and author stacked, panel in a single column */
 @media (max-width: 800px) {
-    .main {
+    .library-index {
         padding: 160px 24px 120px;
     }
 

@@ -1,4 +1,4 @@
-name: "Title:"
+name: Title
 icon: book
 label: "{{ title }}"
 
@@ -41,7 +41,7 @@ fields:
     type: url
     translate: false
   illustration:
-    label: Illustration
+    label: Image
     type: files
     max: 1
     multiple: false
@@ -49,5 +49,5 @@ fields:
     template: illustration
     uploads: illustration
     query: page.images
-    help: Leave empty to use the library’s default illustration.
+    help: Leave empty to use the library's default illustration.
   attachments: fields/attachments

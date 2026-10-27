@@ -57,13 +57,6 @@ a:focus-visible {
     background-size: 100% 1px, 100% 0;
 }
 
-@media (prefers-reduced-motion: reduce) {
-    a {
-        -webkit-transition: none;
-        transition: none;
-    }
-}
-
 .header {
     position: fixed;
     top: 32px;
@@ -415,5 +408,12 @@ main[data-snap] .section {
     .footer-wrapper {
         flex-direction: column;
         gap: 8px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    a {
+        -webkit-transition: none;
+        transition: none;
     }
 }

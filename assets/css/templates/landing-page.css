@@ -42,13 +42,6 @@ a:focus-visible {
     background-size: 0 0, 0 0;
 }
 
-@media (prefers-reduced-motion: reduce) {
-    a {
-        -webkit-transition: none;
-        transition: none;
-    }
-}
-
 .header {
     position: fixed;
     top: 32px;
@@ -244,5 +237,12 @@ a:focus-visible {
     .section-logo svg {
         width: 80vw;
         stroke-width: 1px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    a {
+        -webkit-transition: none;
+        transition: none;
     }
 }
