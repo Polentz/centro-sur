@@ -1,6 +1,6 @@
 /* ---------- Library: open a title's details like an accordion ---------- */
 
-(() => {
+const libraryAccordion = () => {
     const rows = document.querySelectorAll(".library-row");
     const calmMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -70,4 +70,6 @@
             if (opening) reveal(panelOf(row));
         });
     });
-})();
+};
+
+libraryAccordion();
