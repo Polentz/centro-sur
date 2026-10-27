@@ -50,8 +50,26 @@ if (!reduceMotion && hasSmoothWrapper) {
     gsap.matchMedia().add("(min-width: 801px)", () => {
         // Snap to the nearest section once scrolling stops
         if (snapToSections) {
-            const sectionProgress = (self) => sections.map((section, index) =>
-                gsap.utils.normalize(self.start, self.end, gsap.utils.clamp(self.start, self.end, sectionScroll(index)))
+            const isTall = (section) => section.offsetHeight > window.innerHeight;
+
+            // Short sections snap to their center; tall ones (e.g. Info) snap to
+            // their top or bottom edge, so their first lines are never pushed
+            // off screen.
+            const sectionPoints = (index) => {
+                const section = sections[index];
+                if (!isTall(section)) return [sectionScroll(index)];
+                return [section.offsetTop, section.offsetTop + section.offsetHeight - window.innerHeight];
+            };
+
+            const sectionProgress = (self) => sections.flatMap((_, index) => sectionPoints(index)).map((point) =>
+                gsap.utils.normalize(self.start, self.end, gsap.utils.clamp(self.start, self.end, point))
+            );
+
+            // Inside a tall section, let the reader scroll freely
+            const insideTallSection = (scroll) => sections.some((section) =>
+                isTall(section) &&
+                scroll >= section.offsetTop &&
+                scroll <= section.offsetTop + section.offsetHeight - window.innerHeight
             );
 
             ScrollTrigger.create({
@@ -59,7 +77,11 @@ if (!reduceMotion && hasSmoothWrapper) {
                 start: "top top",
                 end: "bottom bottom",
                 snap: {
-                    snapTo: (value, self) => gsap.utils.snap(sectionProgress(self), value),
+                    snapTo: (value, self) => {
+                        const scroll = self.start + value * (self.end - self.start);
+                        if (insideTallSection(scroll)) return value;
+                        return gsap.utils.snap(sectionProgress(self), value);
+                    },
                     duration: { min: 0.4, max: 0.9 },
                     ease: "power2.inOut"
                 }
