@@ -1,0 +1,9 @@
+Title: Credits
+
+----
+
+Sections: [{"content":{"heading":"Centro Sur is a project conceived by","text":"<p>Milena Ayllón<br><a href=\"mailto:milena@centrosur.org\">milena@centrosur.org</a></p><p>Emanuele De Donno<br><a href=\"mailto:emanuele@centrosur.org\">emanuele@centrosur.org</a></p>"},"id":"a88fd893-60ab-417c-b0ec-cf1f18d1d6fa","isHidden":false,"type":"text"},{"content":{"heading":"Drawings","text":"<p>Milena Ayllón</p>"},"id":"8e1516dc-1ec9-437f-b2bf-5741df6b0706","isHidden":false,"type":"text"},{"content":{"heading":"Logotype Design","text":"<p>Jane Doe</p>"},"id":"2550dd97-1099-4cc3-8ef6-0bb854581ce9","isHidden":false,"type":"text"},{"content":{"heading":"Website Design and Code","text":"<p><a href=\"https://www.iampolenta.com/\" target=\"_blank\">Giulia Polenta</a></p>"},"id":"7ce4a218-72e2-4ce0-8635-4bbb2056b8b2","isHidden":false,"type":"text"},{"content":{"heading":"","text":"<p>Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.</p><p>Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.</p>"},"id":"9407621f-fb6a-4eb0-b193-a947b8dab716","isHidden":false,"type":"text"}]
+
+----
+
+Uuid: lixg3wlqna2ppxkf

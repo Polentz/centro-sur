@@ -45,8 +45,11 @@ $names = [
         <?php endif ?>
     </div>
     <div class="footer-wrapper">
-        <a href="">Credits</a>
-        <a href="">Privacy Policy</a>
+        <?php foreach ($site->children()->listed()->filterBy('intendedTemplate', 'text') as $page): ?>
+            <a href="<?= $page->url() ?>" <?= $page->isOpen() ? ' aria-current="page"' : '' ?>>
+                <?= $page->title()->esc() ?>
+            </a>
+        <?php endforeach ?>
         <p class="footer-copyright">©
             <?= date('Y') ?>
             <?= $site->title()->esc() ?>

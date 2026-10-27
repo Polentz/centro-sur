@@ -1,0 +1,13 @@
+.text-section {
+    max-width: calc(50vw - 144px);
+    padding: 208px 64px 64px;
+}
+
+.section-heading {
+    padding-bottom: 24px;
+}
+
+.section-text {
+    width: calc(50vw - 144px);
+    padding: 0 64px 64px;
+}

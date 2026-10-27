@@ -1,0 +1,23 @@
+name: Section
+icon: text
+label: "{{ heading }}"
+preview: fields
+wysiwyg: true
+
+fields:
+  heading:
+    label: Heading
+    type: text
+    help: Optional. Shown above the text in small capitals.
+  text:
+    label: Text
+    type: writer
+    marks:
+      - bold
+      - italic
+      - underline
+      - strike
+      - link
+      - email
+      - clear
+    nodes: false
