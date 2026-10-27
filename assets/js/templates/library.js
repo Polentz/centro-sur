@@ -1,5 +1,3 @@
-/* ---------- Library: open a title's details like an accordion ---------- */
-
 const libraryAccordion = () => {
     const rows = document.querySelectorAll(".library-row");
     const calmMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -13,7 +11,6 @@ const libraryAccordion = () => {
         panelOf(row)?.classList.toggle("is-open", open);
     };
 
-    // Redraw the SVG lines (or fade in a bitmap) when a panel opens
     const reveal = (panel) => {
         if (!panel || calmMotion || !window.gsap) return;
 
@@ -30,10 +27,6 @@ const libraryAccordion = () => {
         }
     };
 
-    // Fade and rise the heading and titles in as they scroll into view,
-    // matching the text reveals on the other pages. Titles entering together
-    // are staggered; transforms are cleared afterwards so they don't affect
-    // the open panels.
     if (!calmMotion && window.gsap && window.ScrollTrigger) {
         const targets = document.querySelectorAll(".library-heading, .library-item");
         gsap.set(targets, { autoAlpha: 0, y: 40 });
