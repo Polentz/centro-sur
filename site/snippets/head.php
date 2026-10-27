@@ -1,5 +1,4 @@
 <?php
-
 use Kirby\Toolkit\I18n;
 ?>
 
@@ -10,7 +9,9 @@ use Kirby\Toolkit\I18n;
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= $page->isHomePage() ? $site->title()->esc() : $page->title()->esc() . ($site->title()->isNotEmpty() ? ' · ' . $site->title()->esc() : '') ?></title>
+    <title>
+        <?= $page->isHomePage() ? $site->title()->esc() : $page->title()->esc() . ($site->title()->isNotEmpty() ? ' · ' . $site->title()->esc() : '') ?>
+    </title>
     <meta name="description" content="<?= $site->description() ?>">
     <link rel="canonical" href="<?= $page->url() ?>">
     <meta name="keywords" content="<?= $site->keywords() ?>">

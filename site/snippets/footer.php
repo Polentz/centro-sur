@@ -1,5 +1,5 @@
 <?php
-
+use Kirby\Toolkit\Html;
 $socials = $site->socials()->toStructure();
 $names = [
     'instagram' => 'Instagram',

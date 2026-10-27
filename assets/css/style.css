@@ -121,6 +121,7 @@ a:focus-visible {
     display: flex;
     justify-content: center;
     padding: 32px;
+    pointer-events: none;
     z-index: 9999;
 }
 
@@ -128,6 +129,7 @@ a:focus-visible {
     font-size: 14px;
     letter-spacing: 0.08em;
     text-align: center;
+    pointer-events: all;
 }
 
 .main {

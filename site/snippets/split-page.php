@@ -1,11 +1,3 @@
-<?php
-/**
- * @var bool|null $snap  Snap to sections while scrolling (short pages only)
- * <?= $snap ? ' data-snap' : '' ?>
- */
-$snap ??= false;
-?>
-
 <div id="smooth-wrapper">
     <div id="smooth-content">
         <main class="main" data-snap>
