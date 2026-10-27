@@ -20,4 +20,6 @@ fields:
       - link
       - email
       - clear
-    nodes: false
+    nodes:
+      - bulletList
+      - orderedList

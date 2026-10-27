@@ -35,6 +35,9 @@ fields:
       - link
       - email
       - clear
+    nodes:
+      - bulletList
+      - orderedList
     nodes: false
   link:
     label: External link

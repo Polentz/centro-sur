@@ -20,7 +20,9 @@ fields:
       - link
       - email
       - clear
-    nodes: false
+    nodes:
+      - bulletList
+      - orderedList
   illustration:
     label: Illustration
     type: files
