@@ -12,5 +12,8 @@ return [
     'translations' => [
         'lang' => 'es',
         'langCode' => 'es_ES',
+        'library.items' => 'Títulos',
+        'library.search' => 'Buscar',
+        'search.null' => 'No hay resultados',
     ],
 ];

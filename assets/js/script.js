@@ -5,11 +5,90 @@ const documentHeight = () => {
     doc.style.setProperty("--doc-height", `${window.innerHeight}px`);
 };
 
+const searchFeature = () => {
+    const opener = document.querySelector(".search-label");
+    const elements = document.querySelectorAll(".search-input, .search-reset");
+    const input = document.querySelector(".search-input");
+    const wrapper = document.querySelector(".search-wrapper");
+    const close = document.querySelector(".search-reset");
+
+    const addClasses = () => {
+        gsap.set(elements, {
+            opacity: 0,
+        });
+        elements.forEach(el => {
+            el.classList.add("visible");
+        });
+        gsap.to(elements, {
+            opacity: 1,
+            duration: 0.5,
+            ease: "power1.out",
+        });
+    };
+
+    const removeClasses = () => {
+        gsap.to(elements, {
+            opacity: 0,
+            duration: 0.5,
+            ease: "power1.out",
+            onComplete: () => {
+                elements.forEach(el => {
+                    el.classList.remove("visible");
+                });
+                opener.classList.remove("hidden");
+            },
+        });
+    };
+
+    input.addEventListener("focus", () => {
+        input.value = "";
+    });
+
+    const searchLocation = "?q="
+    if (window.location.href.includes(searchLocation)) {
+        addClasses();
+    };
+
+    opener.addEventListener("click", (e) => {
+        if (!input.classList.contains("visible")) {
+            addClasses();
+            input.focus();
+            return;
+        };
+        e.preventDefault();
+        if (input.value.trim() !== "") {
+            wrapper.requestSubmit();
+        } else {
+            input.focus();
+        };
+    });
+
+    close.addEventListener("click", () => {
+        removeClasses()
+    });
+
+    const nullMessage = document.querySelector(".search-null");
+    if (input.classList.contains("null")) {
+        input.addEventListener("focus", () => {
+            input.classList.remove("null");
+            if (nullMessage) {
+                gsap.to(nullMessage, {
+                    opacity: 0,
+                    duration: 0.5,
+                    ease: "power1.out",
+                    onComplete: () => nullMessage.remove(),
+                });
+            };
+        }, { once: true });
+    };
+};
+
 documentHeight();
 
 window.addEventListener("load", () => {
     history.scrollRestoration = "manual";
     documentHeight();
+    searchFeature();
 });
 
 window.addEventListener("resize", () => {
