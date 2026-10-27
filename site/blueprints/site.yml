@@ -4,11 +4,25 @@ columns:
   main:
     width: 2/3
     sections:
+      sectionHedaline:
+        type: fields
+        fields:
+          sectionHedaline:
+            label: Website Pages
+            type: headline
       pages:
         type: pages
+        templates: 
+          - page
+          - library
         create:
           - page
           - library
+      temporary:
+        type: pages
+        max: 1
+        templates: 
+          - landing-page       
   sidebar:
     width: 1/3
     sections:
@@ -18,7 +32,7 @@ columns:
           footerHeadline:
             label: Footer
             type: headline
-            help: Shown at the bottom of every page. The copyright year updates automatically.
+            # help: Shown at the bottom of every page. The copyright year updates automatically.
           address:
             label: Address
             type: textarea
@@ -60,3 +74,10 @@ columns:
                 label: Link
                 type: url
                 required: true
+      additional:
+        type: pages
+        templates: 
+          - text
+        create:
+          - text
+

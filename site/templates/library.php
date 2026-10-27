@@ -1,6 +1,5 @@
 <?php
 $items = $page->entries()->toBlocks();
-$fallback = $page->illustration()->toFile();
 $query = get('q');
 $results = $items
     ->when($query, function ($query) {
@@ -42,16 +41,16 @@ $results = $items
                         <?php if ($query): ?>
                             <?php if ($results->isNotEmpty()): ?>
                                 <?php foreach ($results as $result): ?>
-                                    <?= snippet('blocks/library-item', ['block' => $result, 'fallback' => $fallback]) ?>
+                                    <?= snippet('blocks/library-item', ['block' => $result]) ?>
                                 <?php endforeach ?>
                             <?php elseif ($results->isEmpty()): ?>
                                 <?php foreach ($items as $item): ?>
-                                    <?= snippet('blocks/library-item', ['block' => $item, 'fallback' => $fallback]) ?>
+                                    <?= snippet('blocks/library-item', ['block' => $item]) ?>
                                 <?php endforeach ?>
                             <?php endif ?>
                         <?php else: ?>
                             <?php foreach ($items as $item): ?>
-                                <?= snippet('blocks/library-item', ['block' => $item, 'fallback' => $fallback]) ?>
+                                <?= snippet('blocks/library-item', ['block' => $item]) ?>
                             <?php endforeach ?>
                         <?php endif ?>
                     </ul>

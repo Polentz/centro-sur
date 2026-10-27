@@ -10,7 +10,7 @@ Entries: [{"content":{"title":"The Metabolic Museum","author":"Clémentine Delis
 
 ----
 
-Illustration: - file://pv6a1fzjewxrnxtp
+Illustration: 
 
 ----
 

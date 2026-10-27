@@ -1,6 +1,6 @@
 <?php
 $panelId = 'library-panel-' . $block->id();
-$illustration = $block->illustration()->toFile() ?? $fallback ?? null;
+$illustration = $block->illustration()->toFile();
 $attachments = $block->attachments()->toFiles();
 ?>
 <li class="library-item">

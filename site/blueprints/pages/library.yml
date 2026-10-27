@@ -1,4 +1,5 @@
 title: Library
+image: icon
 icon: book
 
 columns:
@@ -23,16 +24,15 @@ columns:
   sidebar:
     width: 1/3
     sections:
-      settings:
+      illustrations:
+        label: Images
+        type: files
+        template: illustration
+        layout: cards
+        image:
+          back: white
+      attachments:
+        label: false
         type: fields
         fields:
-          illustration:
-            label: Default illustration
-            type: files
-            max: 1
-            multiple: false
-            translate: false
-            template: illustration
-            uploads: illustration
-            query: page.images
-            help: Shown in an open title when it has no image of its own.
+          attachments: fields/attachments

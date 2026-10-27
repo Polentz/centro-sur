@@ -49,5 +49,4 @@ fields:
     template: illustration
     uploads: illustration
     query: page.images
-    help: Leave empty to use the library's default illustration.
   attachments: fields/attachments
