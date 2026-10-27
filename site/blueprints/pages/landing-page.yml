@@ -54,9 +54,12 @@ columns:
   sidebar:
     width: 1/3
     sections:
-      pages:
-        type: pages
-        template: default
-      files:
+      attachments:
+        label: Attachments
         type: files
+        help: Upload here the pdf files you want to use as attachments on this page.
+        template: document
+        uploads: document
+        query: page.files.filterBy("type", "document")
+        link: false
 
