@@ -24,10 +24,10 @@
     border-top: 1px solid var(--color-black);
 }
 
-/* Shared columns: arrow, title, author, format, year */
 .library-row {
     display: grid;
-    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr) minmax(0, 1fr) minmax(64px, auto);
+    /* grid-template-columns: minmax(0, 3fr) minmax(0, 2fr) minmax(0, 1fr) minmax(64px, auto); */
+    grid-template-columns: 3fr 2fr 1fr 96px;
     column-gap: 16px;
 }
 
@@ -67,7 +67,10 @@
     letter-spacing: 0.08em;
 }
 
-/* Panel: animates from 0 to its content height */
+.library-year {
+    text-align: end;
+}
+
 .library-panel {
     display: grid;
     grid-template-rows: 0fr;
@@ -161,12 +164,23 @@
         row-gap: 4px;
     }
 
-    .library-row::before {
-        display: none;
+    .library-row:hover,
+    .library-row:focus-visible {
+        color: var(--color-black);
+    }
+
+    .library-row:hover .library-title {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .library-row[aria-expanded="true"] {
+        border-bottom: 1px solid var(--color-grey);
     }
 
     .library-title {
         grid-area: title;
+        padding-right: 0;
     }
 
     .library-author {

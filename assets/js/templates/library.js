@@ -63,6 +63,10 @@
             // One title open at a time
             rows.forEach((other) => setOpen(other, other === row && opening));
 
+            // if (opening) {
+            //     reveal(panelOf(row));
+            //     window.scrollTo({ top: 0, behavior: calmMotion ? "auto" : "smooth" });
+            // }
             if (opening) reveal(panelOf(row));
         });
     });
