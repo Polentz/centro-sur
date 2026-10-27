@@ -23,9 +23,6 @@ a {
     -webkit-box-decoration-break: clone;
     box-decoration-break: clone;
     cursor: pointer;
-    -webkit-transition:
-        background-size 0.2s cubic-bezier(0.65, 0, 0.35, 1),
-        color 0.4s cubic-bezier(0.65, 0, 0.35, 1);
     transition:
         background-size 0.2s cubic-bezier(0.65, 0, 0.35, 1),
         color 0.4s cubic-bezier(0.65, 0, 0.35, 1);
@@ -47,11 +44,7 @@ a:focus-visible {
     top: 32px;
     left: 0;
     width: 100%;
-    display: -webkit-box;
-    display: -ms-flexbox;
     display: flex;
-    -webkit-box-pack: center;
-    -ms-flex-pack: center;
     justify-content: center;
     pointer-events: none;
     z-index: 0;
@@ -65,12 +58,7 @@ a:focus-visible {
     position: fixed;
     top: 32px;
     right: 64px;
-    display: -webkit-box;
-    display: -ms-flexbox;
     display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    -ms-flex-direction: column;
     flex-direction: column;
     font-size: 14px;
     letter-spacing: 0.08em;
@@ -89,16 +77,10 @@ a:focus-visible {
 .section {
     position: relative;
     min-height: 120vh;
-    display: -ms-grid;
     display: grid;
-    -ms-grid-columns: 1fr 144px;
     grid-template-columns: repeat(2, 1fr);
-    -webkit-box-align: center;
-    -ms-flex-align: center;
     align-items: center;
-    -ms-flex-line-pack: center;
     align-content: center;
-    -webkit-column-gap: 144px;
     -moz-column-gap: 144px;
     column-gap: 144px;
     padding: 0 64px;
@@ -106,7 +88,6 @@ a:focus-visible {
 
 .section-logo,
 .section-text {
-    -ms-grid-row: 1;
     grid-row: 1;
 }
 
@@ -117,7 +98,6 @@ a:focus-visible {
 .section-logo {
     z-index: 1;
     /* width: calc(var(--w) * var(--logo-unit)); */
-    -ms-grid-column-align: center;
     justify-self: center;
 }
 
@@ -162,7 +142,6 @@ a:focus-visible {
     }
 
     .section {
-        -webkit-column-gap: 112px;
         -moz-column-gap: 112px;
         column-gap: 112px;
         padding: 0 32px;
@@ -205,31 +184,22 @@ a:focus-visible {
     .section {
         --logo-unit: min(0.1vw, 0.05svh);
         min-height: 100vh;
-        -ms-grid-columns: 1fr;
         grid-template-columns: 1fr;
-        -ms-grid-rows: auto clamp(16px, 3svh, 28px) auto clamp(16px, 3svh, 28px) auto;
         grid-template-rows: auto auto auto;
-        -ms-flex-line-pack: center;
         align-content: center;
         row-gap: 40px;
         padding: 120px 24px 80px 24px;
     }
 
     .section-logo {
-        -ms-grid-row: 2;
         grid-row: 2;
-        -ms-grid-column: 1;
         grid-column: 1;
-        -ms-grid-column-align: center;
         justify-self: center;
     }
 
     .section-text {
-        -ms-grid-row: 3;
         grid-row: 3;
-        -ms-grid-column: 1;
         grid-column: 1;
-        -ms-grid-column-align: start;
         justify-self: start;
         padding: 0;
     }
@@ -242,7 +212,6 @@ a:focus-visible {
 
 @media (prefers-reduced-motion: reduce) {
     a {
-        -webkit-transition: none;
         transition: none;
     }
 }

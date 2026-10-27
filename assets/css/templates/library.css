@@ -25,6 +25,7 @@
 .library-row {
     display: grid;
     grid-template-columns: 3fr 2fr 1fr 96px;
+    -moz-column-gap: 16px;
     column-gap: 16px;
 }
 
@@ -83,14 +84,9 @@
 
 .library-panel-inner {
     min-height: 0;
-    display: -ms-grid;
     display: grid;
-    -ms-grid-columns: 1fr 144px;
     grid-template-columns: repeat(2, 1fr);
-    -webkit-box-align: start;
-    -ms-flex-align: start;
     align-items: start;
-    -webkit-column-gap: 144px;
     -moz-column-gap: 144px;
     column-gap: 144px;
     overflow: hidden;
@@ -137,6 +133,7 @@
 }
 
 .library-illustration img {
+    -o-object-fit: contain;
     object-fit: contain;
 }
 
@@ -164,6 +161,7 @@
 }
 
 .search-label {
+    width: -moz-fit-content;
     width: fit-content;
     --link-color: var(--color-black);
     --link-hover-text: var(--color-grey);
@@ -177,9 +175,6 @@
     -webkit-box-decoration-break: clone;
     box-decoration-break: clone;
     cursor: pointer;
-    -webkit-transition:
-        background-size 0.2s cubic-bezier(0.65, 0, 0.35, 1),
-        color 0.4s cubic-bezier(0.65, 0, 0.35, 1);
     transition:
         background-size 0.2s cubic-bezier(0.65, 0, 0.35, 1),
         color 0.4s cubic-bezier(0.65, 0, 0.35, 1);
