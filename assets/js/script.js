@@ -5,12 +5,13 @@ const documentHeight = () => {
     doc.style.setProperty("--doc-height", `${window.innerHeight}px`);
 };
 
-const searchFeature = () => {
+const searchTool = () => {
     const opener = document.querySelector(".search-label");
     const elements = document.querySelectorAll(".search-input, .search-reset");
     const input = document.querySelector(".search-input");
     const wrapper = document.querySelector(".search-wrapper");
     const close = document.querySelector(".search-reset");
+    const searchLocation = "?q=";
 
     const addClasses = () => {
         gsap.set(elements, {
@@ -44,9 +45,23 @@ const searchFeature = () => {
         input.value = "";
     });
 
-    const searchLocation = "?q="
     if (window.location.href.includes(searchLocation)) {
         addClasses();
+    };
+
+    const nullMessage = document.querySelector(".search-null");
+    if (input.classList.contains("null")) {
+        input.addEventListener("focus", () => {
+            input.classList.remove("null");
+            if (nullMessage) {
+                gsap.to(nullMessage, {
+                    opacity: 0,
+                    duration: 0.5,
+                    ease: "power1.out",
+                    onComplete: () => nullMessage.remove(),
+                });
+            };
+        }, { once: true });
     };
 
     opener.addEventListener("click", (e) => {
@@ -67,20 +82,22 @@ const searchFeature = () => {
         removeClasses()
     });
 
-    const nullMessage = document.querySelector(".search-null");
-    if (input.classList.contains("null")) {
-        input.addEventListener("focus", () => {
-            input.classList.remove("null");
-            if (nullMessage) {
-                gsap.to(nullMessage, {
-                    opacity: 0,
-                    duration: 0.5,
-                    ease: "power1.out",
-                    onComplete: () => nullMessage.remove(),
-                });
-            };
-        }, { once: true });
-    };
+    document.addEventListener("click", (e) => {
+        if (!input.classList.contains("visible")) return;
+        if (window.location.href.includes(searchLocation)) return;
+        if (wrapper.contains(e.target)) return;
+        removeClasses();
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) return;
+            if (!input.classList.contains("visible")) return;
+            if (window.location.href.includes(searchLocation)) return;
+            removeClasses();
+        });
+    });
+    observer.observe(wrapper);
 };
 
 documentHeight();
@@ -88,7 +105,7 @@ documentHeight();
 window.addEventListener("load", () => {
     history.scrollRestoration = "manual";
     documentHeight();
-    searchFeature();
+    searchTool();
 });
 
 window.addEventListener("resize", () => {
