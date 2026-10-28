@@ -46,8 +46,8 @@ fields:
   illustration:
     label: Image
     type: files
-    max: 1
-    multiple: false
+    # max: 1
+    # multiple: false
     translate: false
     template: illustration
     uploads: illustration

@@ -1,6 +1,7 @@
 <?php
 $panelId = 'library-panel-' . $block->id();
-$illustration = $block->illustration()->toFile();
+$illustration = $block->cane()->toFile();
+$illustrations = $block->illustration()->toFiles();
 $attachments = $block->attachments()->toFiles();
 ?>
 <li class="library-item">
@@ -36,10 +37,28 @@ $attachments = $block->attachments()->toFiles();
                     </ul>
                 <?php endif ?>
             </div>
-            <?php if ($illustration): ?>
-                <figure class="library-illustration">
-                    <?= snippet('illustration', ['file' => $illustration, 'sizes' => '(max-width: 800px) 100vw, 50vw']) ?>
-                </figure>
+            <?php if ($illustrations->isNotEmpty()): ?>
+                <div class="library-illustration">
+                    <figure class="library-gallery">
+                        <?php foreach ($illustrations as $illustration): ?>
+                            <?= snippet('illustration', ['file' => $illustration, 'sizes' => '(max-width: 800px) 100vw, 50vw']) ?>
+                        <?php endforeach ?>
+                    </figure>
+                    <?php if ($illustrations->count() > 1): ?>
+                        <div class="library-gallery-nav">
+                            <button class="library-gallery-arrow" type="button" data-direction="-1" aria-label="Previous image" disabled>
+                                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                    <path d="M15 4 7 12l8 8" />
+                                </svg>
+                            </button>
+                            <button class="library-gallery-arrow" type="button" data-direction="1" aria-label="Next image">
+                                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                    <path d="M9 4l8 8-8 8" />
+                                </svg>
+                            </button>
+                        </div>
+                    <?php endif ?>
+                </div>
             <?php endif ?>
         </div>
     </div>

@@ -57,12 +57,12 @@ columns:
                 options:
                   instagram: Instagram
                   facebook: Facebook
+                  x: X
                   tiktok: TikTok
                   substack: Substack
                   linkedin: LinkedIn
                   youtube: YouTube
                   vimeo: Vimeo
-                  x: X
                   other: Other
               label:
                 label: Name

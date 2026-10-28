@@ -14,7 +14,9 @@ const libraryAccordion = () => {
     const reveal = (panel) => {
         if (!panel || calmMotion || !window.gsap) return;
 
-        const paths = panel.querySelectorAll("svg path, svg line, svg circle, svg rect, svg polyline, svg polygon, svg ellipse");
+        const paths = panel.querySelectorAll([
+            "path", "line", "circle", "rect", "polyline", "polygon", "ellipse"
+        ].map((shape) => `.library-gallery svg ${shape}`).join(", "));
         if (paths.length && window.DrawSVGPlugin) {
             gsap.killTweensOf(paths);
             gsap.fromTo(paths, { drawSVG: "0%" }, { drawSVG: "100%", duration: 1.2, delay: 0.2, ease: "power1.inOut" });
@@ -65,4 +67,63 @@ const libraryAccordion = () => {
     });
 };
 
+const libraryGallery = () => {
+    const calmMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    document.querySelectorAll(".library-illustration").forEach((wrapper) => {
+        const gallery = wrapper.querySelector(".library-gallery");
+        const arrows = wrapper.querySelectorAll(".library-gallery-arrow");
+        if (!gallery || !arrows.length) return;
+
+        const maxScroll = () => gallery.scrollWidth - gallery.clientWidth;
+
+        // Dim an arrow when there is nothing more to see on its side
+        const update = () => {
+            const end = maxScroll();
+            arrows.forEach((arrow) => {
+                const forward = arrow.dataset.direction === "1";
+                arrow.disabled = forward ? gallery.scrollLeft >= end - 1 : gallery.scrollLeft <= 1;
+            });
+        };
+
+        // Go to the start of the previous or next image
+        const step = (direction) => {
+            const slides = [...gallery.children];
+            const current = gallery.scrollLeft;
+            const offsets = slides.map((slide) => slide.offsetLeft);
+            const target = direction > 0
+                ? offsets.find((left) => left > current + 1)
+                : offsets.reverse().find((left) => left < current - 1);
+
+            gallery.scrollTo({
+                left: Math.min(target ?? (direction > 0 ? maxScroll() : 0), maxScroll()),
+                behavior: calmMotion ? "auto" : "smooth"
+            });
+        };
+
+        arrows.forEach((arrow) => {
+            arrow.addEventListener("click", () => step(Number(arrow.dataset.direction)));
+        });
+
+        // Turn vertical wheel/trackpad scrolling over the gallery into horizontal scrolling.
+        // Once the gallery reaches either end, the page scrolls as usual.
+        gallery.addEventListener("wheel", (event) => {
+            if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) return;
+
+            const delta = event.deltaMode === 1 ? event.deltaY * 16 : event.deltaY;
+            const atStart = gallery.scrollLeft <= 1;
+            const atEnd = gallery.scrollLeft >= maxScroll() - 1;
+            if ((delta < 0 && atStart) || (delta > 0 && atEnd)) return;
+
+            event.preventDefault();
+            gallery.scrollLeft += delta;
+        }, { passive: false });
+
+        gallery.addEventListener("scroll", update, { passive: true });
+        window.addEventListener("resize", update);
+        update();
+    });
+};
+
 libraryAccordion();
+libraryGallery();
