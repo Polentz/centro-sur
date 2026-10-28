@@ -55,23 +55,21 @@ a:focus-visible {
 }
 
 .menu {
+    width: auto;
     position: fixed;
     top: 32px;
     right: 64px;
+    bottom: unset;
+    left: unset;
     display: flex;
     flex-direction: column;
-    font-size: 14px;
-    letter-spacing: 0.08em;
+    justify-content: start;
+    padding: 0;
     z-index: 100;
 }
 
-.visually-hidden {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip-path: inset(50%);
-    white-space: nowrap;
+.menu a {
+    text-align: end;
 }
 
 .section {
@@ -126,7 +124,10 @@ a:focus-visible {
     position: fixed;
     bottom: 0;
     left: 0;
+    display: block;
     padding: 32px;
+    border-top: none;
+    background: transparent;
 }
 
 .footer p {

@@ -1,6 +1,6 @@
 extends: pages/library
 title: Projects
-icon: calendar
+icon: folder
 
 options: 
   changeSlug: true

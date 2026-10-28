@@ -78,6 +78,7 @@ columns:
                 type: url
                 required: true
       additional:
+        label: Additional Pages
         type: pages
         templates: 
           - text
