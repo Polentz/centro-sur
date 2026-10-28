@@ -355,13 +355,13 @@ const accordion = () => {
         if (paths.length && window.DrawSVGPlugin) {
             gsap.killTweensOf(paths);
             gsap.fromTo(paths, { drawSVG: "0%" }, { drawSVG: "100%", duration: 1.2, delay: 0.2, ease: "power1.inOut" });
-        }
+        };
 
-        const img = panel.querySelector("img");
-        if (img) {
-            gsap.killTweensOf(img);
-            gsap.fromTo(img, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.6, delay: 0.2, ease: "power1.out" });
-        }
+        const images = panel.querySelectorAll("img");
+        if (images.length) {
+            gsap.killTweensOf(images);
+            gsap.fromTo(images, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.8, delay: 0.2, ease: "power1.out", stagger: 0.08 });
+        };
     };
 
     if (!calmMotion && window.gsap && window.ScrollTrigger) {
@@ -384,19 +384,12 @@ const accordion = () => {
             once: true,
             onEnter: revealIn
         });
-    }
+    };
 
     rows.forEach((row) => {
-        row.addEventListener("click", () => {
+        row.addEventListener("click", (e) => {
             const opening = row.getAttribute("aria-expanded") !== "true";
-
-            // One title open at a time
             rows.forEach((other) => setOpen(other, other === row && opening));
-
-            // if (opening) {
-            //     reveal(panelOf(row));
-            //     window.scrollTo({ top: 0, behavior: calmMotion ? "auto" : "smooth" });
-            // }
             if (opening) reveal(panelOf(row));
         });
     });
