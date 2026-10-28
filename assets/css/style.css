@@ -377,7 +377,7 @@ main[data-snap] .section {
 }
 
 @media (hover: hover) and (pointer: fine) {
-    .index-gallery {
+    .index-gallery.is-draggable {
         cursor: grab;
     }
 

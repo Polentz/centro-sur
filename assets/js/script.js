@@ -551,6 +551,9 @@ const gallery = () => {
         let drag = null;
         let dragged = false;
 
+        // Galleries with a single image never get here (no arrows), so they keep the default cursor
+        gallery.classList.add("is-draggable");
+
         const nearest = () => {
             const end = maxScroll();
             const offsets = [...gallery.children].map((slide) => Math.min(slide.offsetLeft, end));
