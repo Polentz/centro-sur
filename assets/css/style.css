@@ -599,13 +599,16 @@ main[data-snap] .section {
     }
 
     .section {
-        --logo-unit: min(0.1vw, 0.05svh);
-        min-height: 100vh;
+        min-height: unset;
         grid-template-columns: 1fr;
         grid-template-rows: auto auto auto;
         align-content: center;
         row-gap: 40px;
-        padding: 120px 24px 80px 24px;
+        padding: 64px 24px;
+    }
+
+    .section:first-of-type {
+        padding-top: 200px;
     }
 
     .section-logo {
@@ -638,8 +641,9 @@ main[data-snap] .section {
         background-color: transparent;
     }
 
-    .index-section {
-        padding: 160px 24px 120px;
+    .index-section,
+    .index-section:only-child {
+        padding: 200px 24px 120px;
     }
 
     .index-row {
@@ -698,6 +702,15 @@ main[data-snap] .section {
 
     .index-panel-illustration {
         padding-top: 0;
+    }
+
+    .index-counter.hidden {
+        display: none;
+    }
+
+    .search-wrapper:has(.search-input.visible),
+    .search-input.visible {
+        width: 100%;
     }
 
     .footer {

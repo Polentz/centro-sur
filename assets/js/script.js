@@ -237,6 +237,7 @@ const searchTool = () => {
     const opener = document.querySelector(".search-label");
     const elements = document.querySelectorAll(".search-input, .search-reset");
     const input = document.querySelector(".search-input");
+    const counter = document.querySelector(".index-counter");
     const wrapper = document.querySelector(".search-wrapper");
     const close = document.querySelector(".search-reset");
     const searchLocation = "?q=";
@@ -250,6 +251,7 @@ const searchTool = () => {
         elements.forEach(el => {
             el.classList.add("visible");
         });
+        counter.classList.add("hidden");
         gsap.to(elements, {
             opacity: 1,
             duration: 0.5,
@@ -266,6 +268,7 @@ const searchTool = () => {
                 elements.forEach(el => {
                     el.classList.remove("visible");
                 });
+                counter.classList.remove("hidden");
                 opener.classList.remove("hidden");
             },
         });

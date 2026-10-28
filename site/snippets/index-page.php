@@ -14,7 +14,7 @@ $list = $results->isNotEmpty() ? $results : $items;
             <?php if ($items->isNotEmpty()): ?>
                 <section class="section index-section">
                     <div class="index-heading">
-                        <p><?= $page->title()->esc() ?> · <?= $items->count() ?>     <?= t($count) ?></p>
+                        <p class="index-counter"><?= $page->title()->esc() ?> · <?= $items->count() ?>     <?= t($count) ?></p>
                         <form class="search-wrapper" action="<?= $page->url() ?>" autocomplete="off">
                             <?php if ($results->isEmpty()): ?>
                                 <p class="search-null">
