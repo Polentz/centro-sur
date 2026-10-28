@@ -16,27 +16,25 @@ $results = $items
             <?php foreach ($page->sections()->toBlocks()->values() as $index => $block): ?>
                 <?= snippet('blocks/split', ['block' => $block, 'index' => $index]) ?>
             <?php endforeach ?>
-
-            <section class="library-index">
-                <div class="library-heading">
-                    <p><?= $page->title()->esc() ?> · <?= $items->count() ?> <?= t('library.items') ?></p>
-                    <form class="search-wrapper" action="<?= $page->url() ?>" autocomplete="off">
-                        <?php if ($results->isEmpty()): ?>
-                            <p class="search-null">
-                                <?= t('search.null') ?>
-                            </p>
-                            <input id="search" type="search" class="search-input null" name="q" value="<?= $query ?>">
-                        <?php else: ?>
-                            <input id="search" type="search" class="search-input" name="q" value="<?= $query ?>">
-                        <?php endif ?>
-                        <label for="search" class="search-label">
-                            <span><?= t('library.search') ?></span>
-                        </label>
-                        <a href="<?= $page->url() ?>" type="reset" class="search-reset">Clear</a>
-                    </form>
-                </div>
-
-                <?php if ($items->isNotEmpty()): ?>
+            <?php if ($items->isNotEmpty()): ?>
+                <section class="library-index">
+                    <div class="library-heading">
+                        <p><?= $page->title()->esc() ?> · <?= $items->count() ?>     <?= t('library.items') ?></p>
+                        <form class="search-wrapper" action="<?= $page->url() ?>" autocomplete="off">
+                            <?php if ($results->isEmpty()): ?>
+                                <p class="search-null">
+                                    <?= t('search.null') ?>
+                                </p>
+                                <input id="search" type="search" class="search-input null" name="q" value="<?= $query ?>">
+                            <?php else: ?>
+                                <input id="search" type="search" class="search-input" name="q" value="<?= $query ?>">
+                            <?php endif ?>
+                            <label for="search" class="search-label">
+                                <span><?= t('library.search') ?></span>
+                            </label>
+                            <a href="<?= $page->url() ?>" type="reset" class="search-reset">Clear</a>
+                        </form>
+                    </div>
                     <ul class="library-list">
                         <?php if ($query): ?>
                             <?php if ($results->isNotEmpty()): ?>
@@ -54,8 +52,8 @@ $results = $items
                             <?php endforeach ?>
                         <?php endif ?>
                     </ul>
-                <?php endif ?>
-            </section>
+                </section>
+            <?php endif ?>
         </main>
         <?= snippet('footer') ?>
     </div>
