@@ -543,6 +543,69 @@ const gallery = () => {
             arrow.addEventListener("click", () => step(Number(arrow.dataset.direction)));
         });
 
+        // Grab and drag with the mouse to scroll (touch screens already swipe natively).
+        // On release the gallery settles on the nearest image. Dragging only scrolls,
+        // in either layout: expanding and restoring the layout stays with the arrows.
+        const DRAG_START = 5;
+        const SWIPE = 60;
+        let drag = null;
+        let dragged = false;
+
+        const nearest = () => {
+            const end = maxScroll();
+            const offsets = [...gallery.children].map((slide) => Math.min(slide.offsetLeft, end));
+            return offsets.reduce((best, left) =>
+                Math.abs(left - gallery.scrollLeft) < Math.abs(best - gallery.scrollLeft) ? left : best, 0);
+        };
+
+        gallery.addEventListener("pointerdown", (e) => {
+            if (e.pointerType !== "mouse" || e.button !== 0 || busy) return;
+            if (window.gsap) gsap.killTweensOf(scroll);
+            drag = { x: e.clientX, left: gallery.scrollLeft, moved: false };
+        });
+
+        gallery.addEventListener("pointermove", (e) => {
+            if (!drag) return;
+            const dx = e.clientX - drag.x;
+            if (!drag.moved) {
+                if (Math.abs(dx) < DRAG_START) return;
+                drag.moved = true;
+                gallery.setPointerCapture(e.pointerId);
+                gallery.classList.add("is-dragging");
+            }
+            gallery.scrollLeft = drag.left - dx;
+        });
+
+        const endDrag = (e) => {
+            if (!drag) return;
+            const { x, left, moved } = drag;
+            drag = null;
+            gallery.classList.remove("is-dragging");
+            if (!moved) return;
+
+            dragged = true;
+            const dx = e.clientX - x;
+            const direction = dx < 0 ? 1 : -1;
+            const swiped = Math.abs(dx) > SWIPE;
+
+            // A short drag that would settle back on the same image moves one image instead
+            const target = nearest();
+            glide(swiped && Math.abs(target - left) <= 1 ? targetOf(direction) : target);
+        };
+
+        window.addEventListener("pointerup", endDrag);
+        gallery.addEventListener("pointercancel", endDrag);
+
+        // A drag shouldn't also count as a click, or drag the image out as a file
+        gallery.addEventListener("click", (e) => {
+            if (!dragged) return;
+            dragged = false;
+            e.preventDefault();
+            e.stopPropagation();
+        }, true);
+        gallery.addEventListener("pointerdown", () => { dragged = false; });
+        gallery.addEventListener("dragstart", (e) => e.preventDefault());
+
         gallery.addEventListener("scroll", update, { passive: true });
         window.addEventListener("resize", update);
         desktop.addEventListener("change", reset);

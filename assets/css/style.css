@@ -376,6 +376,18 @@ main[data-snap] .section {
     display: none;
 }
 
+@media (hover: hover) and (pointer: fine) {
+    .index-gallery {
+        cursor: grab;
+    }
+
+    .index-gallery.is-dragging {
+        cursor: grabbing;
+        -webkit-user-select: none;
+        user-select: none;
+    }
+}
+
 .index-gallery-nav {
     display: flex;
     justify-content: flex-end;
