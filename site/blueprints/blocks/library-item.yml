@@ -21,7 +21,7 @@ fields:
     label: Format
     type: text
     width: 1/4
-    placeholder: Book, Catalogue, Zine…
+    placeholder: Book, Catalogue, Zine, …
   info:
     label: Bibliographic information
     type: text
@@ -38,16 +38,14 @@ fields:
     nodes:
       - bulletList
       - orderedList
-    nodes: false
   link:
     label: External link
     type: url
     translate: false
   illustration:
-    label: Image
+    label: Images
     type: files
-    # max: 1
-    # multiple: false
+    help: Upload or select here one or more images that you want to include in your gallery.
     translate: false
     template: illustration
     uploads: illustration
