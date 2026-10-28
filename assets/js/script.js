@@ -245,14 +245,12 @@ const searchTool = () => {
     if (!opener || !input || !wrapper || !close) return;
 
     const addClasses = () => {
-        gsap.set(elements, {
+        gsap.set(input, {
             opacity: 0,
         });
-        elements.forEach(el => {
-            el.classList.add("visible");
-        });
+        input.classList.add("visible");
         counter.classList.add("hidden");
-        gsap.to(elements, {
+        gsap.to(input, {
             opacity: 1,
             duration: 0.5,
             ease: "power1.out",
@@ -260,16 +258,13 @@ const searchTool = () => {
     };
 
     const removeClasses = () => {
-        gsap.to(elements, {
+        gsap.to(input, {
             opacity: 0,
             duration: 0.5,
             ease: "power1.out",
             onComplete: () => {
-                elements.forEach(el => {
-                    el.classList.remove("visible");
-                });
+                input.classList.remove("visible");
                 counter.classList.remove("hidden");
-                opener.classList.remove("hidden");
             },
         });
     };
@@ -280,6 +275,7 @@ const searchTool = () => {
 
     if (window.location.href.includes(searchLocation)) {
         addClasses();
+        close.classList.add("visible");
     };
 
     const nullMessage = document.querySelector(".search-null");

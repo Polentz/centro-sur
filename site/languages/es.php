@@ -15,6 +15,7 @@ return [
         'library.items' => 'Títulos',
         'library.search' => 'Buscar',
         'projects.items' => 'Eventos',
-        'search.null' => 'No hay resultados',
+        'search.null' => 'Sin resultados',
+        'search.reset' => 'Ver todos',
     ],
 ];

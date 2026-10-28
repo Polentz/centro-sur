@@ -14,19 +14,17 @@ $list = $results->isNotEmpty() ? $results : $items;
             <?php if ($items->isNotEmpty()): ?>
                 <section class="section index-section">
                     <div class="index-heading">
-                        <p class="index-counter"><?= $page->title()->esc() ?> · <?= $items->count() ?>     <?= t($count) ?></p>
+                        <p class="index-counter"><?= $page->title()->esc() ?> · <?= $list->count() ?>     <?= t($count) ?></p>
                         <form class="search-wrapper" action="<?= $page->url() ?>" autocomplete="off">
                             <?php if ($results->isEmpty()): ?>
-                                <p class="search-null">
-                                    <?= t('search.null') ?>
-                                </p>
+                                <p class="search-null"><?= t('search.null') ?></p>
                             <?php endif ?>
                             <input id="search" type="search" class="search-input<?= $results->isEmpty() ? ' null' : '' ?>"
                                 name="q" value="<?= esc($query ?? '', 'attr') ?>">
                             <label for="search" class="search-label">
                                 <span><?= t('library.search') ?></span>
                             </label>
-                            <a href="<?= $page->url() ?>" type="reset" class="search-reset">Clear</a>
+                            <a href="<?= $page->url() ?>" type="reset" class="search-reset"><?= t('search.reset') ?></a>
                         </form>
                     </div>
                     <ul class="index-list">

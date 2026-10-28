@@ -486,8 +486,7 @@ main[data-snap] .section {
     background-size: 0 0, 0 0;
 }
 
-.search-reset,
-.search-label.hidden {
+.search-reset {
     display: none;
 }
 
