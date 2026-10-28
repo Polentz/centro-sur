@@ -70,7 +70,7 @@ const libraryAccordion = () => {
 const libraryGallery = () => {
     const calmMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    document.querySelectorAll(".library-illustration").forEach((wrapper) => {
+    document.querySelectorAll(".library-panel-illustration").forEach((wrapper) => {
         const gallery = wrapper.querySelector(".library-gallery");
         const arrows = wrapper.querySelectorAll(".library-gallery-arrow");
         if (!gallery || !arrows.length) return;

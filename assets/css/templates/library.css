@@ -115,7 +115,7 @@
     padding-top: 8px;
 }
 
-.library-illustration {
+.library-panel-illustration {
     grid-column: 2;
     padding: 8px 0 48px;
 }
@@ -302,7 +302,7 @@
     }
 
     .library-panel-text,
-    .library-illustration {
+    .library-panel-illustration {
         grid-column: 1;
     }
 
@@ -310,7 +310,7 @@
         padding-bottom: 24px;
     }
 
-    .library-illustration {
+    .library-panel-illustration {
         padding-top: 0;
     }
 }

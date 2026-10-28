@@ -38,7 +38,7 @@ $attachments = $block->attachments()->toFiles();
                 <?php endif ?>
             </div>
             <?php if ($illustrations->isNotEmpty()): ?>
-                <div class="library-illustration">
+                <div class="library-panel-illustration">
                     <figure class="library-gallery">
                         <?php foreach ($illustrations as $illustration): ?>
                             <?= snippet('illustration', ['file' => $illustration, 'sizes' => '(max-width: 800px) 100vw, 50vw']) ?>
@@ -46,7 +46,8 @@ $attachments = $block->attachments()->toFiles();
                     </figure>
                     <?php if ($illustrations->count() > 1): ?>
                         <div class="library-gallery-nav">
-                            <button class="library-gallery-arrow" type="button" data-direction="-1" aria-label="Previous image" disabled>
+                            <button class="library-gallery-arrow" type="button" data-direction="-1" aria-label="Previous image"
+                                disabled>
                                 <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
                                     <path d="M15 4 7 12l8 8" />
                                 </svg>
