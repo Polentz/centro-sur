@@ -8,7 +8,11 @@ const libraryAccordion = () => {
 
     const setOpen = (row, open) => {
         row.setAttribute("aria-expanded", String(open));
-        panelOf(row)?.classList.toggle("is-open", open);
+        const panel = panelOf(row);
+        panel?.classList.toggle("is-open", open);
+
+        // Closing a title restores its gallery to the initial layout
+        if (!open) panel?.dispatchEvent(new CustomEvent("library:reset"));
     };
 
     const reveal = (panel) => {
@@ -69,58 +73,146 @@ const libraryAccordion = () => {
 
 const libraryGallery = () => {
     const calmMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const desktop = window.matchMedia("(min-width: 801px)");
+    const animate = !calmMotion && !!window.gsap;
+    // const ease = "power2.inOut";
 
     document.querySelectorAll(".library-panel-illustration").forEach((wrapper) => {
         const gallery = wrapper.querySelector(".library-gallery");
+        const inner = wrapper.closest(".library-panel-inner");
+        const panel = wrapper.closest(".library-panel");
+        const text = inner?.querySelector(".library-panel-text");
         const arrows = wrapper.querySelectorAll(".library-gallery-arrow");
-        if (!gallery || !arrows.length) return;
+        if (!gallery || !inner || !text || !arrows.length) return;
+
+        let busy = false;
+        const scroll = { left: 0 };
 
         const maxScroll = () => gallery.scrollWidth - gallery.clientWidth;
+        const isExpanded = () => inner.classList.contains("is-expanded");
 
-        // Dim an arrow when there is nothing more to see on its side
+        // Dim an arrow when there is nothing more to see on its side.
+        // Exceptions: "next" stays active to expand the gallery (desktop),
+        // "previous" stays active on the first image to restore it.
         const update = () => {
-            const end = maxScroll();
+            const atStart = gallery.scrollLeft <= 1;
+            const atEnd = gallery.scrollLeft >= maxScroll() - 1;
+            const canExpand = desktop.matches && !isExpanded();
             arrows.forEach((arrow) => {
-                const forward = arrow.dataset.direction === "1";
-                arrow.disabled = forward ? gallery.scrollLeft >= end - 1 : gallery.scrollLeft <= 1;
+                arrow.disabled = arrow.dataset.direction === "1"
+                    ? atEnd && !canExpand
+                    : atStart && !isExpanded();
             });
         };
 
-        // Go to the start of the previous or next image
-        const step = (direction) => {
-            const slides = [...gallery.children];
+        // Switch layout, then animate the gallery from its old size and place to the new ones
+        const morph = (expanded) => {
+            const from = wrapper.getBoundingClientRect();
+            const fromHeight = inner.offsetHeight;
+
+            inner.classList.toggle("is-expanded", expanded);
+            const to = wrapper.getBoundingClientRect();
+            const toHeight = inner.offsetHeight;
+
+            return gsap.timeline({ defaults: { duration: 0.5, ease: "power2.inOut" } })
+                .fromTo(wrapper,
+                    { x: from.left - to.left, width: from.width },
+                    { x: 0, width: to.width, clearProps: "transform,width" }, 0)
+                .fromTo(inner,
+                    { height: fromHeight },
+                    { height: toHeight, clearProps: "height" }, 0);
+        };
+
+        const expand = async () => {
+            busy = true;
+            if (animate) {
+                await gsap.to(text, { autoAlpha: 0, duration: 0.3, ease: "power1.out" });
+                await morph(true);
+            } else {
+                inner.classList.add("is-expanded");
+            }
+            busy = false;
+            update();
+        };
+
+        // Back to the initial layout, showing the first image
+        const restore = async () => {
+            busy = true;
+            if (animate) {
+                await glide(0);
+                gsap.set(text, { autoAlpha: 0 });
+                await morph(false);
+                await gsap.to(text, {
+                    autoAlpha: 1,
+                    duration: 0.3,
+                    ease: "power1.out",
+                    clearProps: "opacity,visibility"
+                });
+            } else {
+                inner.classList.remove("is-expanded");
+                gallery.scrollLeft = 0;
+            }
+            busy = false;
+            update();
+        };
+
+        // Instant reset, used when the title closes or the screen becomes mobile
+        const reset = () => {
+            if (window.gsap) {
+                gsap.killTweensOf([wrapper, inner, text, gallery, scroll]);
+                gsap.set([wrapper, inner, text, gallery], { clearProps: "all" });
+            }
+            inner.classList.remove("is-expanded");
+            gallery.scrollLeft = 0;
+            busy = false;
+            update();
+        };
+
+        // Start of the previous or next image
+        const targetOf = (direction) => {
+            const end = maxScroll();
             const current = gallery.scrollLeft;
-            const offsets = slides.map((slide) => slide.offsetLeft);
+            const offsets = [...gallery.children].map((slide) => slide.offsetLeft);
             const target = direction > 0
                 ? offsets.find((left) => left > current + 1)
                 : offsets.reverse().find((left) => left < current - 1);
+            return Math.min(target ?? (direction > 0 ? end : 0), end);
+        };
 
-            gallery.scrollTo({
-                left: Math.min(target ?? (direction > 0 ? maxScroll() : 0), maxScroll()),
-                behavior: calmMotion ? "auto" : "smooth"
+        // All arrow scrolling goes through one GSAP tween, so two scroll animations
+        // never run at the same time (native smooth scroll + GSAP made the image jump)
+        const glide = (left) => {
+            if (window.gsap) gsap.killTweensOf(scroll);
+            if (!animate) {
+                gallery.scrollLeft = left;
+                return Promise.resolve();
+            }
+            scroll.left = gallery.scrollLeft;
+            return gsap.to(scroll, {
+                left,
+                duration: 0.6,
+                ease: "power2.out",
+                onUpdate: () => { gallery.scrollLeft = scroll.left; }
             });
+        };
+
+        const scrollToTarget = (direction) => glide(targetOf(direction));
+
+        const step = async (direction) => {
+            if (busy) return;
+            if (direction > 0 && !isExpanded() && desktop.matches) return expand();
+            if (direction < 0 && isExpanded() && targetOf(direction) <= 0) return restore();
+            scrollToTarget(direction);
         };
 
         arrows.forEach((arrow) => {
             arrow.addEventListener("click", () => step(Number(arrow.dataset.direction)));
         });
 
-        // Turn vertical wheel/trackpad scrolling over the gallery into horizontal scrolling.
-        // Once the gallery reaches either end, the page scrolls as usual.
-        gallery.addEventListener("wheel", (event) => {
-            if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) return;
-
-            const delta = event.deltaMode === 1 ? event.deltaY * 16 : event.deltaY;
-            const atStart = gallery.scrollLeft <= 1;
-            const atEnd = gallery.scrollLeft >= maxScroll() - 1;
-            if ((delta < 0 && atStart) || (delta > 0 && atEnd)) return;
-
-            event.preventDefault();
-            gallery.scrollLeft += delta;
-        }, { passive: false });
-
         gallery.addEventListener("scroll", update, { passive: true });
         window.addEventListener("resize", update);
+        desktop.addEventListener("change", reset);
+        panel?.addEventListener("library:reset", reset);
         update();
     });
 };

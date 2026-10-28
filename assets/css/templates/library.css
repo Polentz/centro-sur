@@ -85,7 +85,9 @@
 .library-panel-inner {
     min-height: 0;
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    /* minmax(0, …) keeps both columns equal even when the gallery is
+       temporarily wider than its column during the restore animation */
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     align-items: start;
     -moz-column-gap: 144px;
     column-gap: 144px;
@@ -118,6 +120,17 @@
 .library-panel-illustration {
     grid-column: 2;
     padding: 8px 0 48px;
+}
+
+/* Expanded gallery: takes both columns while the text hides (desktop only) */
+@media (min-width: 801px) {
+    .library-panel-inner.is-expanded .library-panel-text {
+        display: none;
+    }
+
+    .library-panel-inner.is-expanded .library-panel-illustration {
+        grid-column: 1 / -1;
+    }
 }
 
 .library-gallery {
