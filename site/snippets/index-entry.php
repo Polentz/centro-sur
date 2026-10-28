@@ -1,15 +1,9 @@
 <?php
-/**
- * Shared accordion row + panel for list pages.
- *
- * @var \Kirby\Cms\Block $block
- * @var array $cells  Row columns, keyed by their CSS slot: title, author, format, year
- * @var string|null $info  Short line shown at the top of the panel
- */
 $panelId = 'index-panel-' . $block->id();
 $illustrations = $block->illustration()->toFiles();
 $attachments = $block->attachments()->toFiles();
 ?>
+
 <li class="index-item">
     <button class="index-row" type="button" aria-expanded="false" aria-controls="<?= $panelId ?>">
         <?php foreach ($cells as $slot => $value): ?>

@@ -407,9 +407,11 @@ const gallery = () => {
     const calmMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const desktop = window.matchMedia("(min-width: 801px)");
     const animate = !calmMotion && !!window.gsap;
-    // const ease = "power2.inOut";
+    const containers = document.querySelectorAll(".index-panel-illustration");
 
-    document.querySelectorAll(".index-panel-illustration").forEach((wrapper) => {
+    if (!containers.length) return;
+
+    containers.forEach((wrapper) => {
         const gallery = wrapper.querySelector(".index-gallery");
         const inner = wrapper.closest(".index-panel-inner");
         const panel = wrapper.closest(".index-panel");

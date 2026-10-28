@@ -1,22 +1,13 @@
 <?php
-/**
- * Shared layout for list pages (library, projects):
- * split sections on top, then a searchable accordion list of blocks.
- *
- * @var string $item    Block snippet used for each entry, e.g. 'blocks/library-item'
- * @var string $search  Block fields to search, e.g. 'title|author'
- * @var string $count   Translation key for the item count label
- */
 $items = $page->entries()->toBlocks();
 $query = get('q');
 $results = $query ? $items->search($query, $search, ['words' => true]) : $items;
-// No match: show the full list under the "no results" message
 $list = $results->isNotEmpty() ? $results : $items;
 ?>
 
 <div id="smooth-wrapper">
     <div id="smooth-content">
-        <main class="main" data-snap>
+        <main class="main">
             <?php foreach ($page->sections()->toBlocks()->values() as $index => $block): ?>
                 <?= snippet('blocks/split', ['block' => $block, 'index' => $index]) ?>
             <?php endforeach ?>

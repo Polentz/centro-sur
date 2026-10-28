@@ -1,0 +1,13 @@
+Title: Projects
+
+----
+
+Sections: [{"content":{"heading":"","text":"<p>Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.</p><p>Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.</p>","illustration":["file://ekjw6dfb66kpuplq"],"side":"auto"},"id":"6e5322ff-738e-4c88-b6aa-c1858953c325","isHidden":false,"type":"split"}]
+
+----
+
+Entries: [{"content":{"title":"Next Event at Centro Sur","participants":"Jane Doe","category":"Exhibition","date":"2026-11-26","place":"Paraguay 914","description":"<p>Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.</p>","link":"https://www.iampolenta.com/","illustration":["file://2k3ytp90q0mkxjk7","file://es7lhrsuymcxeicc","file://ugvyvuf48are99e8","file://08m9uwrokdmztaxv","file://uofnwhtboojl1ykg","file://xha0kzeutn9vwzki"],"attachments":[]},"id":"aafd8e0f-e501-493b-be6b-19f0c450ec5c","isHidden":false,"type":"event"}]
+
+----
+
+Uuid: sugwxdqedu7ogluw
