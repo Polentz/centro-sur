@@ -7,23 +7,39 @@ fields:
     label: Title
     type: text
     required: true
-  participants:
-    label: Participants
-    type: text
-    width: 1/2
-    translate: false
-  category:
-    label: Type
-    type: text
-    width: 1/4
-    placeholder: Talk, Workshop, Exhibition, …
-  date:
-    label: Date
-    type: date
-    width: 1/4
-    display: DD.MM.YYYY
-    translate: false
   place:
     label: Place
     type: text
+    width: 1 / 2
+  category:
+    label: Type
+    type: text
+    width: 1/2
+    placeholder: Talk, Workshop, Exhibition, …
+  from:
+    label: From
+    type: date
+    width: 1/2
+    display: DD.MM.YYYY
+    translate: false
+  to:
+    label: To
+    type: date
+    width: 1/2
+    display: DD.MM.YYYY
+    help: Leave empty for a single-day event
+    translate: false
+  participants:
+    label: Participants
+    type: writer
+    marks:
+      - bold
+      - italic
+      - underline
+      - link
+      - email
+      - clear
+    nodes:
+      - bulletList
+      - orderedList
   details: fields/entry-details

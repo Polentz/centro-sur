@@ -4,7 +4,7 @@
 
 <?= snippet('index-page', [
     'item' => 'blocks/event',
-    'search' => 'title|participants|category|place|date',
+    'search' => 'title|participants|category|place|from|to',
     'count' => 'projects.items',
 ]) ?>
 

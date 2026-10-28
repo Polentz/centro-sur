@@ -12,7 +12,7 @@ $list = $results->isNotEmpty() ? $results : $items;
                 <?= snippet('blocks/split', ['block' => $block, 'index' => $index]) ?>
             <?php endforeach ?>
             <?php if ($items->isNotEmpty()): ?>
-                <section class="index-section">
+                <section class="section index-section">
                     <div class="index-heading">
                         <p><?= $page->title()->esc() ?> · <?= $items->count() ?>     <?= t($count) ?></p>
                         <form class="search-wrapper" action="<?= $page->url() ?>" autocomplete="off">

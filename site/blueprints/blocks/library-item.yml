@@ -24,5 +24,15 @@ fields:
     placeholder: Book, Catalogue, Zine, …
   info:
     label: Bibliographic information
-    type: text
+    type: writer
+    marks:
+      - bold
+      - italic
+      - underline
+      - link
+      - email
+      - clear
+    nodes:
+      - bulletList
+      - orderedList
   details: fields/entry-details

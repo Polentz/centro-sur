@@ -1,0 +1,6 @@
+/* Wider date column so event ranges fit on one line */
+@media (min-width: 801px) {
+    .index-row {
+        grid-template-columns: 3fr 2fr 1fr 176px;
+    }
+}

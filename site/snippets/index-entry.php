@@ -13,14 +13,14 @@ $attachments = $block->attachments()->toFiles();
     <div class="index-panel" id="<?= $panelId ?>">
         <div class="index-panel-inner">
             <div class="index-panel-text">
-                <div class="index-info">
-                    <?php if (!empty($info)): ?>
-                        <p><?= esc($info) ?></p>
-                    <?php endif ?>
-                </div>
+                <?php if ($info->isNotEmpty()): ?>
+                    <div class="index-info">
+                        <?= $info->kt() ?>
+                    </div>
+                <?php endif ?>
                 <?php if ($block->description()->isNotEmpty()): ?>
                     <div class="index-description">
-                        <?= $block->description() ?>
+                        <?= $block->description()->kt() ?>
                     </div>
                 <?php endif ?>
                 <?php if ($block->link()->isNotEmpty() || $attachments->isNotEmpty()): ?>

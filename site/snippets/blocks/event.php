@@ -1,11 +1,21 @@
+<?php
+$from = $block->from()->isNotEmpty() ? $block->from()->toDate() : null;
+$to = $block->to()->isNotEmpty() ? $block->to()->toDate() : null;
+
+if ($from && $to && date('Y-m-d', $from) !== date('Y-m-d', $to)) {
+    $start = date('Y', $from) === date('Y', $to) ? date('d.m', $from) : date('d.m.Y', $from);
+    $dates = $start . ' – ' . date('d.m.Y', $to);
+} else {
+    $dates = ($from ?? $to) ? date('d.m.Y', $from ?? $to) : '';
+}
+?>
 <?= snippet('index-entry', [
     'block' => $block,
-    // Reuses the library columns: participants in the author slot, category in format, date in year
     'cells' => [
         'title' => $block->title()->value(),
-        'author' => $block->participants()->value(),
+        'author' => $block->place()->value(),
         'format' => $block->category()->value(),
-        'year' => $block->date()->isNotEmpty() ? $block->date()->toDate('d.m.Y') : '',
+        'year' => $dates,
     ],
-    'info' => $block->place()->value(),
+    'info' => $block->participants(),
 ]) ?>

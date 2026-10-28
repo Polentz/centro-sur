@@ -1,7 +1,7 @@
 type: group
 fields:
   attachments:
-    label: Attachments
+    label: Downloads
     type: files
     help: Upload or select here the pdf file.
     template: document

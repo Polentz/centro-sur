@@ -32,7 +32,7 @@ columns:
         image:
           back: white
       attachments:
-        label: Attachments
+        label: Downloads
         type: files
         help: Upload here the pdf files you want to use as attachments on this page.
         template: document

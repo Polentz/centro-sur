@@ -97,7 +97,7 @@ a:focus-visible {
     display: flex;
     flex-direction: column;
     align-items: end;
-    justify-content: end;
+    justify-content: start;
     gap: 4px;
 }
 
@@ -131,7 +131,7 @@ a:focus-visible {
 .section {
     position: relative;
     min-height: var(--doc-height);
-    padding: 144px 64px 64px;
+    padding: 216px 64px 144px;
 }
 
 main[data-snap] .section {
@@ -232,8 +232,8 @@ main[data-snap] .section {
     list-style: decimal;
 }
 
-.index-section {
-    padding: 280px 64px 160px;
+.index-section:only-child {
+    padding: 280px 64px 144px;
 }
 
 .index-heading {

@@ -6,5 +6,5 @@
         'format' => $block->format()->value(),
         'year' => $block->year()->value(),
     ],
-    'info' => $block->info()->value(),
+    'info' => $block->info(),
 ]) ?>
