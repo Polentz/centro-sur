@@ -14,6 +14,7 @@ return [
         'langCode' => 'en_US',
         'library.items' => 'Titles',
         'library.search' => 'Search',
+        'projects.items' => 'Events',
         'search.null' => 'No Results',
     ],
 ];

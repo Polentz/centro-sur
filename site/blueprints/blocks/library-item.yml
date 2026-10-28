@@ -25,29 +25,4 @@ fields:
   info:
     label: Bibliographic information
     type: text
-  description:
-    label: Description
-    type: writer
-    marks:
-      - bold
-      - italic
-      - underline
-      - link
-      - email
-      - clear
-    nodes:
-      - bulletList
-      - orderedList
-  link:
-    label: External link
-    type: url
-    translate: false
-  illustration:
-    label: Images
-    type: files
-    help: Upload or select here one or more images that you want to include in your gallery.
-    translate: false
-    template: illustration
-    uploads: illustration
-    query: page.images
-  attachments: fields/attachments
+  details: fields/entry-details

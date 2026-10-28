@@ -1,63 +1,12 @@
-<?php
-$items = $page->entries()->toBlocks();
-$query = get('q');
-$results = $items
-    ->when($query, function ($query) {
-        return $this->search($query, 'title|author|format|year', ['words' => true]);
-    });
-?>
 <?= snippet('head') ?>
 <?= snippet('header') ?>
 <?= snippet('nav') ?>
 
-<div id="smooth-wrapper">
-    <div id="smooth-content">
-        <main class="main" data-snap>
-            <?php foreach ($page->sections()->toBlocks()->values() as $index => $block): ?>
-                <?= snippet('blocks/split', ['block' => $block, 'index' => $index]) ?>
-            <?php endforeach ?>
-            <?php if ($items->isNotEmpty()): ?>
-                <section class="library-index">
-                    <div class="library-heading">
-                        <p><?= $page->title()->esc() ?> · <?= $items->count() ?>     <?= t('library.items') ?></p>
-                        <form class="search-wrapper" action="<?= $page->url() ?>" autocomplete="off">
-                            <?php if ($results->isEmpty()): ?>
-                                <p class="search-null">
-                                    <?= t('search.null') ?>
-                                </p>
-                                <input id="search" type="search" class="search-input null" name="q" value="<?= $query ?>">
-                            <?php else: ?>
-                                <input id="search" type="search" class="search-input" name="q" value="<?= $query ?>">
-                            <?php endif ?>
-                            <label for="search" class="search-label">
-                                <span><?= t('library.search') ?></span>
-                            </label>
-                            <a href="<?= $page->url() ?>" type="reset" class="search-reset">Clear</a>
-                        </form>
-                    </div>
-                    <ul class="library-list">
-                        <?php if ($query): ?>
-                            <?php if ($results->isNotEmpty()): ?>
-                                <?php foreach ($results as $result): ?>
-                                    <?= snippet('blocks/library-item', ['block' => $result]) ?>
-                                <?php endforeach ?>
-                            <?php elseif ($results->isEmpty()): ?>
-                                <?php foreach ($items as $item): ?>
-                                    <?= snippet('blocks/library-item', ['block' => $item]) ?>
-                                <?php endforeach ?>
-                            <?php endif ?>
-                        <?php else: ?>
-                            <?php foreach ($items as $item): ?>
-                                <?= snippet('blocks/library-item', ['block' => $item]) ?>
-                            <?php endforeach ?>
-                        <?php endif ?>
-                    </ul>
-                </section>
-            <?php endif ?>
-        </main>
-        <?= snippet('footer') ?>
-    </div>
-</div>
+<?= snippet('index-page', [
+    'item' => 'blocks/library-item',
+    'search' => 'title|author|format|year',
+    'count' => 'library.items',
+]) ?>
 
 <?= snippet('language-menu') ?>
 <?= snippet('foot') ?>

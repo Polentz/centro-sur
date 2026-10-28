@@ -1,0 +1,29 @@
+name: Event
+icon: calendar
+label: "{{ title }}"
+
+fields:
+  title:
+    label: Title
+    type: text
+    required: true
+  participants:
+    label: Participants
+    type: text
+    width: 1/2
+    translate: false
+  category:
+    label: Type
+    type: text
+    width: 1/4
+    placeholder: Talk, Workshop, Exhibition, …
+  date:
+    label: Date
+    type: date
+    width: 1/4
+    display: DD.MM.YYYY
+    translate: false
+  place:
+    label: Place
+    type: text
+  details: fields/entry-details

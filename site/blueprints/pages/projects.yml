@@ -1,0 +1,16 @@
+extends: pages/library
+title: Projects
+icon: calendar
+
+columns:
+  main:
+    sections:
+      content:
+        fields:
+          sections:
+            empty: No sections yet. They are shown above the events.
+          entries:
+            label: Events
+            fieldsets:
+              - event
+            empty: No events yet
