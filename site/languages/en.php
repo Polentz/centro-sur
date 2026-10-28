@@ -16,5 +16,6 @@ return [
         'library.search' => 'Search',
         'projects.items' => 'Events',
         'search.null' => 'No Results',
+        'search.reset' => 'Reset',
     ],
 ];
