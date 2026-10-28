@@ -13,6 +13,7 @@ columns:
       pages:
         type: pages
         templates: 
+          - home
           - page
           - library
           - projects

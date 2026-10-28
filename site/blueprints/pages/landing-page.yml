@@ -1,5 +1,19 @@
 title: Landing Page
 
+options: 
+  changeSlug: true
+  changeStatus: true
+  changeTemplate: true
+  cheangeTitle: true
+  create: false
+  delete: true
+  duplicate: false
+  list: true
+  move: false
+  preview: true
+  sort: true
+  update: true
+
 columns:
   main:
     width: 2/3

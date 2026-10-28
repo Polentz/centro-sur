@@ -1,6 +1,23 @@
-title: Content page
+title: Text page
 image: icon
 icon: page
+
+options: 
+  changeSlug: true
+  changeStatus: true
+  changeTemplate: 
+    - page
+    - library
+    - projects
+  cheangeTitle: true
+  create: true
+  delete: true
+  duplicate: true
+  list: true
+  move: false
+  preview: true
+  sort: true
+  update: true
 
 columns:
   main:

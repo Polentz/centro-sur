@@ -2,6 +2,22 @@ extends: pages/library
 title: Projects
 icon: calendar
 
+options: 
+  changeSlug: true
+  changeStatus: true
+  changeTemplate: 
+    - page
+    - library
+  cheangeTitle: true
+  create: true
+  delete: true
+  duplicate: true
+  list: true
+  move: false
+  preview: true
+  sort: true
+  update: true
+
 columns:
   main:
     sections:

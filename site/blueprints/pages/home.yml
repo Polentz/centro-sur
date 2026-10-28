@@ -2,4 +2,20 @@ title: Home
 image: icon
 icon: page
 
+options: 
+  changeSlug: false
+  changeStatus: false
+  changeTemplate: 
+    - library
+    - projects
+  cheangeTitle: true
+  create: false
+  delete: false
+  duplicate: false
+  list: true
+  move: false
+  preview: true
+  sort: false
+  update: true
+
 extends: pages/page

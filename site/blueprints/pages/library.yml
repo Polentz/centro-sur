@@ -2,6 +2,22 @@ title: Library
 image: icon
 icon: book
 
+options: 
+  changeSlug: true
+  changeStatus: true
+  changeTemplate: 
+    - page
+    - projects
+  cheangeTitle: true
+  create: true
+  delete: true
+  duplicate: true
+  list: true
+  move: false
+  preview: true
+  sort: true
+  update: true
+
 columns:
   main:
     width: 2/3
