@@ -5,7 +5,7 @@
         </a>
     </h1>
     <ul class="nav-wrapper">
-        <?php foreach ($site->children()->listed()->not('home')->filterBy('intendedTemplate', '!=', 'text') as $page): ?>
+        <?php foreach ($site->children()->listed()->not('home')->filterBy('intendedTemplate', 'not in', ['text', 'landing-page']) as $page): ?>
             <li class="nav-item">
                 <a href="<?= $page->url() ?>" <?= $page->isOpen() ? ' aria-current="page"' : '' ?>><?= $page->title()->esc() ?></a>
             </li>

@@ -24,8 +24,11 @@ use Kirby\Toolkit\I18n;
     <?php if ($ogImage = $site->ogimage()->toFile()): ?>
         <meta property="og:image" content="<?= $ogImage->url() ?>">
     <?php endif ?>
-    <meta name="robots" content="noindex,nofollow">
-    <!-- <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"> -->
+    <?php if (!$site->launched()->toBool() || $page->intendedTemplate()->name() === 'landing-page'): ?>
+        <meta name="robots" content="noindex,nofollow">
+    <?php else: ?>
+        <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <?php endif ?>
     <?php if ($favicon = $site->favicon()->toFile()): ?>
         <link href="<?= $favicon->url() ?>" rel="shortcut icon" type="image/x-icon">
         <link href="<?= $favicon->url() ?>" rel="apple-touch-icon">
