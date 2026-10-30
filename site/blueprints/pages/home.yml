@@ -15,7 +15,7 @@ options:
   list: true
   move: false
   preview: true
-  sort: false
+  sort: true
   update: true
 
 extends: pages/page

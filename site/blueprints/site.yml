@@ -46,7 +46,7 @@ columns:
           footerHeadline:
             label: Footer
             type: headline
-            # help: Shown at the bottom of every page. The copyright year updates automatically.
+            help: Shown at the bottom of every page. The copyright year updates automatically.
           address:
             label: Address
             type: textarea
