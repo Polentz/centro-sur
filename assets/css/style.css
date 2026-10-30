@@ -168,7 +168,7 @@ main[data-snap] .section {
 .section-text {
     position: relative;
     z-index: 1;
-    padding: 64px;
+    padding: 0 64px;
 }
 
 .section-text p:not(:last-of-type) {
@@ -196,11 +196,11 @@ main[data-snap] .section {
 .split-section div.section-text:only-child {
     grid-column: 1 / 3;
     margin: 0 auto;
-    background-color: var(--color-white);
 }
 
 .split-section div.section-text:only-child {
     width: calc(50vw - 144px);
+    background-color: var(--color-white);
 }
 
 .section-heading {
@@ -566,6 +566,14 @@ main[data-snap] .section {
         column-gap: 112px;
         padding-left: 32px;
         padding-right: 32px;
+    }
+}
+
+@media (max-width: 960px) {
+
+    html,
+    body {
+        font-size: 20px;
     }
 }
 
