@@ -10,7 +10,7 @@ use Kirby\Toolkit\I18n;
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>
-        <?= $page->isHomePage() ? $site->title()->esc() : $page->title()->esc() . ($site->title()->isNotEmpty() ? ' · ' . $site->title()->esc() : '') ?>
+        <?= $page->isHomePage() || $page->intendedTemplate()->name() === 'landing-page' ? $site->title()->esc() : $page->title()->esc() . ($site->title()->isNotEmpty() ? ' · ' . $site->title()->esc() : '') ?>
     </title>
     <meta name="description" content="<?= $site->description() ?>">
     <link rel="canonical" href="<?= $page->url() ?>">
@@ -24,7 +24,7 @@ use Kirby\Toolkit\I18n;
     <?php if ($ogImage = $site->ogimage()->toFile()): ?>
         <meta property="og:image" content="<?= $ogImage->url() ?>">
     <?php endif ?>
-    <?php if (!$site->launched()->toBool() || $page->intendedTemplate()->name() === 'landing-page'): ?>
+    <?php if ($site->isReview() || !$site->launched()->toBool() || $page->intendedTemplate()->name() === 'landing-page'): ?>
         <meta name="robots" content="noindex,nofollow">
     <?php else: ?>
         <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">

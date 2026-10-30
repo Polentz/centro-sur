@@ -2,6 +2,10 @@ Title: Centro Sur
 
 ----
 
+Launched: false
+
+----
+
 Address:
 
 Paraguay 914
@@ -27,3 +31,7 @@ Socials:
   platform: substack
   label: ""
   url: https://www.iampolenta.com/
+
+----
+
+Reviewkey: review

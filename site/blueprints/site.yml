@@ -29,6 +29,17 @@ columns:
   sidebar:
     width: 1/3
     sections:
+      launch:
+        type: fields
+        fields:
+          launched:
+            label: Website is live
+            type: toggle
+            text:
+              - "No – visitors see the landing page"
+              - "Yes – visitors see the full website"
+            translate: false
+            help: "While off, the public address shows the landing page. The full site is always available for review at <code>review.</code> + your domain."
       footer:
         type: fields
         fields:
