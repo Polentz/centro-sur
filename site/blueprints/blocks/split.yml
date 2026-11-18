@@ -23,6 +23,11 @@ fields:
     nodes:
       - bulletList
       - orderedList
+  gallery:
+    label: Gallery
+    type: files
+    translate: false
+    help: Optional. A gallery of images to show as thumbnails below the text.
   illustration:
     label: Illustration
     type: files

@@ -18,6 +18,13 @@ $illustration = $block->illustration()->toFile();
             <?php if ($block->text()->isNotEmpty()): ?>
                 <?= $block->text() ?>
             <?php endif ?>
+            <?php if ($block->gallery()->isNotEmpty()): ?>
+                <div class="section-gallery">
+                    <?php foreach ($block->gallery()->toFiles() as $file): ?>
+                        <?= snippet('illustration', ['file' => $file]) ?>
+                    <?php endforeach ?>
+                </div>
+            <?php endif ?>
         </div>
     <?php endif ?>
 </section>

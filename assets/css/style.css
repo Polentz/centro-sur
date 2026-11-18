@@ -177,6 +177,30 @@ a:focus-visible {
     padding-bottom: 24px;
 }
 
+.section-gallery {
+    position: relative;
+    display: flex;
+    overflow-x: scroll;
+    scrollbar-width: none;
+    gap: 24px;
+    padding-top: 24px;
+}
+
+.section-gallery img {
+    display: block;
+    width: 80px;
+    height: auto;
+    stroke: var(--color-black);
+    stroke-width: 2px;
+    fill: var(--color-white);
+    overflow: visible;
+    filter: grayscale(1);
+    transition: filter 0.3s ease;
+}
+
+.section-gallery img:hover {
+    filter: grayscale(0);
+}
 
 .split-section .section-logo {
     grid-column: 1;
