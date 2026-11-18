@@ -611,6 +611,94 @@ const gallery = () => {
     });
 };
 
+// Hero slideshow: crossfades between featured items inside the frame.
+// Arrows, keyboard arrows and swipe move between slides; auto-advance
+// (data-autoplay, in ms) pauses on hover/focus and while off screen.
+const heroSlideshow = () => {
+    const calmMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    document.querySelectorAll(".hero-frame[data-slideshow]").forEach((frame) => {
+        const slides = [...frame.querySelectorAll(".hero-slide")];
+        const counter = frame.querySelector(".hero-current");
+        const delay = calmMotion ? 0 : Number(frame.dataset.autoplay) || 0;
+        if (slides.length < 2) return;
+
+        let current = 0;
+        let timer = null;
+        let hovered = false;
+        let focused = false;
+        let visible = true;
+
+        const draw = (slide) => {
+            if (calmMotion || !window.gsap || !window.DrawSVGPlugin) return;
+            const shapes = slide.querySelectorAll([
+                "path", "line", "circle", "rect", "polyline", "polygon", "ellipse"
+            ].map((shape) => `.hero-media svg ${shape}`).join(", "));
+            if (!shapes.length) return;
+            gsap.killTweensOf(shapes);
+            gsap.fromTo(shapes, { drawSVG: "0%" }, { drawSVG: "100%", duration: 1.6, ease: "power1.inOut" });
+        };
+
+        const show = (index) => {
+            current = (index + slides.length) % slides.length;
+            slides.forEach((slide, i) => {
+                const active = i === current;
+                slide.classList.toggle("is-active", active);
+                slide.inert = !active;
+            });
+            if (counter) counter.textContent = String(current + 1).padStart(2, "0");
+            draw(slides[current]);
+        };
+
+        const restart = () => {
+            clearInterval(timer);
+            if (!delay || hovered || focused || !visible) return;
+            timer = setInterval(() => show(current + 1), delay);
+        };
+
+        const step = (direction) => {
+            show(current + direction);
+            restart();
+        };
+
+        frame.querySelectorAll(".hero-arrow").forEach((arrow) => {
+            arrow.addEventListener("click", () => step(Number(arrow.dataset.direction)));
+        });
+
+        frame.addEventListener("keydown", (e) => {
+            if (e.key === "ArrowLeft") step(-1);
+            if (e.key === "ArrowRight") step(1);
+        });
+
+        // Swipe on touch screens
+        let startX = null;
+        frame.addEventListener("pointerdown", (e) => {
+            if (e.pointerType !== "mouse") startX = e.clientX;
+        });
+        frame.addEventListener("pointerup", (e) => {
+            if (startX === null) return;
+            const distance = e.clientX - startX;
+            startX = null;
+            if (Math.abs(distance) > 50) step(distance < 0 ? 1 : -1);
+        });
+        frame.addEventListener("pointercancel", () => { startX = null; });
+
+        frame.addEventListener("mouseenter", () => { hovered = true; restart(); });
+        frame.addEventListener("mouseleave", () => { hovered = false; restart(); });
+        frame.addEventListener("focusin", () => { focused = true; restart(); });
+        frame.addEventListener("focusout", (e) => {
+            if (frame.contains(e.relatedTarget)) return;
+            focused = false;
+            restart();
+        });
+
+        new IntersectionObserver(([entry]) => {
+            visible = entry.isIntersecting;
+            restart();
+        }).observe(frame);
+    });
+};
+
 history.scrollRestoration = "manual";
 
 documentHeight();
@@ -620,5 +708,6 @@ languageMenu();
 searchTool();
 accordion();
 gallery();
+heroSlideshow();
 
 window.addEventListener("resize", documentHeight);

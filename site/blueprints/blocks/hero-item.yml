@@ -1,0 +1,51 @@
+name: Featured item
+icon: image
+label: "{{ title }}"
+
+fields:
+  label:
+    label: Label
+    type: text
+    width: 1/2
+    placeholder: Upcoming, New, Now open, …
+    help: Optional. Shown above the title in small capitals.
+  title:
+    label: Title
+    type: text
+    required: true
+  text:
+    label: Text
+    type: writer
+    marks:
+      - bold
+      - italic
+      - underline
+      - link
+      - email
+      - clear
+    nodes: false
+  link:
+    label: Link
+    type: link
+    width: 1/2
+    translate: false
+    options:
+      - page
+      - url
+      - file
+      - email
+  linkText:
+    label: Link text
+    type: text
+    width: 1/2
+    placeholder: Learn more
+  image:
+    label: Image
+    type: files
+    max: 1
+    multiple: false
+    translate: false
+    template: illustration
+    uploads: illustration
+    query: page.images
+    help: SVG line drawing, or a JPEG, PNG or WebP image. Shown on the left.

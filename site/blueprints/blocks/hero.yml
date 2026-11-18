@@ -1,0 +1,25 @@
+name: Hero
+icon: star
+label: "{{ items.toBlocks.first.title.or('Hero') }}"
+preview: fields
+wysiwyg: true
+
+fields:
+  items:
+    label: Featured
+    type: blocks
+    empty: Nothing featured yet
+    help: With more than one item, the hero becomes a slideshow. Drag to change the order.
+    fieldsets:
+      - hero-item
+  autoplay:
+    label: Auto-advance
+    type: toggles
+    translate: false
+    default: "4"
+    options:
+      "0": "Off"
+      "4": 4 s
+      "8": 8 s
+      "12": 12 s
+    help: Only for slideshows. Pauses while visitors hover or use the arrows.
