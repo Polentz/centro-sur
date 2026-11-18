@@ -677,7 +677,29 @@ const sectionGallery = () => {
                 close?.classList.toggle("is-visible", open);
             }
             busy = false;
+            if (!inView && isOpen()) closeOffscreen();
         };
+
+        const closeOffscreen = () => {
+            if (busy || !isOpen()) return;
+            const above = section.getBoundingClientRect().bottom <= 0;
+            const before = section.offsetHeight;
+            section.classList.remove("is-gallery-open");
+            close?.classList.remove("is-visible");
+            document.removeEventListener("keydown", onKeydown);
+            const delta = section.offsetHeight - before;
+            if (above && delta) {
+                const smoother = window.ScrollSmoother?.get();
+                if (smoother) smoother.scrollTo(smoother.scrollTop() + delta, false);
+                else window.scrollBy(0, delta);
+            }
+        };
+
+        let inView = true;
+        new IntersectionObserver(([entry]) => {
+            inView = entry.isIntersecting;
+            if (!inView) closeOffscreen();
+        }).observe(section);
 
         close?.addEventListener("click", () => toggle(false));
 
