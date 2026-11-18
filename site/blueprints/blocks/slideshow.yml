@@ -8,10 +8,10 @@ fields:
   items:
     label: Featured
     type: blocks
-    empty: Nothing featured yet
-    help: With more than one item, the featured becomes a slideshow. Drag to change the order.
+    empty: Nothing slideshow yet
+    help: With more than one item, the slideshow becomes a slideshow. Drag to change the order.
     fieldsets:
-      - featured-item
+      - slideshow-item
   autoplay:
     label: Auto-advance
     type: toggles

@@ -13,7 +13,7 @@ $snap = $sections->filterBy('type', 'index')->isEmpty();
             <?php foreach ($sections as $block): ?>
                 <?php
                 // Position among sections of the same type, so split sections keep
-                // alternating sides even when a featured or index sits between them
+                // alternating sides even when a slideshow or index sits between them
                 $index = $counts[$block->type()] = ($counts[$block->type()] ?? -1) + 1;
                 ?>
                 <?= snippet('blocks/' . $block->type(), ['block' => $block, 'index' => $index]) ?>

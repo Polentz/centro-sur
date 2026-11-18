@@ -8,8 +8,6 @@ const documentHeight = () => {
 };
 
 const scrollEffects = () => {
-    // Pages without the smooth-scroll wrapper (e.g. the Library, which needs
-    // position: sticky) skip smoothing, parallax and reveals
     const hasSmoothWrapper = document.querySelector("#smooth-wrapper") !== null;
     if (reduceMotion || !hasSmoothWrapper) return;
 
@@ -233,14 +231,12 @@ const languageMenu = () => {
     });
 };
 
-// Every Index section has its own search form, so each one is set up on its own
 const searchTool = () => {
     document.querySelectorAll(".search-wrapper").forEach((wrapper) => {
         const opener = wrapper.querySelector(".search-label");
         const input = wrapper.querySelector(".search-input");
         const close = wrapper.querySelector(".search-reset");
         const counter = wrapper.closest(".index-heading")?.querySelector(".index-counter");
-        // Set server-side when this section's search is applied
         const isActive = wrapper.classList.contains("is-active");
 
         if (!opener || !input || !close) return;
@@ -611,12 +607,12 @@ const gallery = () => {
     });
 };
 
-const heroSlideshow = () => {
+const slideshow = () => {
     const calmMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    document.querySelectorAll(".featured-frame[data-slideshow]").forEach((frame) => {
-        const slides = [...frame.querySelectorAll(".featured-slide")];
-        const counter = frame.querySelector(".featured-current");
+    document.querySelectorAll(".slideshow-frame[data-slideshow]").forEach((frame) => {
+        const slides = [...frame.querySelectorAll(".slideshow-slide")];
+        const counter = frame.querySelector(".slideshow-current");
         const delay = calmMotion ? 0 : Number(frame.dataset.autoplay) || 0;
         if (slides.length < 2) return;
 
@@ -630,7 +626,7 @@ const heroSlideshow = () => {
             if (calmMotion || !window.gsap || !window.DrawSVGPlugin) return;
             const shapes = slide.querySelectorAll([
                 "path", "line", "circle", "rect", "polyline", "polygon", "ellipse"
-            ].map((shape) => `.featured-media svg ${shape}`).join(", "));
+            ].map((shape) => `.slideshow-media svg ${shape}`).join(", "));
             if (!shapes.length) return;
             gsap.killTweensOf(shapes);
             gsap.fromTo(shapes, { drawSVG: "0%" }, { drawSVG: "100%", duration: 1.6, ease: "power1.inOut" });
@@ -658,7 +654,7 @@ const heroSlideshow = () => {
             restart();
         };
 
-        frame.querySelectorAll(".featured-arrow").forEach((arrow) => {
+        frame.querySelectorAll(".slideshow-arrow").forEach((arrow) => {
             arrow.addEventListener("click", () => step(Number(arrow.dataset.direction)));
         });
 
@@ -705,6 +701,6 @@ languageMenu();
 searchTool();
 accordion();
 gallery();
-heroSlideshow();
+slideshow();
 
 window.addEventListener("resize", documentHeight);
