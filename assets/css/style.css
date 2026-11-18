@@ -146,6 +146,12 @@ main[data-snap] .section {
 .section-logo {
     z-index: 1;
     justify-self: center;
+    filter: grayscale(1);
+    transition: filter 0.3s ease;
+}
+
+.section-logo:hover {
+    filter: grayscale(0);
 }
 
 .section-logo svg,
@@ -223,12 +229,12 @@ main[data-snap] .section {
     list-style: decimal;
 }
 
-.hero-section {
+.featured-section {
     display: flex;
     align-items: center;
 }
 
-.hero-frame {
+.featured-frame {
     position: relative;
     width: calc(100% - 128px);
     margin: 0 auto;
@@ -236,11 +242,11 @@ main[data-snap] .section {
     background-color: var(--color-white);
 }
 
-.hero-slides {
+.featured-slides {
     display: grid;
 }
 
-.hero-slide {
+.featured-slide {
     grid-area: 1 / 1;
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -253,25 +259,25 @@ main[data-snap] .section {
     transition: opacity 0.8s ease, visibility 0s linear 0.8s;
 }
 
-.hero-slide.is-active {
+.featured-slide.is-active {
     opacity: 1;
     visibility: visible;
     transition: opacity 0.8s ease, visibility 0s;
 }
 
-.hero-slide--text .hero-copy {
+.featured-slide--text .featured-copy {
     grid-column: 1 / 3;
     max-width: calc(50vw - 144px);
     margin: 0 auto;
 }
 
-.hero-media {
+.featured-media {
     justify-self: center;
     width: 100%;
 }
 
-.hero-media svg,
-.hero-media img {
+.featured-media svg,
+.featured-media img {
     display: block;
     width: 100%;
     height: auto;
@@ -282,40 +288,40 @@ main[data-snap] .section {
     fill: var(--color-white);
 }
 
-.hero-media img {
-    -o-object-fit: contain;
-    object-fit: contain;
+.featured-media img {
+    -o-object-fit: cover;
+    object-fit: cover;
 }
 
-.hero-label {
+.featured-label {
     font-size: 14px;
     letter-spacing: 0.08em;
     padding-bottom: 24px;
 }
 
-.hero-title {
+.featured-title {
     font-size: 36px;
     font-weight: 400;
     line-height: 1.1;
     padding-bottom: 24px;
 }
 
-.hero-text {
+.featured-text {
     display: flex;
     flex-direction: column;
     gap: 8px;
     padding-bottom: 24px;
 }
 
-.hero-link a::after {
+/* .featured-link a::after {
     content: " →";
-}
+} */
 
-.hero-frame[data-slideshow] .hero-slide {
+.featured-frame[data-slideshow] .featured-slide {
     padding-bottom: 96px;
 }
 
-.hero-controls {
+.featured-controls {
     position: absolute;
     right: 24px;
     bottom: 24px;
@@ -326,12 +332,12 @@ main[data-snap] .section {
     letter-spacing: 0.08em;
 }
 
-.hero-counter {
+.featured-counter {
     padding-right: 8px;
     font-variant-numeric: tabular-nums;
 }
 
-.hero-arrow {
+.featured-arrow {
     display: flex;
     padding: 4px;
     color: var(--color-black);
@@ -339,12 +345,12 @@ main[data-snap] .section {
     transition: color 0.3s ease;
 }
 
-.hero-arrow:hover,
-.hero-arrow:focus-visible {
+.featured-arrow:hover,
+.featured-arrow:focus-visible {
     color: var(--color-grey);
 }
 
-.hero-arrow svg {
+.featured-arrow svg {
     width: 24px;
     height: 24px;
     fill: none;
@@ -353,6 +359,7 @@ main[data-snap] .section {
 }
 
 .index-section:first-child {
+    min-height: unset;
     padding: 280px 64px 144px;
 }
 
@@ -769,36 +776,36 @@ main[data-snap] .section {
         background-color: transparent;
     }
 
-    .hero-frame {
+    .featured-frame {
         width: 100%;
     }
 
-    .hero-slide {
+    .featured-slide {
         grid-template-columns: minmax(0, 1fr);
         row-gap: 40px;
         padding: 24px;
     }
 
-    .hero-slide--text .hero-copy {
+    .featured-slide--text .featured-copy {
         grid-column: 1;
         max-width: none;
     }
 
-    .hero-frame[data-slideshow] .hero-slide {
+    .featured-frame[data-slideshow] .featured-slide {
         padding-bottom: 72px;
     }
 
-    .hero-media svg,
-    .hero-media img {
+    .featured-media svg,
+    .featured-media img {
         max-height: 50vh;
         stroke-width: 3px;
     }
 
-    .hero-title {
+    .featured-title {
         font-size: 24px;
     }
 
-    .hero-controls {
+    .featured-controls {
         right: 16px;
         bottom: 16px;
     }
@@ -901,8 +908,8 @@ main[data-snap] .section {
     .index-row::before,
     .index-panel,
     .index-panel.is-open,
-    .hero-slide,
-    .hero-slide.is-active {
+    .featured-slide,
+    .featured-slide.is-active {
         transition: none;
     }
 }

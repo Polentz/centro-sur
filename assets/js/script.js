@@ -611,15 +611,12 @@ const gallery = () => {
     });
 };
 
-// Hero slideshow: crossfades between featured items inside the frame.
-// Arrows, keyboard arrows and swipe move between slides; auto-advance
-// (data-autoplay, in ms) pauses on hover/focus and while off screen.
 const heroSlideshow = () => {
     const calmMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    document.querySelectorAll(".hero-frame[data-slideshow]").forEach((frame) => {
-        const slides = [...frame.querySelectorAll(".hero-slide")];
-        const counter = frame.querySelector(".hero-current");
+    document.querySelectorAll(".featured-frame[data-slideshow]").forEach((frame) => {
+        const slides = [...frame.querySelectorAll(".featured-slide")];
+        const counter = frame.querySelector(".featured-current");
         const delay = calmMotion ? 0 : Number(frame.dataset.autoplay) || 0;
         if (slides.length < 2) return;
 
@@ -633,7 +630,7 @@ const heroSlideshow = () => {
             if (calmMotion || !window.gsap || !window.DrawSVGPlugin) return;
             const shapes = slide.querySelectorAll([
                 "path", "line", "circle", "rect", "polyline", "polygon", "ellipse"
-            ].map((shape) => `.hero-media svg ${shape}`).join(", "));
+            ].map((shape) => `.featured-media svg ${shape}`).join(", "));
             if (!shapes.length) return;
             gsap.killTweensOf(shapes);
             gsap.fromTo(shapes, { drawSVG: "0%" }, { drawSVG: "100%", duration: 1.6, ease: "power1.inOut" });
@@ -661,7 +658,7 @@ const heroSlideshow = () => {
             restart();
         };
 
-        frame.querySelectorAll(".hero-arrow").forEach((arrow) => {
+        frame.querySelectorAll(".featured-arrow").forEach((arrow) => {
             arrow.addEventListener("click", () => step(Number(arrow.dataset.direction)));
         });
 

@@ -29,7 +29,7 @@ columns:
             help: Drag sections to change their order on the page.
             empty: No sections yet. Add one to start building the page.
             fieldsets:
-              - hero
+              - featured
               - split
               - index
   sidebar:
