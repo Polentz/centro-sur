@@ -606,6 +606,72 @@ const gallery = () => {
     });
 };
 
+const sectionGallery = () => {
+    const animate = !window.matchMedia("(prefers-reduced-motion: reduce)").matches && !!window.gsap;
+
+    document.querySelectorAll(".section-gallery").forEach((gallery) => {
+        const section = gallery.closest(".split-section");
+        const images = [...gallery.querySelectorAll("img")];
+        if (!section || !images.length) return;
+
+        const others = section.querySelectorAll(".section-logo, .section-text > :not(.section-gallery)");
+        const isOpen = () => section.classList.contains("is-gallery-open");
+        const close = section.querySelector(".section-gallery-close");
+        let busy = false;
+
+        // Images scale out while the rest fades; the layout switches, then images scale back in
+        const SCALE = 0.85;
+
+        const morph = (open) => {
+            const fromHeight = section.offsetHeight;
+            section.classList.toggle("is-gallery-open", open);
+            const toHeight = section.offsetHeight;
+
+            return gsap.timeline()
+                .fromTo(section,
+                    { height: fromHeight },
+                    { height: toHeight, duration: 0.5, ease: "power2.inOut", clearProps: "height" }, 0)
+                .fromTo(images,
+                    { scale: SCALE, autoAlpha: 0 },
+                    {
+                        scale: 1, autoAlpha: 1, duration: 0.5, ease: "power2.out", stagger: 0.05,
+                        clearProps: "transform,opacity,visibility"
+                    }, 0.15);
+        };
+
+        // Escape is only listened for while this gallery is open
+        const onKeydown = (e) => {
+            if (e.key === "Escape") toggle(false);
+        };
+
+        const toggle = async (open) => {
+            if (busy || open === isOpen()) return;
+            busy = true;
+            if (open) document.addEventListener("keydown", onKeydown);
+            else document.removeEventListener("keydown", onKeydown);
+            close?.classList.toggle("is-visible", open);
+            if (animate) {
+                gsap.set(images, { transformOrigin: "50% 50%" });
+                await Promise.all([
+                    gsap.to(others, { autoAlpha: 0, duration: 0.3, ease: "power1.out" }),
+                    gsap.to(images, { scale: SCALE, autoAlpha: 0, duration: 0.3, ease: "power2.in" })
+                ]);
+                await morph(open);
+                gsap.set(others, { clearProps: "opacity,visibility" });
+            } else {
+                section.classList.toggle("is-gallery-open", open);
+            }
+            busy = false;
+        };
+
+        close?.addEventListener("click", () => toggle(false));
+
+        images.forEach((img) => {
+            img.addEventListener("click", () => toggle(true));
+        });
+    });
+};
+
 const slideshow = () => {
     const calmMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -776,6 +842,7 @@ languageMenu();
 searchTool();
 accordion();
 gallery();
+sectionGallery();
 slideshow();
 
 window.addEventListener("resize", documentHeight);

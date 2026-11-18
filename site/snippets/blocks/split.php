@@ -23,6 +23,9 @@ $illustration = $block->illustration()->toFile();
                     <?php foreach ($block->gallery()->toFiles() as $file): ?>
                         <?= snippet('illustration', ['file' => $file]) ?>
                     <?php endforeach ?>
+                    <button class="section-gallery-close" type="button">
+                        <?= t('gallery.close') ?>
+                    </button>
                 </div>
             <?php endif ?>
         </div>

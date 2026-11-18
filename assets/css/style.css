@@ -188,18 +188,94 @@ a:focus-visible {
 
 .section-gallery img {
     display: block;
-    width: 80px;
+    cursor: pointer;
+    min-width: 80px;
+    max-width: 80px;
     height: auto;
+    object-fit: cover;
+    aspect-ratio: 1 / 1;
     stroke: var(--color-black);
     stroke-width: 2px;
     fill: var(--color-white);
-    overflow: visible;
     filter: grayscale(1);
     transition: filter 0.3s ease;
 }
 
 .section-gallery img:hover {
     filter: grayscale(0);
+}
+
+.section-gallery::-webkit-scrollbar {
+    display: none;
+}
+
+/* Styled like the nav links (underlined, grey on hover). Anchored to the top-right
+   corner of the opened gallery, in the empty space above the images, so it scrolls
+   with the section (no conflict with the fixed nav or ScrollSmoother). */
+.section-gallery-close {
+    display: none;
+    position: absolute;
+    top: 48px;
+    right: 64px;
+    font-size: 14px;
+    letter-spacing: 0.08em;
+    --link-color: var(--color-black);
+    --link-hover-text: var(--color-grey);
+    color: var(--link-color);
+    background-image: linear-gradient(var(--link-color), var(--link-color)), linear-gradient(var(--link-color), var(--link-color));
+    background-size: 100% 1px, 100% 0;
+    background-position: 0 100%, 0 100%;
+    background-repeat: no-repeat;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+    cursor: pointer;
+    transition:
+        background-size 0.2s cubic-bezier(0.65, 0, 0.35, 1),
+        color 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+    z-index: 9999;
+}
+
+.section-gallery-close:hover,
+.section-gallery-close:focus-visible {
+    color: var(--link-hover-text);
+    background-size: 0 0, 0 0;
+}
+
+.split-section.is-gallery-open .section-logo,
+.split-section.is-gallery-open .section-text> :not(.section-gallery) {
+    display: none;
+}
+
+.split-section.is-gallery-open .section-text {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    width: auto;
+    margin: 0;
+    padding: 0;
+    justify-self: stretch;
+}
+
+.split-section.is-gallery-open .section-gallery {
+    display: grid;
+    overflow: visible;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 24px;
+    padding: 120px 64px 0 64px;
+}
+
+.split-section.is-gallery-open .section-gallery img {
+    width: 100%;
+    min-width: unset;
+    max-width: unset;
+    aspect-ratio: auto;
+    -o-object-fit: contain;
+    object-fit: contain;
+    filter: grayscale(0);
+    cursor: default;
+}
+
+.section-gallery-close.is-visible {
+    display: block;
 }
 
 .split-section .section-logo {
@@ -897,6 +973,12 @@ body:has(.slideshow-banner:not([hidden])) .menu {
         padding: 0;
     }
 
+    .section-gallery-close {
+        top: 40px;
+        right: 24px;
+        padding: 12px;
+    }
+
     .section-logo svg,
     .section-logo img {
         width: 80vw;
@@ -1062,4 +1144,5 @@ body:has(.slideshow-banner:not([hidden])) .menu {
     .slideshow-banner-group[aria-hidden] {
         display: none;
     }
+
 }

@@ -21,6 +21,7 @@ return [
         'error.title' => 'Page not found',
         'error.text' => 'The page you are looking for doesn\'t exist or has been moved.',
         'error.home' => 'Back to home',
+        'gallery.close' => 'Close the gallery',
         'index.items' => 'Items',
         'index.search' => 'Search',
         'search.null' => 'No Results',

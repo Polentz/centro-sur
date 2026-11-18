@@ -21,6 +21,7 @@ return [
         'error.title' => 'Página no encontrada',
         'error.text' => 'La página que buscas no existe o ha sido movida.',
         'error.home' => 'Volver al inicio',
+        'gallery.close' => 'Cerrar la galería',
         'index.items' => 'Elementos',
         'index.search' => 'Buscar',
         'search.null' => 'Sin resultados',
