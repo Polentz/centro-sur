@@ -620,14 +620,14 @@ const sectionGallery = () => {
         let busy = false;
 
         // Images scale out while the rest fades; the layout switches, then images scale back in
-        const SCALE = 0.85;
+        const SCALE = 0.95;
 
         const morph = (open) => {
             const fromHeight = section.offsetHeight;
             section.classList.toggle("is-gallery-open", open);
             const toHeight = section.offsetHeight;
 
-            return gsap.timeline()
+            const tl = gsap.timeline()
                 .fromTo(section,
                     { height: fromHeight },
                     { height: toHeight, duration: 0.5, ease: "power2.inOut", clearProps: "height" }, 0)
@@ -637,9 +637,16 @@ const sectionGallery = () => {
                         scale: 1, autoAlpha: 1, duration: 0.5, ease: "power2.out", stagger: 0.05,
                         clearProps: "transform,opacity,visibility"
                     }, 0.15);
+
+            // On close the logo and text are shown again: fade them in (they are still at opacity 0 here)
+            if (!open) {
+                tl.fromTo(others,
+                    { autoAlpha: 0 },
+                    { autoAlpha: 1, duration: 0.5, ease: "power1.out", clearProps: "opacity,visibility" }, 0.15);
+            }
+            return tl;
         };
 
-        // Escape is only listened for while this gallery is open
         const onKeydown = (e) => {
             if (e.key === "Escape") toggle(false);
         };
@@ -649,7 +656,8 @@ const sectionGallery = () => {
             busy = true;
             if (open) document.addEventListener("keydown", onKeydown);
             else document.removeEventListener("keydown", onKeydown);
-            close?.classList.toggle("is-visible", open);
+            // Hidden right away; on open it fades in only once the images are back
+            close?.classList.remove("is-visible");
             if (animate) {
                 gsap.set(images, { transformOrigin: "50% 50%" });
                 await Promise.all([
@@ -658,8 +666,15 @@ const sectionGallery = () => {
                 ]);
                 await morph(open);
                 gsap.set(others, { clearProps: "opacity,visibility" });
+                if (open && close) {
+                    close.classList.add("is-visible");
+                    await gsap.fromTo(close,
+                        { autoAlpha: 0 },
+                        { autoAlpha: 1, duration: 0.4, ease: "power1.out", clearProps: "opacity,visibility" });
+                }
             } else {
                 section.classList.toggle("is-gallery-open", open);
+                close?.classList.toggle("is-visible", open);
             }
             busy = false;
         };
