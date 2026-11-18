@@ -1,0 +1,36 @@
+.error-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.error-code {
+    font-size: clamp(120px, 24vw, 320px);
+    line-height: 1;
+    letter-spacing: 0.04em;
+    color: var(--color-white);
+    -webkit-text-stroke: 2px var(--color-black);
+    padding-bottom: 32px;
+}
+
+.error-section .section-heading {
+    padding-bottom: 16px;
+}
+
+.error-text {
+    max-width: 420px;
+    padding-bottom: 40px;
+}
+
+.error-link {
+    font-size: 14px;
+    letter-spacing: 0.08em;
+}
+
+@media (max-width: 800px) {
+    .error-section {
+        padding: 160px 24px 96px;
+    }
+}
