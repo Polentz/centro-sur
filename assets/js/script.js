@@ -122,6 +122,22 @@ const scrollEffects = () => {
         });
     };
 
+    // Thumbnails rise in below the text, once, with a small stagger
+    const revealGallery = () => {
+        gsap.utils.toArray(".section-gallery").forEach((gallery) => {
+            gsap.from(gallery.querySelectorAll("img"), {
+                autoAlpha: 0,
+                y: 40,
+                duration: 1.2,
+                delay: 0.2,
+                ease: "power2.out",
+                stagger: 0.08,
+                clearProps: "transform,opacity,visibility",
+                scrollTrigger: revealOnScroll(gallery)
+            });
+        });
+    };
+
     const revealLogos = () => {
         gsap.utils.toArray(".section-logo svg").forEach((svg) => {
             const path = svg.querySelector("path");
@@ -155,6 +171,7 @@ const scrollEffects = () => {
     sectionSnapping();
     parallax();
     revealText();
+    revealGallery();
     revealLogos();
     revealImages();
 };
