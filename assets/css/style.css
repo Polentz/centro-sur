@@ -846,6 +846,11 @@ body:has(.slideshow-banner:not([hidden])) .menu {
     z-index: 1;
 }
 
+/* Padding (not margin) so ScrollSmoother counts the space in the content height */
+#smooth-content {
+    padding-bottom: var(--banner-height, 0px);
+}
+
 .footer-wrapper {
     display: flex;
     flex-wrap: wrap;

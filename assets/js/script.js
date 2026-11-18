@@ -830,6 +830,8 @@ const slideshowBanner = () => {
             banner.hidden = false;
             const group = banner.querySelector(".slideshow-banner-group");
             banner.style.setProperty("--marquee-duration", `${Math.max(10, group.offsetWidth / MARQUEE_SPEED)}s`);
+            // Reserve room so the fixed banner never covers the footer
+            document.documentElement.style.setProperty("--banner-height", `${banner.offsetHeight}px`);
             if (animate && animated) {
                 gsap.fromTo(banner, { yPercent: 100 }, { yPercent: 0, duration: 0.6, ease: "power2.out", clearProps: "transform" });
             }
@@ -844,6 +846,7 @@ const slideshowBanner = () => {
         const expand = () => {
             const reveal = () => {
                 banner.hidden = true;
+                document.documentElement.style.removeProperty("--banner-height");
                 section.style.display = "";
                 refresh();
                 const smoother = window.ScrollSmoother?.get();
