@@ -14,9 +14,10 @@ const scrollEffects = () => {
     const DRAW_DURATION = 3;
     const MOBILE_LOGO_SPEED = 1.25;
 
-    // JPEG/PNG/WebP illustrations wait until their top reaches this point of
-    // the viewport (instead of the bottom edge), so the reveal starts a bit later.
-    const IMAGE_REVEAL_START = "top 70%";
+    // Logos and illustrations wait until their top reaches this point of the
+    // viewport (instead of the bottom edge), so the reveal starts a bit later
+    // and never plays while the element is barely peeking in.
+    const LOGO_REVEAL_START = "top 70%";
 
     const sections = gsap.utils.toArray(".section");
 
@@ -105,6 +106,7 @@ const scrollEffects = () => {
     // Logos fade and draw on the way down, and rewind on the way back up.
     const revealLogoOnScroll = (el) => ({
         trigger: el,
+        start: LOGO_REVEAL_START,
         toggleActions: "play none none reverse"
     });
 
@@ -145,10 +147,7 @@ const scrollEffects = () => {
                 y: 40,
                 duration: 1.2,
                 ease: "power2.out",
-                scrollTrigger: {
-                    ...revealLogoOnScroll(img),
-                    start: IMAGE_REVEAL_START
-                }
+                scrollTrigger: revealLogoOnScroll(img)
             });
         });
     };
