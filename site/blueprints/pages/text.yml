@@ -7,8 +7,6 @@ options:
   changeStatus: true
   changeTemplate: 
     - page
-    - library
-    - projects
   cheangeTitle: true
   create: true
   delete: true

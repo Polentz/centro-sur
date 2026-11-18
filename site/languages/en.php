@@ -12,9 +12,8 @@ return [
     'translations' => [
         'lang' => 'en',
         'langCode' => 'en_US',
-        'library.items' => 'Titles',
-        'library.search' => 'Search',
-        'projects.items' => 'Events',
+        'index.items' => 'Entries',
+        'index.search' => 'Search',
         'search.null' => 'No Results',
         'search.reset' => 'Reset',
     ],

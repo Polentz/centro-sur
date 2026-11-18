@@ -6,16 +6,17 @@ $attachments = $block->attachments()->toFiles();
 
 <li class="index-item">
     <button class="index-row" type="button" aria-expanded="false" aria-controls="<?= $panelId ?>">
-        <?php foreach ($cells as $slot => $value): ?>
-            <span class="index-<?= $slot ?>"><?= esc($value ?? '') ?></span>
-        <?php endforeach ?>
+        <span class="index-title"><?= $block->title()->esc() ?></span>
+        <span class="index-info"><?= $block->info()->esc() ?></span>
+        <span class="index-category"><?= $block->category()->esc() ?></span>
+        <span class="index-date"><?= $block->date()->esc() ?></span>
     </button>
     <div class="index-panel" id="<?= $panelId ?>">
         <div class="index-panel-inner">
             <div class="index-panel-text">
-                <?php if ($info->isNotEmpty()): ?>
-                    <div class="index-info">
-                        <?= $info->kt() ?>
+                <?php if ($block->extra()->isNotEmpty()): ?>
+                    <div class="index-extra">
+                        <?= $block->extra()->kt() ?>
                     </div>
                 <?php endif ?>
                 <?php if ($block->description()->isNotEmpty()): ?>

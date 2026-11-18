@@ -15,12 +15,8 @@ columns:
         templates: 
           - home
           - page
-          - library
-          - projects
         create:
           - page
-          - library
-          - projects
       temporary:
         type: pages
         max: 1

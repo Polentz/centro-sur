@@ -5,10 +5,8 @@ icon: page
 options: 
   changeSlug: true
   changeStatus: true
-  changeTemplate: 
-    - library
-    - projects
-  cheangeTitle: true
+  changeTemplate: false
+  changeTitle: true
   create: true
   delete: true
   duplicate: true
@@ -28,9 +26,11 @@ columns:
           sections:
             label: Sections
             type: blocks
+            help: Drag sections to change their order on the page.
             empty: No sections yet. Add one to start building the page.
             fieldsets:
               - split
+              - index
   sidebar:
     width: 1/3
     sections:

@@ -1,0 +1,30 @@
+name: Index
+icon: table
+label: "{{ title.or('Index') }}"
+preview: fields
+wysiwyg: true
+
+tabs:
+  entries:
+    label: Entries
+    icon: list-bullet
+    fields:
+      entries:
+        label: Entries
+        type: blocks
+        empty: No entries yet
+        fieldsets:
+          - index-entry
+  settings:
+    label: Settings
+    icon: settings
+    fields:
+      title:
+        label: Title
+        type: text
+        help: Optional. Shown above the table next to the counter. Leave empty to use the page title.
+      # wide:
+      #   label: Wide date column
+      #   type: toggle
+      #   translate: false
+      #   help: Turn on when dates are ranges (e.g. 26–30.11.2026) rather than years.

@@ -1,4 +1,4 @@
-# Panel content shared by library titles and project events
+# Panel content of index entries (see blocks/index-entry)
 type: group
 fields:
   description:

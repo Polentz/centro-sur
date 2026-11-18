@@ -223,7 +223,7 @@ main[data-snap] .section {
     list-style: decimal;
 }
 
-.index-section:only-child {
+.index-section:first-child {
     padding: 280px 64px 144px;
 }
 
@@ -284,14 +284,15 @@ main[data-snap] .section {
     transition: all 0.3s ease;
 }
 
-.index-format,
-.index-year {
+.index-category,
+.index-date {
     font-size: 14px;
     letter-spacing: 0.08em;
 }
 
-.index-year {
+.index-date {
     text-align: end;
+    white-space: nowrap;
 }
 
 .index-panel {
@@ -326,7 +327,7 @@ main[data-snap] .section {
     margin-top: 1em;
 }
 
-.index-info {
+.index-extra {
     font-size: 14px;
     letter-spacing: 0.08em;
 }
@@ -640,7 +641,7 @@ main[data-snap] .section {
     }
 
     .index-section,
-    .index-section:only-child {
+    .index-section:first-child {
         padding: 200px 24px 120px;
     }
 
@@ -671,17 +672,17 @@ main[data-snap] .section {
         padding-right: 0;
     }
 
-    .index-author {
+    .index-info {
         grid-area: author;
         font-size: 14px;
     }
 
-    .index-format {
+    .index-category {
         grid-area: format;
         text-align: right;
     }
 
-    .index-year {
+    .index-date {
         grid-area: year;
     }
 

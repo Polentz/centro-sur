@@ -5,10 +5,8 @@ icon: page
 options: 
   changeSlug: false
   changeStatus: false
-  changeTemplate: 
-    - library
-    - projects
-  cheangeTitle: true
+  changeTemplate: false
+  changeTitle: true
   create: false
   delete: false
   duplicate: false

@@ -233,100 +233,102 @@ const languageMenu = () => {
     });
 };
 
+// Every Index section has its own search form, so each one is set up on its own
 const searchTool = () => {
-    const opener = document.querySelector(".search-label");
-    const elements = document.querySelectorAll(".search-input, .search-reset");
-    const input = document.querySelector(".search-input");
-    const counter = document.querySelector(".index-counter");
-    const wrapper = document.querySelector(".search-wrapper");
-    const close = document.querySelector(".search-reset");
-    const searchLocation = "?q=";
+    document.querySelectorAll(".search-wrapper").forEach((wrapper) => {
+        const opener = wrapper.querySelector(".search-label");
+        const input = wrapper.querySelector(".search-input");
+        const close = wrapper.querySelector(".search-reset");
+        const counter = wrapper.closest(".index-heading")?.querySelector(".index-counter");
+        // Set server-side when this section's search is applied
+        const isActive = wrapper.classList.contains("is-active");
 
-    if (!opener || !input || !wrapper || !close) return;
+        if (!opener || !input || !close) return;
 
-    const addClasses = () => {
-        gsap.set(input, {
-            opacity: 0,
-        });
-        input.classList.add("visible");
-        counter.classList.add("hidden");
-        gsap.to(input, {
-            opacity: 1,
-            duration: 0.5,
-            ease: "power1.out",
-        });
-    };
+        const addClasses = () => {
+            gsap.set(input, {
+                opacity: 0,
+            });
+            input.classList.add("visible");
+            counter?.classList.add("hidden");
+            gsap.to(input, {
+                opacity: 1,
+                duration: 0.5,
+                ease: "power1.out",
+            });
+        };
 
-    const removeClasses = () => {
-        gsap.to(input, {
-            opacity: 0,
-            duration: 0.5,
-            ease: "power1.out",
-            onComplete: () => {
-                input.classList.remove("visible");
-                counter.classList.remove("hidden");
-            },
-        });
-    };
+        const removeClasses = () => {
+            gsap.to(input, {
+                opacity: 0,
+                duration: 0.5,
+                ease: "power1.out",
+                onComplete: () => {
+                    input.classList.remove("visible");
+                    counter?.classList.remove("hidden");
+                },
+            });
+        };
 
-    input.addEventListener("focus", () => {
-        input.value = "";
-    });
-
-    if (window.location.href.includes(searchLocation)) {
-        addClasses();
-        close.classList.add("visible");
-    };
-
-    const nullMessage = document.querySelector(".search-null");
-    if (input.classList.contains("null")) {
         input.addEventListener("focus", () => {
-            input.classList.remove("null");
-            if (nullMessage) {
-                gsap.to(nullMessage, {
-                    opacity: 0,
-                    duration: 0.5,
-                    ease: "power1.out",
-                    onComplete: () => nullMessage.remove(),
-                });
-            };
-        }, { once: true });
-    };
+            input.value = "";
+        });
 
-    opener.addEventListener("click", (e) => {
-        if (!input.classList.contains("visible")) {
+        if (isActive) {
             addClasses();
-            input.focus();
-            return;
+            close.classList.add("visible");
         };
-        e.preventDefault();
-        if (input.value.trim() !== "") {
-            wrapper.requestSubmit();
-        } else {
-            input.focus();
+
+        const nullMessage = wrapper.querySelector(".search-null");
+        if (input.classList.contains("null")) {
+            input.addEventListener("focus", () => {
+                input.classList.remove("null");
+                if (nullMessage) {
+                    gsap.to(nullMessage, {
+                        opacity: 0,
+                        duration: 0.5,
+                        ease: "power1.out",
+                        onComplete: () => nullMessage.remove(),
+                    });
+                };
+            }, { once: true });
         };
-    });
 
-    close.addEventListener("click", () => {
-        removeClasses()
-    });
+        opener.addEventListener("click", (e) => {
+            if (!input.classList.contains("visible")) {
+                addClasses();
+                input.focus();
+                return;
+            };
+            e.preventDefault();
+            if (input.value.trim() !== "") {
+                wrapper.requestSubmit();
+            } else {
+                input.focus();
+            };
+        });
 
-    document.addEventListener("click", (e) => {
-        if (!input.classList.contains("visible")) return;
-        if (window.location.href.includes(searchLocation)) return;
-        if (wrapper.contains(e.target)) return;
-        removeClasses();
-    });
+        close.addEventListener("click", () => {
+            removeClasses()
+        });
 
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) return;
+        document.addEventListener("click", (e) => {
             if (!input.classList.contains("visible")) return;
-            if (window.location.href.includes(searchLocation)) return;
+            if (isActive) return;
+            if (wrapper.contains(e.target)) return;
             removeClasses();
         });
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) return;
+                if (!input.classList.contains("visible")) return;
+                if (isActive) return;
+                removeClasses();
+            });
+        });
+        observer.observe(wrapper);
     });
-    observer.observe(wrapper);
 };
 
 const accordion = () => {
@@ -377,8 +379,7 @@ const accordion = () => {
             clearProps: "transform"
         });
 
-        const heading = document.querySelector(".index-heading");
-        if (heading) revealIn(heading);
+        document.querySelectorAll(".index-heading").forEach((heading) => revealIn(heading));
 
         ScrollTrigger.batch(".index-item", {
             once: true,
@@ -389,7 +390,8 @@ const accordion = () => {
     rows.forEach((row) => {
         row.addEventListener("click", (e) => {
             const opening = row.getAttribute("aria-expanded") !== "true";
-            rows.forEach((other) => setOpen(other, other === row && opening));
+            const siblings = row.closest(".index-list")?.querySelectorAll(".index-row") ?? rows;
+            siblings.forEach((other) => setOpen(other, other === row && opening));
             if (opening) reveal(panelOf(row));
         });
     });

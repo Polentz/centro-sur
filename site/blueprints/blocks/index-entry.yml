@@ -1,0 +1,39 @@
+name: Entry
+icon: list-bullet
+label: "{{ title }}"
+
+fields:
+  title:
+    label: Title
+    type: text
+    required: true
+  info:
+    label: Info
+    type: text
+    width: 1/3
+    placeholder: Author, place, …
+  category:
+    label: Category
+    type: text
+    width: 1/3
+    placeholder: Book, Exhibition, Talk, …
+  date:
+    label: Date
+    type: text
+    width: 1/3
+    placeholder: 2027, 26–30.11.2026, …
+  extra:
+    label: Additional information
+    type: writer
+    help: Shown first when the entry is opened (e.g. participants, bibliographic details).
+    marks:
+      - bold
+      - italic
+      - underline
+      - link
+      - email
+      - clear
+    nodes:
+      - bulletList
+      - orderedList
+  details: fields/entry-details
