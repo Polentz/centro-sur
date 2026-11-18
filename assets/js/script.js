@@ -691,9 +691,85 @@ const slideshow = () => {
     });
 };
 
+const slideshowBanner = () => {
+    const MARQUEE_SPEED = 60; // px per second
+
+    // sessionStorage can be unavailable (private mode, blocked data): fall back to no memory
+    const remember = (key, closed) => {
+        try {
+            if (closed) sessionStorage.setItem(key, "1");
+            else sessionStorage.removeItem(key);
+        } catch (e) { /* ignore */ }
+    };
+    const wasClosed = (key) => {
+        try { return sessionStorage.getItem(key) === "1"; } catch (e) { return false; }
+    };
+
+    document.querySelectorAll(".slideshow-section").forEach((section, index) => {
+        const frame = section.querySelector(".slideshow-frame");
+        const close = section.querySelector(".slideshow-close");
+        const banner = section.querySelector(".slideshow-banner");
+        const open = banner?.querySelector(".slideshow-open");
+        if (!frame || !close || !banner || !open) return;
+
+        const key = `slideshow-closed:${location.pathname}:${index}`;
+
+        // Fixed positioning breaks inside the smooth-scroll content, so the banner lives on <body>
+        document.body.appendChild(banner);
+
+        const refresh = () => {
+            if (window.ScrollTrigger) ScrollTrigger.refresh();
+        };
+
+        const animated = !reduceMotion && !!window.gsap;
+
+        const showBanner = (animate) => {
+            banner.hidden = false;
+            const group = banner.querySelector(".slideshow-banner-group");
+            banner.style.setProperty("--marquee-duration", `${Math.max(10, group.offsetWidth / MARQUEE_SPEED)}s`);
+            if (animate && animated) {
+                gsap.fromTo(banner, { yPercent: 100 }, { yPercent: 0, duration: 0.6, ease: "power2.out", clearProps: "transform" });
+            }
+        };
+
+        const collapse = (animate = true) => {
+            section.style.display = "none";
+            showBanner(animate);
+            refresh();
+        };
+
+        const expand = () => {
+            const reveal = () => {
+                banner.hidden = true;
+                section.style.display = "";
+                refresh();
+                const smoother = window.ScrollSmoother?.get();
+                if (smoother) smoother.scrollTo(section, true, "center center");
+                else section.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "center" });
+                if (animated) gsap.fromTo(section, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.6, ease: "power1.out", clearProps: "opacity,visibility" });
+            };
+
+            remember(key, false);
+            if (animated) gsap.to(banner, { yPercent: 100, duration: 0.4, ease: "power2.in", onComplete: () => { reveal(); gsap.set(banner, { clearProps: "transform" }); } });
+            else reveal();
+        };
+
+        close.addEventListener("click", () => {
+            remember(key, true);
+            if (!animated) return collapse(false);
+            gsap.to(section, { autoAlpha: 0, duration: 0.5, ease: "power1.out", onComplete: () => collapse(true) });
+        });
+
+        open.addEventListener("click", expand);
+
+        if (wasClosed(key)) collapse(false);
+    });
+};
+
 history.scrollRestoration = "manual";
 
 documentHeight();
+slideshowBanner();
 scrollEffects();
 headerEmblem();
 languageMenu();

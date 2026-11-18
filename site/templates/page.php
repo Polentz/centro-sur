@@ -1,6 +1,5 @@
 <?php
 $sections = $page->sections()->toBlocks();
-$snap = $sections->filterBy('type', 'index')->isEmpty();
 ?>
 <?= snippet('head') ?>
 <?= snippet('header') ?>
@@ -8,7 +7,7 @@ $snap = $sections->filterBy('type', 'index')->isEmpty();
 
 <div id="smooth-wrapper">
     <div id="smooth-content">
-        <main class="main" <?= $snap ? ' data-snap' : '' ?>>
+        <main class="main" data-snap>
             <?php $counts = []; ?>
             <?php foreach ($sections as $block): ?>
                 <?php

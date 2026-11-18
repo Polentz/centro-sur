@@ -12,6 +12,8 @@ return [
     'translations' => [
         'lang' => 'es',
         'langCode' => 'es_ES',
+        'slideshow.close' => 'Cerrar',
+        'slideshow.open' => 'Abrir',
         'slideshow.label' => 'Destacados',
         'slideshow.more' => 'Aprender más',
         'slideshow.next' => 'Siguiente',

@@ -13,6 +13,11 @@ $autoplay = (int) $block->autoplay()->value();
 ?>
 <section class="section slideshow-section">
     <div class="slideshow-frame" <?php if ($slideshow): ?> data-slideshow<?= $autoplay ? ' data-autoplay="' . $autoplay * 1000 . '"' : '' ?> role="region" aria-roledescription="carousel" aria-label="<?= t('slideshow.label') ?>" <?php endif ?>>
+        <button class="slideshow-close" type="button" aria-label="<?= t('slideshow.close') ?>">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M5 5l14 14M19 5 5 19" />
+            </svg>
+        </button>
         <div class="slideshow-slides">
             <?php foreach ($items->values() as $i => $item): ?>
                 <?php
@@ -62,5 +67,34 @@ $autoplay = (int) $block->autoplay()->value();
                 </button>
             </div>
         <?php endif ?>
+    </div>
+
+    <div class="slideshow-banner" hidden aria-label="<?= t('slideshow.label') ?>">
+        <button class="slideshow-open" type="button" aria-label="<?= t('slideshow.open') ?>">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M4 15l8-8 8 8" />
+            </svg>
+        </button>
+        <div class="slideshow-banner-track">
+            <?php foreach ([false, true] as $copy): ?>
+                <ul class="slideshow-banner-group" <?= $copy ? 'aria-hidden="true"' : '' ?>>
+                    <?php foreach ($items->values() as $item): ?>
+                        <?php
+                        $url = $item->link()->isNotEmpty() ? $item->link()->toUrl() : null;
+                        $external = $url && !str_starts_with($url, $site->url()) && !str_starts_with($url, 'mailto:');
+                        ?>
+                        <li class="slideshow-banner-item">
+                            <?php if ($item->label()->isNotEmpty()): ?>
+                                <span class="slideshow-banner-label"><?= $item->label()->esc() ?></span>
+                            <?php endif ?>
+                            <span class="slideshow-banner-title"><?= $item->title()->esc() ?></span>
+                            <?php if ($url): ?>
+                                <a href="<?= esc($url, 'attr') ?>" <?= $external ? ' target="_blank" rel="noopener"' : '' ?>         <?= $copy ? 'tabindex="-1"' : '' ?>><?= $item->linkText()->or(t('slideshow.more'))->esc() ?></a>
+                            <?php endif ?>
+                        </li>
+                    <?php endforeach ?>
+                </ul>
+            <?php endforeach ?>
+        </div>
     </div>
 </section>
