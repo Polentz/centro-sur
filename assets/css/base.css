@@ -190,6 +190,10 @@ a:active {
     color: inherit;
 }
 
+a:focus-visible {
+    outline: 0;
+}
+
 button,
 label {
     cursor: pointer;
