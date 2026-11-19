@@ -309,6 +309,7 @@
 
 	"error.version.discard.permission": "Du har inte behörighet att slänga denna version",
 	"error.version.publish.permission": "Du har inte behörighet att publicera denna version",
+	"error.version.removed": "The version has been removed by another request",
 	"error.version.save.permission": "Du har inte behörighet att ändra denna version",
 	"error.version.unlock.permission": "You are not allowed to unlock this version",
 
@@ -780,6 +781,8 @@
 	"translation.locale": "sv_SE",
 
 	"type": "Typ",
+
+	"unknown": "unknown",
 
 	"upload": "Ladda upp",
 	"upload.error.cantMove": "Den överförda filen kunde inte flyttas",

@@ -136,6 +136,11 @@ class Str
 			$value   = A::first($parts); // $parts now only contains params
 			$quality = 1;
 
+			// skip items without a value, e.g. a lone `;`
+			if ($value === null) {
+				continue;
+			}
+
 			// check for the q param ("quality" of the type)
 			foreach ($parts as $param) {
 				$param = static::split($param, '=');
@@ -206,16 +211,18 @@ class Str
 	/**
 	 * Convert a string to 7-bit ASCII.
 	 */
-	public static function ascii(string $string): string
+	public static function ascii(string $string, bool $language = true): string
 	{
 		static $ascii = null;
 		static $strtr = [];
 
-		$string = str_replace(
-			array_keys(static::$language),
-			array_values(static::$language),
-			$string
-		);
+		if ($language === true) {
+			$string = str_replace(
+				array_keys(static::$language),
+				array_values(static::$language),
+				$string
+			);
+		}
 
 		// fast-path: nothing to change if string is already 7-bit ASCII
 		if (preg_match('/[^\x09\x0A\x0D\x20-\x7E]/', $string) === 0) {
@@ -311,7 +318,7 @@ class Str
 	 */
 	public static function camelToKebab(string|null $value): string
 	{
-		$value = preg_replace('!([a-z0-9])([A-Z])!', '$1-$2', $value);
+		$value = preg_replace('!([a-z0-9])([A-Z])!', '$1-$2', $value ?? '');
 		return static::lower($value);
 	}
 
@@ -1258,20 +1265,25 @@ class Str
 	 *                          other non-word characters.
 	 * @param string $allowed List of all allowed characters (regex)
 	 * @param int $maxlength The maximum length of the slug
+	 * @param bool $language Whether to apply the language-specific rules
 	 * @return string The safe string
 	 */
 	public static function slug(
 		string|null $string,
 		string|null $separator = null,
 		string|null $allowed = null,
-		int|false $maxlength = 128
+		int|false $maxlength = 128,
+		bool $language = true
 	): string {
 		$separator ??= static::$defaults['slug']['separator'];
 		$allowed   ??= static::$defaults['slug']['allowed'];
 
 		$string = trim($string ?? '');
 		$string = static::lower($string);
-		$string = static::ascii($string);
+		$string = static::ascii(
+			string: $string,
+			language: $language
+		);
 
 		// replace spaces with simple dashes
 		$string = preg_replace(
@@ -1311,6 +1323,8 @@ class Str
 		string|null $value,
 		string $delimiter = '_'
 	): string {
+		$value ??= '';
+
 		if (ctype_lower($value) === false) {
 			$value = preg_replace('/\s+/u', '', ucwords($value));
 			$value = preg_replace('/(.)(?=[A-Z])/u', '$1' . $delimiter, $value);
@@ -1388,7 +1402,7 @@ class Str
 	 */
 	public static function studly(string|null $value): string
 	{
-		$value = str_replace(['-', '_'], ' ', $value);
+		$value = str_replace(['-', '_'], ' ', $value ?? '');
 		$value = ucwords($value);
 		return str_replace(' ', '', $value);
 	}

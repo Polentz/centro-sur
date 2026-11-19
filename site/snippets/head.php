@@ -21,7 +21,7 @@ use Kirby\Toolkit\I18n;
     <meta property="og:description" content="<?= $site->description() ?>">
     <meta property="og:url" content="<?= $page->url() ?>">
     <meta property="og:site_name" content="<?= $site->title() ?>">
-    <?php if ($ogImage = $site->ogimage()->toFile()): ?>
+    <?php if ($ogImage = $site->ogImage()->toFile()): ?>
         <meta property="og:image" content="<?= $ogImage->url() ?>">
     <?php endif ?>
     <?php if ($site->isReview() || !$site->launched()->toBool() || $page->intendedTemplate()->name() === 'landing-page'): ?>

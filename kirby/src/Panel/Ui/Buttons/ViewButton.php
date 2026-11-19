@@ -118,10 +118,15 @@ class ViewButton extends Button
 		string $name,
 		string|null $view = null
 	): array|Closure {
-		// collect all buttons from areas and config
+		// collect all buttons from areas and config,
+		// but skip references by name (`name: true`) in config
+		// so that they don't shadow the referenced button
 		$buttons = [
 			...Panel::buttons(),
-			...App::instance()->option('panel.viewButtons.' . $view, [])
+			...array_filter(
+				(array)App::instance()->option('panel.viewButtons.' . $view, []),
+				fn ($button) => is_array($button) || $button instanceof Closure
+			)
 		];
 
 		// try to find by full name (view-prefixed)
@@ -165,10 +170,11 @@ class ViewButton extends Button
 
 	public function props(): array
 	{
-		// helper for props that support Kirby queries
+		// helper for props that support Kirby queries,
+		// only content models can resolve them, not languages
 		$resolve = fn (string|null $value) =>
 			$value ?
-			$this->model?->toSafeString($value) ?? $value :
+			($this->model instanceof ModelWithContent ? $this->model->toSafeString($value) : $value) :
 			null;
 
 		$props   = parent::props();

@@ -1,8 +1,4 @@
 <?php
-/**
- * Hero section: a bordered frame highlighting one or more slideshow items.
- * More than one item turns the frame into a slideshow (see heroSlideshow in script.js).
- */
 $items = $block->items()->toBlocks();
 if ($items->isEmpty())
     return;

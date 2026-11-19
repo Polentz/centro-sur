@@ -467,7 +467,17 @@ class Version
 		VersionRules::publish($this, $language);
 
 		$latest  = $this->sibling('latest')->read($language) ?? [];
-		$changes = $this->read($language) ?? [];
+		$changes = $this->read($language);
+
+		// the rules above have checked that the version exists, but a
+		// parallel request can still discard it before it is read here,
+		// and a file that is just being created reads back empty. Neither
+		// must be mistaken for "every field was removed" below
+		if ($changes === null || $changes === []) {
+			throw new NotFoundException(
+				message: 'The changes version has no content to publish'
+			);
+		}
 
 		// overwrite all fields that are not in the `changes` version
 		// with a null value. The ModelWithContent::update method will merge
@@ -501,12 +511,14 @@ class Version
 		$language = Language::ensure($language);
 
 		try {
-			// make sure that the version exists
-			VersionRules::read($this, $language);
-
+			// serve fields from the cache without checking the disk
+			// again, so one request sees one state of the version
 			$fields = VersionCache::get($this, $language);
 
 			if ($fields === null) {
+				// make sure that the version exists
+				VersionRules::read($this, $language);
+
 				$fields = $this->model->storage()->read($this->id, $language);
 				$fields = $this->prepareFieldsAfterRead($fields, $language);
 
@@ -598,10 +610,21 @@ class Version
 	}
 
 	/**
-	 * Removes the lock from the changes version without discarding changes
+	 * Removes the lock from the changes version without discarding changes.
+	 * With `$force`, the lock is removed even if the current user doesn't hold it.
 	 */
-	public function unlock(Language|string $language = 'default'): void
-	{
+	public function unlock(
+		Language|string $language = 'default',
+		bool $force = false
+	): void {
+		if ($language === '*') {
+			foreach (Languages::ensure() as $language) {
+				$this->unlock($language, $force);
+			}
+
+			return;
+		}
+
 		$language = Language::ensure($language);
 
 		if ($this->exists($language) === false) {
@@ -611,7 +634,10 @@ class Version
 		$fields = $this->read($language);
 
 		// only remove the lock if the current user holds it
-		if (($fields['lock'] ?? null) !== $this->model->kirby()->user()?->id()) {
+		if (
+			$force === false &&
+			($fields['lock'] ?? null) !== $this->model->kirby()->user()?->id()
+		) {
 			return;
 		}
 
@@ -643,10 +669,20 @@ class Version
 		// check if updating is allowed
 		VersionRules::update($this, $fields, $language);
 
+		// a parallel request has deleted the version since the rules
+		// checked it: the merge would write a partial version
+		$previous = $this->read($language);
+
+		if ($previous === null) {
+			throw new NotFoundException(
+				key: 'version.removed'
+			);
+		}
+
 		// merge the previous state with the new state to always
 		// update to a complete version
 		$fields = [
-			...$this->read($language),
+			...$previous,
 			...$fields
 		];
 

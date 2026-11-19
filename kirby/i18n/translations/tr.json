@@ -309,6 +309,7 @@
 
 	"error.version.discard.permission": "Bu sürümü silmenize izin verilmiyor.",
 	"error.version.publish.permission": "Bu sürümü yayınlamanıza izin verilmiyor.",
+	"error.version.removed": "Sürüm, başka bir talep üzerine kaldırılmıştır.",
 	"error.version.save.permission": "Bu sürümü değiştirmenize izin verilmiyor.",
 	"error.version.unlock.permission": "Bu sürümün kilidini açmanıza izin verilmiyor.",
 
@@ -780,6 +781,8 @@
 	"translation.locale": "tr_TR",
 
 	"type": "Tür",
+
+	"unknown": "unknown",
 
 	"upload": "Yükle",
 	"upload.error.cantMove": "Yüklenen dosya taşınamadı",

@@ -9,7 +9,7 @@ use Kirby\Exception\InvalidArgumentException;
 use Kirby\Http\Idn;
 use Kirby\Uuid\Uuid;
 use ReflectionFunction;
-use Throwable;
+use Stringable;
 
 /**
  * A set of validator methods
@@ -374,17 +374,17 @@ V::$validators = [
 	 * Checks for valid email addresses
 	 */
 	'email' => function ($value): bool {
-		if (filter_var($value, FILTER_VALIDATE_EMAIL) === false) {
-			try {
-				$email = Idn::encodeEmail($value);
-			} catch (Throwable) {
-				return false;
-			}
-
-			return filter_var($email, FILTER_VALIDATE_EMAIL) !== false;
+		if (filter_var($value, FILTER_VALIDATE_EMAIL) !== false) {
+			return true;
 		}
 
-		return true;
+		// retry with the domain encoded to Punycode (only possible for strings)
+		if (is_string($value) === false && $value instanceof Stringable === false) {
+			return false;
+		}
+
+		$email = Idn::encodeEmail((string)$value);
+		return filter_var($email, FILTER_VALIDATE_EMAIL) !== false;
 	},
 
 	/**
@@ -633,7 +633,7 @@ V::$validators = [
 		// In search for the perfect regular expression: https://mathiasbynens.be/demo/url-regex
 		// Added localhost support and removed 127.*.*.* ip restriction
 		$regex = '%^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:localhost)|(?:[a-z0-9\x{00a1}-\x{ffff}](?:[a-z0-9\x{00a1}-\x{ffff}_-]{0,62}[a-z0-9\x{00a1}-\x{ffff}])?\.)+(?:[a-z\x{00a1}-\x{ffff}]{2,}))(?::\d{2,5})?(?:[/?#]\S*)?$%iuS';
-		return preg_match($regex, $value ?? '') !== 0;
+		return preg_match($regex, $value ?? '') === 1;
 	},
 
 	/**
